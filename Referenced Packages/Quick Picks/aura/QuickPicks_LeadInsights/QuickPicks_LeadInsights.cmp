@@ -1,0 +1,60 @@
+<aura:component controller="qburst_widgets.QPicks_LeadInsightsController" implements="flexipage:availableForRecordHome,force:hasRecordId,force:hasSObjectName" access="global" >
+    <aura:dependency resource="markup://force:editRecord" type="EVENT" />
+
+    <aura:attribute name="sObjectName" type="String" /> 
+    <aura:attribute name="recordId" type="Id" />	
+
+    <aura:attribute name="ageText" type="String" default="0"/>
+    <aura:attribute name="qualityIndex" type="Integer" default="0"/>
+    <aura:attribute name="touchText" type="String" default=""/>
+
+    <aura:handler event="force:refreshView" action="{!c.fetchLeadInsights}" />
+
+    <aura:handler name="init" value="{!this}" action="{!c.fetchLeadInsights}"/>
+
+    <div class="slds-box mainContainer" aura:id="main">
+        
+        <div class="slds-grid slds-wrap itemTitle">
+            <div class="slds-size--1-of-1">
+                <header>            
+                    <h2 class="slds-text-heading--small slds-m-bottom--small">Quick Picks Insights</h2>            
+                </header>            
+            </div>
+        </div>
+        
+        <div class="slds-size--1-of-1 slds-grid slds-wrap content">            
+
+            <div class="slds-size--1-of-1 slds-p-top--small">
+                <ui:outputText value="Age: " class="leadInsightsDetails"/>
+                <ui:outputText value="{!v.ageText}"/>       
+            </div>
+
+            <div class="slds-size--1-of-1 slds-p-top--small">
+                <ui:outputText value="Data Quality: " class="leadInsightsDetails"/>
+
+                <aura:if isTrue="{!v.qualityIndex == 1}">
+                    <ui:outputText value="Poor" class="redText"/>     
+                </aura:if>
+                <aura:if isTrue="{!v.qualityIndex == 2}">
+                    <ui:outputText value="Good" class="orangeText"/>     
+                </aura:if>
+                <aura:if isTrue="{!v.qualityIndex == 3}">
+                    <ui:outputText value="Excellent" class="greenText"/>     
+                </aura:if>
+            </div>
+
+            <div class="slds-size--1-of-1 slds-p-top--small">
+                <ui:outputText value="Last Touch: " class="leadInsightsDetails"/>
+                <ui:outputText value="{!v.touchText}"/>       
+            </div>
+                                
+        </div>
+
+        <div class="slds-spinner_container" aura:id="spinner">
+          <div class="slds-spinner--brand slds-spinner slds-spinner--medium" aria-hidden="false" role="alert">
+            <div class="slds-spinner__dot-a"></div>
+            <div class="slds-spinner__dot-b"></div>
+          </div>
+        </div>
+    </div>
+</aura:component>

@@ -1,0 +1,40 @@
+<apex:page id="Utils" extensions="pdffiller_sf.PageParameters" controller="pdffiller_sf.ApplicationUtilsController">
+    <script type="text/javascript">
+
+        var action ="{!JSENCODE($CurrentPage.parameters.action)}";
+
+        if(action === "close"){
+            window.close();
+        }
+        if(action === "auth"){
+            writeTokenToCookies();
+            window.close();
+
+        }
+
+        function writeTokenToCookies(){
+            var token = searchForAccessToken();
+            if(token){
+                let cookieExpire = new Date();
+                cookieExpire.setHours(cookieExpire.getHours() + 10);
+                setCookie("{!COOKIE_AUTH_PREFIX}{!COOKIE_AUTH_NAME}", token,cookieExpire);
+            }
+        }
+
+        function searchForAccessToken(){
+            return splitHash()['access_token'];
+        }
+
+        function splitHash(){
+            var result = [];
+            decodeURI(location.hash.substr(1))
+                    .split("&")
+                    .forEach(function(item){
+                        var tmp =  item.split("=");
+                        result[tmp[0]] = tmp[1]
+                    });
+            return result;
+        }
+
+    </script>
+</apex:page>

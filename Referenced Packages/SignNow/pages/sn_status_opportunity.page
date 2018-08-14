@@ -1,0 +1,4 @@
+<apex:page standardController="Opportunity">
+    <!--<apex:include pageName="sn_doc_status"/>-->
+    <apex:include pageName="cuda_signnow__sn_doc_status_v2"/>
+</apex:page>

@@ -1,0 +1,39 @@
+<apex:page id="LightningDaDaDocs" controller="pdffiller_sf.LightningSelectAttachmentController" standardStylesheets="false" showHeader="false" cache="true">
+    <style>
+        body, iframe {
+            overflow: hidden;
+            height: 640px;
+            background-color: #fff;
+        }
+    </style>
+    <div
+            id="root"
+            data-pm-org-url="{!orgUrl}"
+            data-org-url="{!URLFOR('/services/apexrest')}"
+            data-sessionId="{!$Api.Session_ID}"
+            data-namespace="{!orgNamespace}"
+            data-fullVersionUrl="{!URLFOR($Page.ClassicSelectAttachment)}"
+            data-isStoreFilesToExternalStorage="{!isStoreFilesToExternalStorage}"
+    ></div>
+
+
+
+    <apex:outputPanel rendered="{!!isLocalFrontEnv}">
+        <apex:includeScript loadOnReady="false" value="{!URLFOR($Resource.pdffiller_sf__v3) + '/lightning/vendor.js'}"/>
+        <apex:includeScript loadOnReady="false" value="{!URLFOR($Resource.pdffiller_sf__v3) + '/lightning/runtime.js'}"/>
+        <apex:includeScript loadOnReady="false" value="{!URLFOR($Resource.pdffiller_sf__v3) + '/lightning/app.js'}"/>
+        <script>
+            function getChunkUrl() { return '{!URLFOR($Resource.pdffiller_sf__v3) + '/lightning/'}' }
+        </script>
+    </apex:outputPanel>
+    <apex:outputPanel rendered="{!isLocalFrontEnv}">
+        <apex:includeScript loadOnReady="false" value="https://localhost:8080/vendor.js"/>
+        <apex:includeScript loadOnReady="false" value="https://localhost:8080/runtime.js"/>
+        <apex:includeScript loadOnReady="false" value="https://localhost:8080/app.js"/>
+        <script>
+            function getChunkUrl() { return 'https://localhost:8080/' }
+        </script>
+    </apex:outputPanel>
+
+
+</apex:page>

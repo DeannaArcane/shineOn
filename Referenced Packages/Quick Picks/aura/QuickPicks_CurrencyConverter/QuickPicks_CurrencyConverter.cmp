@@ -1,0 +1,38 @@
+<aura:component controller="qburst_widgets.QPicks_CurrencyConverterController" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome" access="global">
+
+    <aura:attribute name="fromCurrency" type="String" default="USD"/>
+    <aura:attribute name="toCurrency" type="String" default="EUR"/>
+    <aura:attribute name="amount" type="String" />
+    <aura:attribute name="convertedAmount" type="String" />
+
+    <aura:handler name="init" value="{!this}" action="{!c.setupCurrencies}"/>
+
+	<div class="slds-box mainContainer" aura:id="main">
+        
+        <div class="slds-grid slds-wrap itemTitle">
+            <div class="slds-size--1-of-1">
+                <header>            
+                    <h2 class="slds-text-heading--small slds-m-bottom--small">Quick Picks Currency Converter</h2>            
+                </header>            
+            </div>
+        </div>
+        
+        <div class="slds-grid slds-wrap content">
+            <div class="slds-size--1-of-1 slds-p-top--small">
+                <ui:inputSelect aura:id="fromCurrencyList" value="{!v.fromCurrency}"> </ui:inputSelect>    
+            </div>   
+            <div class="slds-size--1-of-1 slds-p-top--small">
+                <ui:inputSelect aura:id="toCurrencyList" value="{!v.toCurrency}"> </ui:inputSelect>    
+            </div>
+            <div class="slds-size--1-of-1 slds-p-top--small">
+                <ui:inputText aura:id="amount" value="{!v.amount}" required="true"/>      
+            </div> 
+            <div class="slds-size--1-of-1 slds-p-top--small slds-text-align--center convertedAmountWrap">
+                <ui:outputText value="{!v.convertedAmount}" class="convertedAmount"/>      
+            </div> 
+            <div class="slds-size--1-of-1 slds-p-top--small slds-show--inline-block slds-text-align--right">
+                <ui:button class="btn" label="Convert" press="{!c.invokeConversion}"/>      
+            </div>            
+        </div>        
+    </div>
+</aura:component>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<AuthProvider xmlns="http://soap.sforce.com/2006/04/metadata">
+    <authorizeUrl>https://www.pdffiller.com/en/salesforce/twoway</authorizeUrl>
+    <consumerKey>eced10abff1c86ef</consumerKey>
+    <consumerSecret>hBOtv2b+LODJnBDm6U99FeGp52jRLM1czqyJs9rGusZwQRj3Ygtq1w==</consumerSecret>
+    <friendlyName>REST API</friendlyName>
+    <includeOrgIdInIdentifier>false</includeOrgIdInIdentifier>
+    <providerType>MicrosoftACS</providerType>
+    <sendAccessTokenInHeader>false</sendAccessTokenInHeader>
+    <sendClientCredentialsInHeader>false</sendClientCredentialsInHeader>
+    <tokenUrl>https://api.pdffiller.com/v1/oauth/access_token</tokenUrl>
+</AuthProvider>

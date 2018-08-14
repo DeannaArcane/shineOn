@@ -1,0 +1,4 @@
+<aura:event type="COMPONENT" description="evtPromptSubmit">
+    <aura:attribute name="promptValue" type="String" required="true" />
+    <aura:attribute name="firedFrom" type="String" required="true" />
+</aura:event>

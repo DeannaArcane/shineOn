@@ -1,0 +1,4 @@
+<aura:event type="COMPONENT" description="Event fired after click on action buttons">
+    <aura:attribute name="name" type="String" required="true" />
+    <aura:attribute name="objectId" type="String" required="true" />
+</aura:event>

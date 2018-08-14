@@ -1,0 +1,2 @@
+<apex:page controller="pdffiller_sf.TokenController" id="AccessToken" action="{!getToken}">
+</apex:page>

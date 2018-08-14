@@ -1,0 +1,1 @@
+new SF.CustomButtonDocX().init();

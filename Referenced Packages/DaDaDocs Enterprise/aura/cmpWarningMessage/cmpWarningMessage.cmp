@@ -1,0 +1,15 @@
+<aura:component description="cmpWarningMessage">
+    <aura:attribute name="itemName" type="String" required="true"/>
+    <aura:attribute name="isPermitted" type="Boolean" required="true"/>
+    <aura:attribute name="isLoggedIn" type="Boolean" required="true"/>
+    <div class="wrap">
+        <aura:if isTrue="{!!v.isPermitted}">
+            <div class="warning-message">{!v.itemName} is not permitted in DaDaDocsSettings</div>
+            <aura:set attribute="else">
+                <aura:if isTrue="{!!v.isLoggedIn}">
+                    <div class="warning-message">You haven’t authorized this Salesforce account to use PDFfiller. Please authorize this account to continue.</div>
+                </aura:if>
+            </aura:set>
+        </aura:if>
+    </div>
+</aura:component>

@@ -1,0 +1,80 @@
+<apex:page Controller="tdc_tsw.UpdateThroughButtonController" docType="html-5.0"  showQuickActionVfHeader="false" standardStylesheets="false" sidebar="false" showHeader="false">
+	<style>
+			.ui-corner-all{
+			background: transparent !important;
+			border: none !important;
+			width: 225px !important;
+			left: 580px !important;
+			top:590px !important;
+		}
+		.ui-dialog-titlebar.ui-widget-header.ui-corner-all.ui-helper-clearfix{
+			display: none !important;
+			 background: #f8f8f8 !important;
+    		border: 2px solid #f8f8f8 !important;
+		}
+		
+		.ui-dialog-titlebar{
+			display: none !important;
+		}
+		#opppopup{
+			height: 208px;
+		}
+		.PopupPanel{
+			width: 60px;
+		}
+		.popup_wrapper{
+                 position: fixed; 
+                 top:0px; 
+                 bottom:0px; 
+                 right:0px; 
+                 left: 0px; 
+                 background: rgba(191, 190, 190, 0.28);
+                 z-index: 9999;
+             }
+            .popup_loading{
+                  position: absolute;
+	    /* top: 32%; */
+	    /* padding: 30px 50px; */
+	    width: 100%;
+	    text-align: center;
+	}
+              .popup_loading img{
+                  width: 100%;
+                  max-width: 150px;
+              }
+     .msgCls{
+             padding: 20px 10px 10px 10px;
+		    text-align: center;
+		    font-size: 18px;
+	    }
+              
+	</style>
+	<apex:form id="form_Id">
+	     <div style="display: none" class="popup_wrapper">
+               <div class="popup_loading" style="">
+                   <img class="PopupPanel" src="{!$Resource.Conversation_Loading_Icon}" alt="Loading..."  />
+	     		</div>
+           </div>
+           <apex:outputpanel rendered="{!!isError}">
+            <div class="popup_loading" style="">
+	           <img class="PopupPanel" src="{!$Resource.Conversation_Loading_Icon}" alt="Loading..."  />
+			</div>
+         </apex:outputpanel>
+ 		<apex:outputpanel rendered="{!isError}">
+            <div class="msgCls"><label Style="{!msgColor}">{!errorMsg}</label></div>
+            <script>
+		     		setTimeout(function(){
+		               window.top.location.href= "{!returnURL}";
+              		}, 2000);
+		     	    
+		     </script>
+         </apex:outputpanel>
+     	<apex:actionfunction name="updateAF" action="{!updateRecord}" reRender="form_Id"/>
+     </apex:form>
+     <script>
+     	updateJS();
+     	function updateJS(){
+   			updateAF();
+   		}
+     </script>
+</apex:page>

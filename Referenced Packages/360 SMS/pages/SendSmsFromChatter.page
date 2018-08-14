@@ -1,0 +1,112 @@
+<apex:page controller="tdc_tsw.SendSmsFromChatter">
+    <head>
+    
+    <link href = "https://rawgit.com/mervick/emojionearea/master/dist/emojionearea.min.css" rel = "stylesheet"/>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
+    <script src = "https://rawgit.com/mervick/emojionearea/master/dist/emojionearea.js"></script>
+    
+    <style>
+        .message {
+            background-color: #ffc;
+            border-style: solid;
+            border-width: 1px;
+            color: #000;
+            padding: 6px 8px 6px 6px;
+            margin: 4px 57px 10px 0px;
+        }
+        .textarea-field{
+            width:427px;
+            height:100%;
+            border-radius:6px;
+            border:1px solid #ccc; 
+            resize: none; 
+            padding: 5px 5px 0px; 
+            font-style: italic;
+            background: rgb(255, 255, 204) none repeat scroll 0% 0%;
+            margin:8px 0px;
+        }
+    </style>
+   </head> 
+   <body>
+    <apex:form id="formId">
+      <c:DoNotDisplayPage />      
+      <b style="color:blue"><I>{!title}</I></b>
+      <apex:commandButton value="Send" action="{!send}"  reRender="formId" style="float:right"/> <br/>     
+      <apex:inputTextarea value="{!message}" onkeyup="jsfun1(this);" styleClass="textarea-field abc"  html-maxlength="1000" disabled="{!!isTextAreaEditable}"/> <br/>  
+      <apex:outputText value="You Can Enter Up To 1000 Characters" id="optextId" rendered="true"  ></apex:outputText>
+      <apex:pageMessages />
+       <script>
+       
+        /* $(document).ready(function() {
+                emojiMethod();
+        });
+        
+        function emojiMethod(){
+            $(".abc").emojioneArea({
+                pickerPosition: "left",
+                tonesStyle: "bullet"
+           }); 
+        }*/
+       
+        function jsfun1(currelm)
+        {
+            var isTrue = isGSMAlphabet(currelm.value);
+                //alert('====isTrue:'+ isTrue);
+                var segment = 1;
+                var nonGsmLength = currelm.value.length;
+                var strLength = currelm.value.length + count(currelm.value,'{') + count(currelm.value,'}') + count(currelm.value,'[') + count(currelm.value,']');
+                if(isTrue)
+                {
+                     if(strLength <= 160){
+                       segment = 1;
+                     }
+                     else{
+                          if(strLength % 153 == 0)
+                              segment = (strLength/153);
+                          else
+                             segment = (strLength/153)+1;
+                      }
+                }
+                else
+                {
+                   if(nonGsmLength <= 70){
+                       segment = 1;
+                     }
+                     else{
+                        if(nonGsmLength%67 == 0)
+                            segment = (nonGsmLength/67);
+                        else
+                            segment = (nonGsmLength/67)+1;
+                        }       
+                }               
+            document.getElementById('{!$Component.optextId}').style.color="black";
+            if(currelm.value.length == 1 || currelm.value.length == 0)
+                document.getElementById('{!$Component.optextId}').innerHTML='You Have Entered '+currelm.value.length+' Character.     '+'Segment :'+parseInt(segment,10)+'';
+            else
+                document.getElementById('{!$Component.optextId}').innerHTML='You Have Entered '+currelm.value.length+' Characters.    '+'Segment :'+parseInt(segment,10)+'';
+        }  
+        
+        function isGSMAlphabet(text) {
+            //alert(text);
+            var regexp = new RegExp("^[A-Za-z0-9 @!\"#$%&'`()*+,_\\-./:;<=>?^{}\\\\\\[~\\]|\\r\\n]*$");
+            //alert(regexp.test(text)) ;
+            return regexp.test(text);
+            
+        }  
+        
+        function count(text , c) { 
+          var result = 0, i = 0;
+          for(i;i<text.length;i++)
+          {
+              if(text[i]==c)
+                result++;
+          }     
+          //alert('=====result:'+result);
+          return result;
+          
+        }
+    </script>
+    </apex:form>  
+   </body>
+</apex:page>

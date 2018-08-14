@@ -1,0 +1,798 @@
+<apex:page Controller="tdc_tsw.SMSSettingController" id="SMSSetting" >
+ <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" type="text/css" rel="stylesheet" />
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+ <apex:stylesheet value="{!URLFOR($Resource.tdc_tsw__datetimepicker, '/flatpickr.min.css')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.tdc_tsw__datetimepicker, '/flatpickr.min.js')}"/>
+ <style type="text/css">
+  .checkbox label {
+    width: 100%;
+    text-align: left;
+  }
+  .checkbox label span{
+    display: inline-block;
+    float: right;
+  }
+  .tabs{
+      font-size:14px;
+  }
+  #section-bar-4 {padding-bottom:120px;}
+ 
+  #AdditionalEmailSection label{padding-top: 5px;}
+  #AdditionalEmailSection a {padding-top: 5px; display: inline-block;}
+  .modal-body {padding:0}
+        #SMSAPP .modal-content {padding-bottom: 0;}
+        .errorblock { height: 150px;}
+        
+        .errorblock.info {background: #98B4E2; border: 2px solid #375DB8;}
+        .errorblock.info .msgText span, .errorblock.info .msgText p {color: #0F2C76}
+        
+        .errorblock.success {background: #A7FAA7; border: 2px solid #08C108;}
+        .errorblock.success .msgText span, .errorblock.success .msgText p {color: #2C622C}
+        
+        .errorblock.error {background: #FFC7BA; border: 2px solid #D25B3F;}
+        .errorblock.error .msgText span, .errorblock.error .msgText p {color: #AD110E}
+        
+        .errorblock img{width: 70px; margin-top: 10px; margin-right: 10px; float:left;}
+        .errorblock .msgText {float;left}
+        .errorblock .msgText span {font-size: 24px; margin-top: 15px; display: block;}
+        .errorblock .msgText p {font-size: 18px; padding-top: 0; font-weight: normal;}
+        .errorblock a {position: absolute; top: 5px; right: 10px; color: #FFFFFF; font-size: 18px;}
+        
+        #AdditionalEmailSection {display: block;}
+        #AdditionalEmailSection label {
+          width: 140px;
+        }
+        
+        #AdditionalEmailSection .errorMsg{
+        display: block;
+        margin-left: 146px;
+        }
+        #general_table td{padding:06px 0px}
+        .message.errorM3{
+            max-width: 500px;
+            margin: 0px auto;
+            padding: 10px;
+        }
+        .message .messageText h4 {
+            font-weight: bold;
+            display: inline-block;
+            margin: 12px 5px 0px;
+        }
+       #SMSAPP table#general_table tr th, #SMSAPP table#general_table tr td {
+            text-align: left !important;
+            width: 33% !important;
+        }
+        .helpOrb:hover {background-position-x: 59px;}
+           .qtip-default {
+            color: #222;
+            font-size: 13px;
+            padding: 5px;
+            font-weight: 400;
+            line-height: 18px;
+        }
+  </style>
+ 
+    <apex:form id="formID">
+    <apex:outputPanel rendered="{!!isExpired}"> 
+    <apex:outputpanel rendered="{!isHide}">
+        <apex:outputpanel rendered="{!AND(AND(isEdit,canChangeLogo),showLogo)}">
+            <button type="button" onClick="addDocsJS();" style="width:100px;font-weight: 800; margin-bottom:21px" Class="btn btn1 btn-primary">Save</button>
+        </apex:outputpanel>
+        <apex:commandButton action="{!saveRecord}" style="width:100px;font-weight: 800; margin-bottom:21px" styleClass="btn btn1 btn-primary"  status="actStatusId" rerender="formID" value="Save" rendered="{!OR(AND(isEdit,!canChangeLogo),AND(isEdit,!showLogo))}"/>
+         <apex:commandButton action="{!editRecord}"  style="width:100px;font-weight: 800; margin-bottom:21px" styleClass="btn btn1 btn-primary"  status="actStatusId" rerender="formID" value="Edit" rendered="{!!isEdit}"/>
+        <apex:commandButton action="{!cancelRecord}" style="width:100px;font-weight: 800; margin-bottom:21px" styleClass="btn btn1 btn-primary"  status="actStatusId" rerender="formID" value="Cancel" rendered="{!isEdit}"/>
+    </apex:outputpanel>
+    <br/><apex:outputpanel rendered="{!isError}">
+            <apex:pageMessages />
+         </apex:outputpanel>
+    <br/>
+    
+     <div class="table-responsive">     
+       <table cellspacing="500" align="center" id="general_table" Class="table list CustomObjectsTable ">
+        <tr style="background: #009688">
+            <th colspan="3" style="color: #fff"> Owner Details</th>
+        </tr> 
+            <tr>
+                <td Class="form-inline" style="padding: 10px">
+                SMS App Owner Name
+                <img src="/s.gif" class="helpOrb" title="The system administrator who installed the app."/>
+                :
+                </td>
+                <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                <td>
+                    <apex:selectlist value="{!ownerIdSetting.tdc_tsw__SMS_App_Owner_id__c}" size="1" rendered="{!isEdit}" styleClass="form-control" >
+                        <apex:selectOptions value="{!OwnerList}" />
+                    </apex:selectlist>
+                    <apex:outputText value="{!ownerIdSetting.tdc_tsw__Value__c}" rendered="{!!isEdit}"/> 
+                </td>
+            </tr>
+            <tr style="background: #009688">
+                <th colspan="3" style="color: #fff"> Subscription Keywords</th>
+            </tr> 
+            <tr>
+                <td Class="form-inline" style="padding: 10px">
+                    Re-Subscribe Keywords <img src="/s.gif" class="helpOrb" title="Use the default keywords or create new ones using this field. To provide the option of Re-subscribing to the clients."/>:
+                </td>
+                <td></td>
+                <td>
+                    <apex:outputpanel rendered="{!isEdit}">
+                        <apex:inputText value="{!subscribeGeneralSetting.tdc_tsw__Value__c}" style="border: 1px solid #980606;" styleClass="form-control" rendered="{!blankSubs}">
+                            <i style="color: red;float: right;padding-right: 144px;">Must be unique value</i>
+                         </apex:inputText>
+                        <apex:inputText value="{!subscribeGeneralSetting.tdc_tsw__Value__c}" styleClass="form-control" rendered="{!!blankSubs}">
+                            <i style="float: right;padding-right: 144px;">Must be unique value</i>
+                         </apex:inputText>
+                    </apex:outputpanel>
+                    <apex:outputText value="{!subscribeGeneralSetting.tdc_tsw__Value__c}" rendered="{!!isEdit}" />
+                </td>
+            </tr>
+            <tr>
+                <td Class="form-inline" style="padding: 10px">
+                Unsubscribe Keywords 
+                <img src="/s.gif" class="helpOrb" title="Use default keywords or create new ones using this field. To provide the option of Un-subscribing to the clients."/>:
+                </td>
+                <td></td>
+                <td>
+                    <apex:outputpanel rendered="{!isEdit}">
+                        <apex:inputText value="{!unsubscribeGeneralSetting.tdc_tsw__Value__c}" style="border: 1px solid #980606;" styleClass="form-control" rendered="{!blankUnsubs}">
+                            <i style="color: red;float: right;padding-right: 144px;">Must be unique value</i>
+                         </apex:inputText>
+                        <apex:inputText value="{!unsubscribeGeneralSetting.tdc_tsw__Value__c}" styleClass="form-control" rendered="{!!blankUnsubs}">
+                            <i style="float: right;padding-right: 144px;">Must be unique value</i>
+                         </apex:inputText>
+                    </apex:outputpanel>
+                    <apex:outputText value="{!unsubscribeGeneralSetting.tdc_tsw__Value__c}" rendered="{!!isEdit}" />
+                </td>
+            </tr>
+            <tr style="background: #009688">
+                <th colspan="3" style="color: #fff"> SMS Delivery Report Setting</th>
+            </tr> 
+            <tr>
+                <td Class="form-inline" style="padding: 10px">
+                    Site URL  <img src="/s.gif" class="helpOrb" title="Provide the URL of the Salesforce site to get the delivery report."/>:
+                </td>
+                <td></td>
+                <td>
+                    <apex:inputText value="{!urlSMSAppSiteSetting.tdc_tsw__URL__c}" styleClass="form-control"  rendered="{!isEdit}"/>
+                    <apex:outputText value="{!urlSMSAppSiteSetting.tdc_tsw__URL__c}" style="width: 100%;height: auto" rendered="{!!isEdit}"/>
+                </td>
+            </tr>
+            <tr style="background: #009688">
+                <th colspan="3" style="color: #fff"> Keywords To Create New Lead and Case</th>
+            </tr> 
+            <tr>
+                <td Class="form-inline" style="padding: 10px">
+                    Incoming keys for Lead 
+                    <img src="/s.gif" class="helpOrb" title="When you get the incoming message with the keyword mentioned here, a Lead would be created."/>:
+                </td>
+                <td></td>
+                <td>
+                    <apex:outputpanel rendered="{!isEdit}">
+                        <apex:inputText value="{!newLeadGeneralSetting.tdc_tsw__Value__c}" style="border: 1px solid #980606;" styleClass="form-control" rendered="{!blankLead}"  />
+                        <apex:inputText value="{!newLeadGeneralSetting.tdc_tsw__Value__c}" styleClass="form-control" rendered="{!!blankLead}"/>
+                    </apex:outputpanel>
+                    <apex:outputText value="{!newLeadGeneralSetting.tdc_tsw__Value__c}" rendered="{!!isEdit}" />
+                </td>
+            </tr>
+            <tr>
+                <td Class="form-inline" style="padding: 10px">
+                    Incoming keys for Case  <img src="/s.gif" class="helpOrb" title="When you get the incoming message with the keyword mentioned here, a Case would be created."/>:
+                </td>
+                <td></td>
+                <td>
+                    <apex:outputpanel rendered="{!isEdit}">
+                        <apex:inputText value="{!newCaseGeneralSetting.tdc_tsw__Value__c}" style="border: 1px solid #980606;" styleClass="form-control" rendered="{!blankCase}"/>
+                        <apex:inputText value="{!newCaseGeneralSetting.tdc_tsw__Value__c}" styleClass="form-control" rendered="{!!blankCase}"/>
+                    </apex:outputpanel>
+                    <apex:outputText value="{!newCaseGeneralSetting.tdc_tsw__Value__c}" rendered="{!!isEdit}"  />   
+                </td>
+            </tr>
+            <!--****************29 aug 2k17**************************-->
+                <tr style="background: #009688">
+                    <th colspan="3" style="color: #fff">Settings for Conversation View</th>
+                </tr>
+                <tr>
+                <td Class="form-inline" style="padding: 10px">
+                    Set the default view 
+                    <img src="/s.gif" class="helpOrb" title="Selected view can be set as Default in Conversation view."/>:
+                </td>
+                <td></td>
+                <td>
+                    <!-- <apex:inputCheckbox value="{!isAllConverDefault}" style="zoom: 1" rendered="{!isEdit}"/> -->
+                   <apex:outputPanel rendered="{!!isEdit}">
+                       <apex:outputPanel style="" rendered="{!IF(isAllConverDefault == 'true', true, false)}">All Conversation</apex:outputPanel>
+                       <apex:outputPanel style="" rendered="{!!IF(isAllConverDefault == 'true', true, false)}">My Conversation</apex:outputPanel>
+                   </apex:outputPanel>
+                   <apex:selectlist value="{!isAllConverDefault}" size="1" rendered="{!isEdit}" styleClass="form-control" >
+                        <apex:selectOptions value="{!DefaultViewList}"/>
+                    </apex:selectlist>
+                    <!-- <apex:outputPanel rendered="{!isEdit}">
+                        <select value="{!isAllConverDefault}" id="select_id" class="form-control">
+                                  <option value="true">All Conversation</option>
+                                  <option value="false">My Conversation</option>          
+                        </select>
+                    </apex:outputPanel> -->
+                </td>
+            </tr>
+            <!--******************************************-->
+            <tr style="background: #009688">
+                <th colspan="3" style="color: #fff">Settings for Incoming Alert SideBar</th>
+            </tr>
+            <tr>
+                <td Class="form-inline" style="padding: 10px">
+                    Incoming Alert Color Changes to Yellow in 
+                    <img src="/s.gif" class="helpOrb" title="Specify the time in minutes here to change the color of the incoming messages as per your priority."/>:
+                </td>
+                <td></td>
+                <td>
+                     
+                        <apex:outputpanel rendered="{!isEdit}">
+                            <apex:inputText value="{!incomingAlertYellow.tdc_tsw__Value__c}" maxLength="3" style="border: 1px solid #980606;" styleClass="form-control" rendered="{!blankYellow}">
+                                <i style="float: right;padding-right: 144px;">Time in mins</i>
+                            </apex:inputText>
+                            <apex:inputText value="{!incomingAlertYellow.tdc_tsw__Value__c}" maxLength="3" styleClass="form-control" rendered="{!!blankYellow}">
+                                <i style="float: right;padding-right: 144px;">Time in mins</i>
+                            </apex:inputText>
+                        </apex:outputpanel>
+                     
+                    <apex:outputPanel rendered="{!!isEdit}">
+                        <apex:outputText value="{!incomingAlertYellow.tdc_tsw__Value__c} min" rendered="{!OR(incomingAlertYellow.tdc_tsw__Value__c == '1', incomingAlertYellow.tdc_tsw__Value__c == '0')}"/>
+                        <apex:outputText value="{!incomingAlertYellow.tdc_tsw__Value__c} mins" rendered="{!!OR(incomingAlertYellow.tdc_tsw__Value__c == '1', incomingAlertYellow.tdc_tsw__Value__c == '0')}"/>
+                    </apex:outputPanel> 
+                </td>
+            </tr> 
+            <tr >
+                <td Class="form-inline" style="padding: 10px">
+                    Incoming Alert Color Changes to Red in 
+                    <img src="/s.gif" class="helpOrb" title="Specify the time in minutes here to change the color of the incoming messages as per your priority."/>:
+                </td>
+               <td></td>
+                <td>
+                    
+                         <apex:outputpanel rendered="{!isEdit}">
+                            <apex:inputText value="{!incomingAlertRed.tdc_tsw__Value__c}" maxLength="3" style="border: 1px solid #980606;" styleClass="form-control" rendered="{!isredSame}">
+                                <i style="color: red;float: right;padding-right: 144px;">Time in mins (Must be unique)</i>
+                             </apex:inputText>
+                             <apex:inputText value="{!incomingAlertRed.tdc_tsw__Value__c}" maxLength="3" style="border: 1px solid #980606;" styleClass="form-control" rendered="{!blankRed}">
+                                <i style="float: right;padding-right: 144px;">Time in mins</i>
+                             </apex:inputText>
+                            <apex:inputText value="{!incomingAlertRed.tdc_tsw__Value__c}" maxLength="3" styleClass="form-control" rendered="{!AND(isredSame==false, blankRed==false)}">
+                                <i style="float: right;padding-right: 144px;">Time in mins</i>
+                             </apex:inputText>
+                         </apex:outputpanel>
+                    
+                     
+                     <apex:outputPanel rendered="{!!isEdit}">
+                        <apex:outputText value="{!incomingAlertRed.tdc_tsw__Value__c} min" rendered="{!OR(incomingAlertRed.tdc_tsw__Value__c == '1', incomingAlertRed.tdc_tsw__Value__c == '0')}"/>
+                        <apex:outputText value="{!incomingAlertRed.tdc_tsw__Value__c} mins" rendered="{!!OR(incomingAlertRed.tdc_tsw__Value__c == '1', incomingAlertRed.tdc_tsw__Value__c == '0')}"/>
+                    </apex:outputPanel>
+                </td>
+            </tr>
+            
+            <tr>
+                <td Class="form-inline" style="padding: 10px">
+                    Incoming Sidebar Automatic Refresh Time
+                    <img src="/s.gif" class="helpOrb" title="Specify the time here for auto refresh of sidebar to view recent messages."/>:
+                </td>
+                <td></td>
+                <td>
+                    <apex:selectList value="{!autoRefreshTime.tdc_tsw__Value__c}" size="1" styleClass="form-control" rendered="{!isEdit}" >
+                        <apex:selectOptions value="{!RefreshTime}"/>
+                    </apex:selectList>
+                    <!-- apex:inputText value="{!autoRefreshTime.tdc_tsw__Value__c}"  rendered="{!isEdit}" /> -->
+                    <apex:outputText value="{!timeShow}" rendered="{!!isEdit}"/>   
+                </td>
+            </tr>
+            <tr>
+                <td Class="form-inline" style="padding: 10px">
+                    <apex:outputText value="Enable Company Logo in Sidebar " />
+                     <img src="/s.gif" class="helpOrb" title="Check/Uncheck the checkbox to show/hide the logo of 360 SMS App in Sidebar."/>:
+                    <apex:outputPanel rendered="{!AND(showLogo,canChangeLogo)}"><br/><br/>
+                       <apex:outputText value="Selected Logo "/>
+                          <img src="/s.gif" class="helpOrb" title="Select your own logo to show in Sidebar."/>:
+                    </apex:outputPanel> 
+                </td>
+                <td></td>
+                <td>
+                    <apex:inputCheckbox value="{!showLogo}" style="zoom: 1" rendered="{!AND(isEdit,!canChangeLogo)}"/>
+                    <apex:inputCheckbox value="{!showLogo}" onClick="groupJS();" style="zoom: 1" rendered="{!AND(isEdit,canChangeLogo)}"/>
+                   <apex:outputPanel rendered="{!!isEdit}">
+                       <apex:outputPanel style="zoom: 1.5" rendered="{!showLogo}"> &#10004; </apex:outputPanel>
+                       <apex:outputPanel style="zoom: 1.5" rendered="{!!showLogo}"> &#10008; </apex:outputPanel>
+                   </apex:outputPanel>
+                   
+                   <apex:outputPanel rendered="{!AND(showLogo,canChangeLogo)}"><br/><br/>
+                        <apex:outputPanel rendered="{!isEdit}">
+                           <apex:outputText value="{!RIGHT(showCompanyLogo.tdc_tsw__Description__c, (LEN(showCompanyLogo.tdc_tsw__Description__c) - FIND('-', showCompanyLogo.tdc_tsw__Description__c)))}"/>
+                            <br/> <span>OR
+                            <input type="file" accept=".gif, .jpg, .jpeg, .png" class="" value="" id="docId" onChange=""/>
+                            <div id="fileid" style="color: red;font-style: italic;font-weight: 500;"></div>
+                            </span>
+                        </apex:outputPanel>
+                        <apex:outputText value="{!RIGHT(showCompanyLogo.tdc_tsw__Description__c, (LEN(showCompanyLogo.tdc_tsw__Description__c) - FIND('-', showCompanyLogo.tdc_tsw__Description__c)))}" rendered="{!!isEdit}"/>
+                    </apex:outputPanel>
+                </td>
+            </tr>
+            <tr>
+                <td Class="form-inline" style="padding: 10px">
+                    Enable Audio on Incoming Message 
+                     <img src="/s.gif" class="helpOrb" title="Check/Uncheck this option to enable/disable Audio alert when an incoming message is received."/>: 
+                </td>
+                <td></td>
+                <td>
+                    <apex:inputCheckbox value="{!enableAudio}" style="zoom: 1" rendered="{!isEdit}"/>
+                   <apex:outputPanel rendered="{!!isEdit}">
+                       <apex:outputPanel style="zoom: 1.5" rendered="{!enableAudio}"> &#10004; </apex:outputPanel>
+                       <apex:outputPanel style="zoom: 1.5" rendered="{!!enableAudio}"> &#10008; </apex:outputPanel>
+                   </apex:outputPanel>
+                </td>
+            </tr>
+            <tr>
+                <td Class="form-inline" style="padding: 10px">
+                    Enable Sharing for Incoming Messages
+                    <img src="/s.gif" class="helpOrb" title="enable sharing for Incoming Messages in Incoming Alert according to sharing rule."/>: 
+                </td>
+                <td></td>
+                <td>
+                    <apex:inputCheckbox value="{!enableSharing}" style="zoom: 1" rendered="{!isEdit}"/>
+                   <apex:outputPanel rendered="{!!isEdit}">
+                       <apex:outputPanel style="zoom: 1.5" rendered="{!enableSharing}"> &#10004; </apex:outputPanel>
+                       <apex:outputPanel style="zoom: 1.5" rendered="{!!enableSharing}"> &#10008; </apex:outputPanel>
+                   </apex:outputPanel>
+                </td>
+            </tr>
+            <tr>
+                <td Class="form-inline" style="padding: 10px">
+                    Enable Reply
+                    <img src="/s.gif" class="helpOrb" title="Check/Uncheck the checkbox to show/hide the Reply button in Incoming Sidebar."/>: 
+                     <apex:inputCheckbox value="{!replyReadOptout.tdc_tsw__Reply__c}" style="padding-left:70px;margin-left: 110px;zoom: 1" rendered="{!isEdit}"/>
+                   <apex:outputPanel rendered="{!!isEdit}">
+                       <apex:outputPanel style="padding-left: 70px;zoom: 1.5" rendered="{!replyReadOptout.tdc_tsw__Reply__c}"> &#10004; </apex:outputPanel>
+                       <apex:outputPanel style="padding-left: 70px;zoom: 1.5" rendered="{!!replyReadOptout.tdc_tsw__Reply__c}"> &#10008; </apex:outputPanel>
+                   </apex:outputPanel>
+                </td>
+                <td>
+                    Enable Read<img src="/s.gif" class="helpOrb" title="Check/Uncheck the checkbox to show/hide the Read button in Incoming Sidebar."/>:
+                     <apex:inputCheckbox value="{!replyReadOptout.tdc_tsw__Read__c}" style="padding-left:70px;margin-left: 110px;zoom: 1" rendered="{!isEdit}"/>
+                   <apex:outputPanel rendered="{!!isEdit}">
+                       <apex:outputPanel style="padding-left: 70px;zoom: 1.5" rendered="{!replyReadOptout.tdc_tsw__Read__c}"> &#10004; </apex:outputPanel>
+                       <apex:outputPanel style="padding-left: 70px;zoom: 1.5" rendered="{!!replyReadOptout.tdc_tsw__Read__c}"> &#10008; </apex:outputPanel>
+                   </apex:outputPanel>
+                </td>
+                <td>
+                   Enable Unsubscribe<img src="/s.gif" class="helpOrb" title="Check/Uncheck the checkbox to show/hide the Unsubscribe button in Incoming Sidebar."/>:
+                     <apex:inputCheckbox value="{!replyReadOptout.tdc_tsw__Optout__c}" style="padding-left:70px;margin-left: 110px;zoom: 1" rendered="{!isEdit}"/>
+                   <apex:outputPanel rendered="{!!isEdit}">
+                       <apex:outputPanel style="padding-left: 70px;zoom: 1.5" rendered="{!replyReadOptout.tdc_tsw__Optout__c}"> &#10004; </apex:outputPanel>
+                       <apex:outputPanel style="padding-left: 70px;zoom: 1.5" rendered="{!!replyReadOptout.tdc_tsw__Optout__c}"> &#10008; </apex:outputPanel>
+                   </apex:outputPanel>
+                </td>
+            </tr>
+            <tr style="background: #009688">
+                <th colspan="3" style="color: #fff">Email To SMS</th>
+            </tr>
+            <tr>
+                <td Class="form-inline" style="padding: 10px">
+                   Email Service Address  
+                   <img src="/s.gif" class="helpOrb" title="Provide the address of your email service if you wish to reply to all the incoming messages directly from the email box."/>:
+                </td>
+                <td></td>
+                <td>
+                    <apex:outputpanel rendered="{!isEdit}">
+                        <apex:inputText value="{!replyFromEmailGeneralSetting.tdc_tsw__URL__c}" style="border: 1px solid #980606;" styleClass="form-control" rendered="{!blankCase}"/>
+                        <apex:inputText value="{!replyFromEmailGeneralSetting.tdc_tsw__URL__c}" styleClass="form-control" rendered="{!!blankCase}"/>
+                    </apex:outputpanel>
+                    <apex:outputText value="{!replyFromEmailGeneralSetting.tdc_tsw__URL__c}" rendered="{!!isEdit}"  />  
+                </td>
+            </tr>
+             <!-- <tr>
+                <td Class="form-inline" style="padding: 10px">
+                   Email Domain
+                   <img src="/s.gif" class="helpOrb" title="Provide the domain of your email like(gmail.com,network.com)"/>:
+                </td>
+                <td></td>
+                <td>
+                    <apex:outputpanel rendered="{!isEdit}">
+                        <apex:inputText value="{!replyFromEmailGeneralSetting.StartTime__c}" style="border: 1px solid #980606;" styleClass="form-control" rendered="{!blankCase}"/>
+                        <apex:inputText value="{!replyFromEmailGeneralSetting.StartTime__c}" styleClass="form-control" rendered="{!!blankCase}"/>
+                    </apex:outputpanel>
+                    <apex:outputText value="{!replyFromEmailGeneralSetting.StartTime__c}" rendered="{!!isEdit}"  />  
+                </td>
+            </tr>-->
+             <tr style="background: #009688;{!showUsage}" >
+                <th colspan="3" style="color: #fff">SMS Credit Usages</th>
+            </tr>
+            <tr style="{!showUsage}">
+                <td Class="form-inline" style="padding: 10px">
+                    <a href='https://360dc.secure.force.com/?id={!$Organization.Id}' target='_blank'> View SMSCredit Usages</a> 
+                </td>
+                <td></td>
+                <td>
+                  
+                </td>
+            </tr>
+            <tr style="background: #009688">
+                <th colspan="3" style="color: #fff">Enable Dark Hour </th>
+            </tr>
+            <tr>
+                <td Class="form-inline" style="padding: 10px">
+                    Enable Dark Hour for Automation <img src="/s.gif" class="helpOrb" title="If you want to stop the sending of SMS during a particular time and then send the messages all together at a particular hour then mark this checkbox as true."/>:
+               
+                 </td>  
+                 <td></td>
+                <td>
+                     <apex:inputCheckbox value="{!enableDarkHour.tdc_tsw__EmailAlertToOwner__c}" style="zoom: 1" rendered="{!isEdit}"  id="CheckboxId"/>
+                     <apex:outputPanel rendered="{!!isEdit}">
+                       <apex:outputPanel style="zoom: 1.5" rendered="{!enableDarkHour.tdc_tsw__EmailAlertToOwner__c}"> &#10004; </apex:outputPanel>
+                       <apex:outputPanel style="zoom: 1.5" rendered="{!!enableDarkHour.tdc_tsw__EmailAlertToOwner__c}"> &#10008; </apex:outputPanel>
+                   </apex:outputPanel>  
+                 </td>
+            </tr>
+            <tr>
+                <td Class="form-inline" style="padding: 10px">
+                   Starting Time <img src="/s.gif" class="helpOrb" title="Provide the starting time when sending of messages must stop."/>:      
+                 </td>
+                <td></td>
+                <td>
+                       <apex:outputPanel rendered="{!!isEdit}">
+                           <apex:outputText value="{!IF(Value(enableDarkHour.tdc_tsw__StartTime__c) == 0, '12' ,IF(Value(enableDarkHour.tdc_tsw__StartTime__c) > 12, Value(enableDarkHour.tdc_tsw__StartTime__c)-12, enableDarkHour.tdc_tsw__StartTime__c))}" /> 
+                           <apex:outputPanel rendered="{!IF(Value(enableDarkHour.tdc_tsw__StartTime__c) >= 12,true,false)}">&nbsp;PM</apex:outputPanel>
+                           <apex:outputPanel rendered="{!IF(Value(enableDarkHour.tdc_tsw__StartTime__c) < 12,true,false)}">&nbsp;AM</apex:outputPanel> 
+                       </apex:outputPanel>
+                       <apex:outputPanel rendered="{!isEdit}">
+                         <apex:SelectList value="{!enableDarkHour.tdc_tsw__StartTime__c}" size="1" styleClass="form-control" >
+                             <apex:selectOptions value="{!FirstReminder}"/>    
+                        </apex:SelectList>
+                        
+                       </apex:outputPanel>
+                </td>
+            </tr>
+             <tr>
+                <td Class="form-inline" style="padding: 10px">
+                     Ending Time <img src="/s.gif" class="helpOrb" title="Provide the ending time when sending of messages must start again."/>:   
+                </td>
+                <td></td>
+                <td>
+                      <apex:outputPanel rendered="{!!isEdit}">
+                          <apex:outputText value="{!IF(Value(enableDarkHour.tdc_tsw__EndTime__c) == 0,'12' ,IF(Value(enableDarkHour.tdc_tsw__EndTime__c) > 12, Value(enableDarkHour.tdc_tsw__EndTime__c)-12, enableDarkHour.tdc_tsw__EndTime__c))}" /> 
+                           <apex:outputPanel rendered="{!IF(Value(enableDarkHour.tdc_tsw__EndTime__c) >= 12,true,false)}">&nbsp;PM</apex:outputPanel>
+                          <apex:outputPanel rendered="{!IF(Value(enableDarkHour.tdc_tsw__EndTime__c) < 12,true,false)}">&nbsp;AM</apex:outputPanel> 
+                      </apex:outputPanel>
+                     <apex:outputPanel rendered="{!isEdit}">    
+                        <apex:SelectList value="{!enableDarkHour.tdc_tsw__EndTime__c}" size="1" styleClass="form-control" >
+                             <apex:selectOptions value="{!FirstReminder}"/>    
+                        </apex:SelectList>
+                    </apex:outputPanel> 
+                </td>
+            </tr>
+            <tr>
+                <td Class="form-inline" style="padding: 10px">
+                  Sending Time(Next Day) <img src="/s.gif" class="helpOrb" title="Provide the Time when you need to send out all the messages together which were stopped during the Starting Time and the Ending Time."/>:    
+                 </td>
+                <td></td>
+                <td>
+                     <apex:outputPanel rendered="{!!isEdit}">
+                         <apex:outputText value="{!IF(Value(enableDarkHour.tdc_tsw__SendTime__c) == 0,'12' ,IF(Value(enableDarkHour.tdc_tsw__SendTime__c) > 12, Value(enableDarkHour.tdc_tsw__SendTime__c)-12, enableDarkHour.tdc_tsw__SendTime__c))}" />
+                         <apex:outputPanel rendered="{!IF(Value(enableDarkHour.tdc_tsw__SendTime__c) >= 12,true,false)}">&nbsp;PM</apex:outputPanel>
+                         <apex:outputPanel rendered="{!IF(Value(enableDarkHour.tdc_tsw__SendTime__c) < 12,true,false)}">&nbsp;AM</apex:outputPanel> 
+                     </apex:outputPanel>
+                     <apex:outputPanel rendered="{!isEdit}">  
+                        <apex:SelectList value="{!enableDarkHour.tdc_tsw__SendTime__c}" size="1" styleClass="form-control" >
+                             <apex:selectOptions value="{!FirstReminder}"/>    
+                        </apex:SelectList>
+                    </apex:outputPanel> 
+                  
+                </td>
+            </tr>
+            <tr style="background: #009688">
+                <th colspan="3" style="color: #fff"> Link Tracking</th>
+            </tr>
+            <tr>
+                <td Class="form-inline" style="padding: 10px">
+                    Link Tracking Status From Backend <img src="/s.gif" class="helpOrb" title="Provide the info about Link Tracking Status whether LinkTracking is Enable or Disabled in your org."/>:
+                 </td>  
+                 <td></td>
+                <td>
+                       <apex:outputPanel rendered="{!showLinkTracking}"> Enabled </apex:outputPanel>
+                       <apex:outputPanel rendered="{!!showLinkTracking}"> Disabled </apex:outputPanel>
+                 </td>
+            </tr> 
+             <tr>
+                <td Class="form-inline" style="padding: 10px">
+                    Enable Link Tracking For Bitly<img src="/s.gif" class="helpOrb" title="Check this checkbox to use link tracking with Bitly Short Url."/>:
+                 </td>  
+                 <td></td>
+                <td>
+                     <apex:inputCheckbox value="{!enableLinkTrackingAccessToken.tdc_tsw__EmailAlertToOwner__c}" style="zoom: 1" rendered="{!isEdit}"  id="linkCheckboxId"/>
+                     <apex:outputPanel rendered="{!!isEdit}">
+                       <apex:outputPanel style="zoom: 1.5" rendered="{!enableLinkTrackingAccessToken.tdc_tsw__EmailAlertToOwner__c}"> &#10004; </apex:outputPanel>
+                       <apex:outputPanel style="zoom: 1.5" rendered="{!!enableLinkTrackingAccessToken.tdc_tsw__EmailAlertToOwner__c}"> &#10008; </apex:outputPanel>
+                   </apex:outputPanel>  
+                 </td>
+            </tr> 
+             <tr>
+                <td Class="form-inline" style="padding: 10px">
+                    Bitly Generic Access Token <img src="/s.gif" class="helpOrb" title="Provide the Bitly Generic Access Token ."/>:
+                </td>
+                <td></td>
+                <td>
+                     <apex:inputSecret value="{!enableLinkTrackingAccessToken.tdc_tsw__StartTime__c}"  onkeyup="usernamejs();" styleClass="form-control" rendered="{!isEdit}" redisplay="true"/>
+                    <apex:outputText value="****************************"  rendered="{!AND(!isEdit,enableLinkTrackingAccessToken.tdc_tsw__StartTime__c != '')}" />
+                    <apex:outputText value="" rendered="{!AND(!isEdit,enableLinkTrackingAccessToken.tdc_tsw__StartTime__c == '')}" />
+                </td>
+            </tr>  
+          
+           <!--  <tr>
+                <td Class="form-inline" style="padding: 10px">
+                    Bitly UserName <img src="/s.gif" class="helpOrb" title="Provide the Bitly Account Username."/>:
+                </td>
+                <td></td>
+                <td>
+                    <apex:inputText value="{!enableLinkTracking.StartTime__c}"  onkeyup="usernamejs();" styleClass="form-control" rendered="{!isEdit}"/>
+                    <apex:outputText value="{!enableLinkTracking.StartTime__c}" rendered="{!!isEdit}" />
+                </td>
+            </tr>  
+            <tr>
+                <td Class="form-inline" style="padding: 10px">
+                    Password <img src="/s.gif" class="helpOrb" title="Provide the Bilty Account Password."/>:
+                </td>
+                <td></td>
+                <td>
+                    <apex:inputSecret value="{!enableLinkTracking.EndTime__c}" onkeyup="usernamejs();" styleClass="form-control" rendered="{!isEdit}" redisplay="true"/>
+                    <apex:inputSecret value="{!enableLinkTracking.EndTime__c}" styleClass="form-control" rendered="{!!isEdit}" readonly="true" redisplay="true"/>
+                     
+                     <apex:outputText value="**********************"  rendered="{!AND(!isEdit,enableLinkTracking.EndTime__c != '')}" />
+                      <apex:outputText value=""  rendered="{!AND(!isEdit,enableLinkTracking.EndTime__c == '')}" /> 
+                               
+                </td>
+            </tr>  
+            <tr>
+                <td Class="form-inline" style="padding: 10px">
+                    Client Id <img src="/s.gif" class="helpOrb" title="Provide the Bilty Client Id."/>:
+                </td>
+                <td></td>
+                <td>
+                    <apex:inputSecret value="{!enableLinkTracking.SendTime__c}"  onkeyup="usernamejs();" styleClass="form-control" rendered="{!isEdit}" redisplay="true"/>
+                    <apex:outputText value="*******************************"  rendered="{!AND(!isEdit,enableLinkTracking.SendTime__c != '')}" />
+                    <apex:outputText value=""  rendered="{!AND(!isEdit,enableLinkTracking.SendTime__c == '')}" />                
+                </td>
+            </tr>  
+            <tr>
+                <td Class="form-inline" style="padding: 10px">
+                    Client Secret <img src="/s.gif" class="helpOrb" title="Provide the Bitly Client Secret."/>:
+                </td>
+                <td></td>
+                <td>
+                    <apex:inputSecret value="{!enableLinkTracking.Token__c}"  onkeyup="usernamejs();" styleClass="form-control" rendered="{!isEdit}" redisplay="true"/>
+                     <apex:outputText value="*******************************"  rendered="{!AND(!isEdit,enableLinkTracking.Token__c != '')}" />
+                    <apex:outputText value=""  rendered="{!AND(!isEdit,enableLinkTracking.Token__c == '')}" /> 
+                  </td>
+             </tr>   -->
+             <!--  <tr>
+                <td Class="form-inline" style="padding: 10px">
+                </td>
+                <td><apex:outputText value="{!validationMsg}"  style="color: red;font-style: italic;font-weight: 500;" rendered="{!isLinkTrackingError}" /></td>
+                <td>
+                  </td>
+             </tr> -->  
+              <tr style="background: #009688">
+                <th colspan="3" style="color: #fff">Survey Settings</th>
+            </tr>
+             <tr>
+                <td Class="form-inline" style="padding: 10px">
+                    Enable Survey <img src="/s.gif" class="helpOrb" title="Check/Uncheck this checkbox to enable Survey in your org and to display Survey Checkbox option on Send SMS Pages."/>:
+                 </td>  
+                 <td></td>
+                <td>
+                     <apex:inputCheckbox value="{!enableSurvey.tdc_tsw__AutoForwardToMobile__c}" style="zoom: 1" rendered="{!isEdit}"  id="DisableInitiateSurveyId"/>
+                     <apex:outputPanel rendered="{!!isEdit}">
+                       <apex:outputPanel style="zoom: 1.5" rendered="{!enableSurvey.tdc_tsw__AutoForwardToMobile__c}"> &#10004; </apex:outputPanel>
+                       <apex:outputPanel style="zoom: 1.5" rendered="{!!enableSurvey.tdc_tsw__AutoForwardToMobile__c}"> &#10008; </apex:outputPanel>
+                   </apex:outputPanel>  
+                 </td>
+            </tr> 
+            <tr style="background: #009688">
+                <th colspan="3" style="color: #fff">Template Folder</th>
+            </tr>
+             <tr>
+                <td Class="form-inline" style="padding: 10px">
+                    Enable Folder<img src="/s.gif" class="helpOrb" title="Check/Uncheck this checkbox to enable Folder in your org and to display Folder Checkbox option on Send SMS Pages."/>:
+                 </td>  
+                 <td></td>
+                <td>
+                     <apex:inputCheckbox value="{!enableFolder.tdc_tsw__AutoForwardToMobile__c}" style="zoom: 1" rendered="{!isEdit}"  id="enableFolderId"/>
+                     <apex:outputPanel rendered="{!!isEdit}">
+                       <apex:outputPanel style="zoom: 1.5" rendered="{!enableFolder.tdc_tsw__AutoForwardToMobile__c}"> &#10004; </apex:outputPanel>
+                       <apex:outputPanel style="zoom: 1.5" rendered="{!!enableFolder.tdc_tsw__AutoForwardToMobile__c}"> &#10008; </apex:outputPanel>
+                   </apex:outputPanel>  
+                 </td>
+            </tr>
+            <tr style="background: #009688">
+                <th colspan="3" style="color: #fff">Message Settings</th>
+            </tr>
+             <tr>
+                 <td Class="form-inline" style="padding: 10px">
+                    Restrict SMS Composing <img src="/s.gif" class="helpOrb" title="Restrict editing while sending SMS."/>:
+                 </td>  
+                 <td></td>
+                <td>
+                   <apex:outputText value="{!valueShow}"  rendered="{!OR(!isEdit,!isAdmin)}" />
+                   <apex:selectlist value="{!isTextEditable}" size="1" rendered="{!AND(isEdit,isAdmin)}" styleClass="form-control" >
+                        <apex:selectOptions value="{!EditEnableOptions}"/>
+                    </apex:selectlist>  
+                 </td>
+            </tr>
+            
+             <tr>
+                 <td Class="form-inline" style="padding: 10px">
+                   Outgoing History exists for Number <img src="/s.gif" class="helpOrb" title="Select SMS History owner for an incoming message from a number on which
+you have already sent an outgoing from Salesforce."/>:
+                 </td>  
+                 <td></td>
+                <td>
+                   <apex:outputText value="{!OutgoingHistoryExistforNumber.tdc_tsw__Value__c}" rendered="{!!isEdit}"/>
+                   <apex:selectlist value="{!OutgoingHistoryExistforNumber.tdc_tsw__Value__c}" rendered="{!isEdit}" size="1"  styleClass="form-control" >
+                        <apex:selectOptions value="{!OutgoingHistoryExistforNumberOptions}"/>
+                    </apex:selectlist>  
+                 </td>
+            </tr>
+             <tr>
+                 <td Class="form-inline" style="padding: 10px">
+                   Outgoing History does not exist for Number <img src="/s.gif" class="helpOrb" title="Select SMS History owner for an incoming message from a number on which
+you have not sent an outgoing from Salesforce."/>:
+                 </td>  
+                 <td></td>
+                <td>
+                   <apex:outputText value="{!OutgoingHistoryNotExistforNumber.tdc_tsw__Value__c}" rendered="{!!isEdit}"/>
+                   <apex:selectlist value="{!OutgoingHistoryNotExistforNumber.tdc_tsw__Value__c}" rendered="{!isEdit}" size="1"  styleClass="form-control" >
+                        <apex:selectOptions value="{!OutgoingHistoryNotExistforNumberOptions}"/>
+                    </apex:selectlist>  
+                 </td>
+            </tr>
+            <tr>
+                <td Class="form-inline" style="padding: 10px">
+                     Create task while Auto-forwarding Emails <img src="/s.gif" class="helpOrb" title="Check/Uncheck this checkbox to Create task while Auto-forwarding Emails."/>:
+                 </td>  
+                 <td></td>
+                <td>
+                     <apex:inputCheckbox value="{!OutgoingHistoryNotExistforNumber.tdc_tsw__AutoForwardToMobile__c}" style="zoom: 1" rendered="{!isEdit}"  id="DisableTaskCreationId"/>
+                     <apex:outputPanel rendered="{!!isEdit}">
+                       <apex:outputPanel style="zoom: 1.5" rendered="{!OutgoingHistoryNotExistforNumber.tdc_tsw__AutoForwardToMobile__c}"> &#10004; </apex:outputPanel>
+                       <apex:outputPanel style="zoom: 1.5" rendered="{!!OutgoingHistoryNotExistforNumber.tdc_tsw__AutoForwardToMobile__c}"> &#10008; </apex:outputPanel>
+                   </apex:outputPanel>  
+                 </td>
+            </tr> 
+             <tr>
+                <td Class="form-inline" style="padding: 10px">
+                     Relate incoming with last Outgoing <img src="/s.gif" class="helpOrb" title="Check/Uncheck this checkbox to Relate incoming with last Outgoing."/>:
+                 </td>  
+                 <td></td>
+                <td>
+                     <apex:inputCheckbox value="{!OutgoingHistoryNotExistforNumber.tdc_tsw__EmailAlertToOwner__c}" style="zoom: 1" rendered="{!isEdit}"  id="relateOutgoingWithIncomingId"/>
+                     <apex:outputPanel rendered="{!!isEdit}">
+                       <apex:outputPanel style="zoom: 1.5" rendered="{!OutgoingHistoryNotExistforNumber.tdc_tsw__EmailAlertToOwner__c}"> &#10004; </apex:outputPanel>
+                       <apex:outputPanel style="zoom: 1.5" rendered="{!!OutgoingHistoryNotExistforNumber.tdc_tsw__EmailAlertToOwner__c}"> &#10008; </apex:outputPanel>
+                   </apex:outputPanel>  
+                 </td>
+            </tr> 
+             <tr>
+                <td Class="form-inline" style="padding: 10px">
+                     Enable SF1 push notification  <img src="/s.gif" class="helpOrb" title="Check/Uncheck this checkbox to enable SF1 push notification."/>:
+                 </td>  
+                 <td></td>
+                <td>
+                     <apex:inputCheckbox value="{!OutgoingHistoryNotExistforNumber.tdc_tsw__EmailAlertToAdditionalEmail__c}" style="zoom: 1" rendered="{!isEdit}"  id="pushNotificationId"/>
+                     <apex:outputPanel rendered="{!!isEdit}">
+                       <apex:outputPanel style="zoom: 1.5" rendered="{!OutgoingHistoryNotExistforNumber.tdc_tsw__EmailAlertToAdditionalEmail__c}"> &#10004; </apex:outputPanel>
+                       <apex:outputPanel style="zoom: 1.5" rendered="{!!OutgoingHistoryNotExistforNumber.tdc_tsw__EmailAlertToAdditionalEmail__c}"> &#10008; </apex:outputPanel>
+                   </apex:outputPanel>  
+                 </td>
+            </tr> 
+             <tr>
+                <td Class="form-inline" style="padding: 10px">
+                    Keyword for reply from Chatter  <img src="/s.gif" class="helpOrb" title="Provide the keyword for reply from Chatter"/>:
+                 </td>  
+                 <td></td>
+                <td>
+                    <apex:inputText value="{!OutgoingHistoryNotExistforNumber.tdc_tsw__EndTime__c}"  styleClass="form-control" rendered="{!isEdit}"/>
+                    <apex:outputText value="{!OutgoingHistoryNotExistforNumber.tdc_tsw__EndTime__c}" rendered="{!!isEdit}" />
+                 </td>
+            </tr> 
+        </table>
+      </div>  
+         
+       <!-- ************************** -->
+       <apex:actionfunction name="usernameAF" action="{!changeUsername}" reRender="formId"/>
+       <apex:actionfunction name="groupAF" action="{!action}" status="actStatusId" reRender="formID"/>
+            <apex:actionfunction name="saveRecordAF" action="{!saveRecord}" status="actStatusId" rerender="formID">
+                <apex:param name="vardocName1" value="" assignto="{!logoName}"/>
+                <apex:param name="vardocBody" value="" assignto="{!logoBody}"/>
+            </apex:actionfunction>
+       <script>
+                var fileName = '';
+                   function addDocsJS(){
+                     fbody= document.getElementById("docId").files;
+                     var file= fbody[0];
+                     if(file == undefined){
+                        saveRecordAF('undefined', 'undefined');
+                     }else{
+                         filename= file.name;
+                         if(file.size <= 1024*1024){
+                            document.getElementById("fileid").innerHTML = '';
+                            getAsTextJS(file);
+                         }else{
+                            window.scrollBy(0, 600);
+                            document.getElementById("fileid").innerHTML = 'Error: File is too large. Please select file with in 1 MB size.';
+                         }
+                     }
+                   }
+                   function getAsTextJS(readFile) {
+                        var reader= new FileReader();
+                        reader.readAsDataURL(readFile);
+                        reader.onload= attLoaded;
+                    }
+                  function attLoaded(evt){
+                      var blobfile = evt.target.result;
+                       var fName = filename;
+                       saveRecordAF(fName, blobfile);
+                   }
+                   
+                   function groupJS(){
+                        //alert('ok');
+                        groupAF();
+                   }
+                   
+                   function usernamejs()
+                   {
+                        //alert('usernamejs');
+                        usernameAF();
+                   }
+            </script>
+       <!-- ************************** -->
+       <script>
+       
+       
+        function checkYellowvalueJS(){
+            var redMins = document.getElementById(redColorId).value;
+            var yellowMins = document.getElementById(yellowColorId).value;
+            if(redMins == yellowMins){
+                //alert('equal');
+                checkYellowvalueAF(true);
+            }else{
+                checkYellowvalueAF(false);
+            }
+            //alert('notequal');
+        }
+        
+        function checkRedvalueJS(){
+            var redMins = document.getElementById(redColorId).value;
+            var yellowMins = document.getElementById(yellowColorId).value;
+            if(redMins == yellowMins){
+                //alert('equal');
+                checkRedvalueAF(true);
+            }else{
+                checkRedvalueAF(false);
+            }
+            //alert('notequal');
+        }
+        
+        function allowScheduling(checkBoxId){
+        //$('#loader1').show();
+        alert('hello');  
+        if(document.getElementById(checkBoxId).checked)
+        {
+       
+          showSchedule(true);  
+        } 
+        else
+        {    
+           showSchedule(false);  
+        }
+    }  
+      </script>
+       <apex:actionFunction name="showSchedule"  reRender="formID" ><!-- action="{!manageshowSchedule}" -->
+            <apex:param name="allowSchedule" value="" assignTo="{!isChecked}"/>
+        </apex:actionFunction> 
+      </apex:outputPanel>  
+    </apex:form>
+</apex:page>

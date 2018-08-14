@@ -1,0 +1,51 @@
+<aura:component controller="qburst_widgets.QPicks_UsTimeController" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,forceCommunity:availableForAllPageTypes,force:hasRecordId,force:hasSObjectName" access="global">    
+    
+    <aura:attribute name="pacificTime" type="string" default="Loading..." />
+    <aura:attribute name="mountainTime" type="string" default="Loading..." />
+    <aura:attribute name="centralTime" type="string" default="Loading..." />
+    <aura:attribute name="easternTime" type="string" default="Loading..." />
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doinit}"/>
+        
+    <div class="slds-box mainContainer" aura:id="main">
+        
+        <div class="slds-grid slds-wrap itemTitle">
+            <div class="slds-size--1-of-1">
+                <header>            
+                    <h2 class="slds-text-heading--small slds-m-bottom--small">Quick Picks US Time</h2>            
+                </header>
+            </div>
+        </div>
+
+        <div class="slds-grid slds-wrap content">
+            <div class="slds-size--1-of-1 slds-grid slds-wrap slds-p-top--small">
+                <div class="slds-size--1-of-1">
+                    <ui:outputText value="Pacific: " class="placeName"/> <ui:outputText value="{!v.pacificTime}"/> 
+                </div>                
+            </div>              
+            
+            <div class="slds-size--1-of-1 slds-grid slds-wrap slds-p-top--small">
+                <div class="slds-size--1-of-1">
+                    <ui:outputText value="Mountain: " class="placeName"/> <ui:outputText value="{!v.mountainTime}"/> 
+                </div>                
+            </div>                      
+            <div class="slds-size--1-of-1 slds-grid slds-wrap slds-p-top--small">
+                <div class="slds-size--1-of-1">                    
+                    <ui:outputText value="Central: " class="placeName"/> <ui:outputText value="{!v.centralTime}"/>
+                </div>                
+            </div>                    
+            <div class="slds-size--1-of-1 slds-grid slds-wrap slds-p-top--small">
+                <div class="slds-size--1-of-1">                                        
+                    <ui:outputText value="Eastern: " class="placeName"/> <ui:outputText value="{!v.easternTime}"/>
+                </div>                
+            </div>            
+        </div>
+        
+        <div class="slds-spinner_container" aura:id="spinner">
+            <div class="slds-spinner--brand slds-spinner slds-spinner--medium" aria-hidden="false" role="alert">
+                <div class="slds-spinner__dot-a"></div>
+                <div class="slds-spinner__dot-b"></div>
+            </div>
+        </div>
+    </div>
+</aura:component>

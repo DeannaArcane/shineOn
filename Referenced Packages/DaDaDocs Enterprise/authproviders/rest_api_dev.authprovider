@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<AuthProvider xmlns="http://soap.sforce.com/2006/04/metadata">
+    <authorizeUrl>https://denise.pdffiller.com/en/salesforce/twoway?namespace=dev</authorizeUrl>
+    <consumerKey>72bcf988d9aa398b</consumerKey>
+    <consumerSecret>kgAjsjBpXXm/N7DXdFxxVbthRctvW8Mlklb7vXX//Y5wQRj3Ygtq1w==</consumerSecret>
+    <friendlyName>DEV REST API</friendlyName>
+    <includeOrgIdInIdentifier>false</includeOrgIdInIdentifier>
+    <providerType>MicrosoftACS</providerType>
+    <sendAccessTokenInHeader>false</sendAccessTokenInHeader>
+    <sendClientCredentialsInHeader>false</sendClientCredentialsInHeader>
+    <tokenUrl>https://apidev.pdffiller.com/v1/oauth/access_token</tokenUrl>
+</AuthProvider>

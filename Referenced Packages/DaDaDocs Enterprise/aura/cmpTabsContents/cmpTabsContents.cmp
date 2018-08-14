@@ -1,0 +1,5 @@
+<aura:component >
+    <div class="dadadocs_tabs-content">
+        {!v.body}
+    </div>
+</aura:component>

@@ -1,0 +1,5 @@
+<apex:page Controller="tdc_tsw.SMSByReport_Controller" sidebar="false" docType="html-5.0" standardStylesheets="false" showHeader="true">
+    <c:DoNotDisplayFeatureComp test="SMS From Report"/> 
+    <c:DoNotDisplayPage />
+    <c:SMSByReport_Component />
+</apex:page>

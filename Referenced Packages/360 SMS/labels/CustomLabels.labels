@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
+    <labels>
+        <fullName>Reply_To_Email_Forwarding</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Reply To Email Forwarding</shortDescription>
+        <value>smsemail@1j9wq9mec9um20nr1rddj2d6mvghd9uyfzaquett3hdw1z1stk.28-19lm4eai.ap2.apex.salesforce.com</value>
+    </labels>
+    <labels>
+        <fullName>Support_Email</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>360 Support Email</shortDescription>
+        <value>support@360degreeapps.com</value>
+    </labels>
+    <labels>
+        <fullName>Trial_SMS_Credit</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Trial_SMS_Credit</shortDescription>
+        <value>100</value>
+    </labels>
+</CustomLabels>

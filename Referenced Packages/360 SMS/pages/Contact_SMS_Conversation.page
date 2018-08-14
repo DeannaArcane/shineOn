@@ -1,0 +1,4 @@
+﻿<apex:page standardController="Contact" extensions="tdc_tsw.SMS_Conversation_Controller" standardstylesheets="false" showheader="false" sidebar="false" applyHtmlTag="false" applyBodyTag="false" docType="html-5.0">
+      <c:DoNotDisplayPage />
+     <c:SMS_Conversation_Component />
+ </apex:page>

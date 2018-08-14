@@ -1,0 +1,46 @@
+<apex:page controller="pdffiller_sf.FillDocumentController" sidebar="{!isSidebar}" showHeader="{!!isFullScreen}" action="{!openIframe}" extensions="pdffiller_sf.PageParameters">
+    <apex:pageMessages />
+
+    <apex:stylesheet value="{!$Resource.pdffiller_sf__iframeStylesCss}" />
+
+    <div id="iframeContent">
+        <div id="orangeLoader" class="g-wrap-loading">
+            <div class="g-loader">
+                <div class="g-loader__wrapper">
+                    <div class="g-loader__layer">
+                        <div class="g-loader__circle-clipper g-loader__circle-clipper--left">
+                            <div class="g-loader__circle"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <apex:form >
+        <apex:actionFunction name="callprocessEvent" action="{!processEvent}" rerender="no">
+            <apex:param name="event" value="" />
+        </apex:actionFunction>
+    </apex:form>
+
+    <apex:includeScript value="{!$Resource.pdffiller_sf__iframeClassicJs}" />
+    <script type="text/javascript">
+        var iframeUri = '{!JSENCODE(iframeUri)}';
+        var IS_FULL_SCREEN = '{!isFullScreen}' === 'true';
+        var IS_LIGHTNING = '{!isLightning}' === 'true';
+
+        window.onload = function () {
+            loaderAdd();
+            openIframe();
+        }
+
+        window.onresize = function() {
+            resizeIframe();
+        }
+
+    </script>
+    <apex:panelGroup rendered="{!isGoogleAnalytics}">
+        <apex:includeScript loadOnReady="true" value="{!$Resource.pdffiller_sf__GoogleAnalytics}" />
+    </apex:panelGroup>
+</apex:page>

@@ -1,0 +1,562 @@
+<apex:page controller="tdc_tsw.UserConfigSetupCtrl" sidebar="false">    
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" type="text/css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script> 
+ 
+    <style>
+        .UserConfigSetup td label {
+            text-align: middle;
+        }
+        .select2-container--default{
+            width:100% !important;
+            min-width: 156px !important;
+            font-size: 13px;
+        }
+
+        @media(max-width: 767px) {
+            .responsive-table {overflow:auto}
+            #SMSAPP .btn {
+            background-color: #009688;
+            background-image: none;
+            border: 1px solid #1C887E;
+            color: #FFF;
+            font-size: 13px;
+            padding: 5px 20px;
+            border-radius: 0;
+            transition: all 0.2s ease-out;
+            -webkit-transition: all 0.2s ease-out;
+        }
+        #SMSAPP .btn-small {
+            margin: 5px;
+        }
+        #SMSAPP .btn-small {
+            padding: 4px 7px !important;
+        }
+        .table-responsive {
+            min-height: .01%;
+            overflow-x: auto !important;
+        }
+        }
+        .select2-results ul li{
+            margin-left:0px;
+        }
+        select[multiple], select[size]{
+            height:34px !important;
+        }
+        .selection .select2-selection--single{
+            height:34px !important;
+        }
+        #Select_table{
+            margin:25px 0px;
+        }
+        #Select_table th, #Select_table td{
+            padding: 8px;
+        }
+        
+        .ct{
+        text-align:center;
+        }
+        .select2-container--default .select2-selection--single .select2-selection__rendered {
+            font-size: 14px !important;
+            padding: 2px !important;
+        }
+        .select2-results__message{
+            color: red !important;
+        }
+        .table-responsive {
+            overflow-x: auto;
+        }
+    #SMSAPP table.UserConfigSetup thead tr th {
+      border-top: 1px solid #999;
+      border-bottom: none;
+      background: #009688 !important;
+      color: #fff;
+      text-align: left;
+      padding: 8px;
+      width:120px;
+    }
+   
+    
+    #SMSAPP table.UserConfigSetup thead tr th:nth-last-child(1){
+        width: 150px !important;
+    }
+    #SMSAPP table.UserConfigSetup thead tr th:nth-child(2){
+    width: 140px !important;
+    }
+    #SMSAPP table.UserConfigSetup thead tr th:nth-child(3){
+        width: 90px !important;
+    }
+    #SMSAPP table.UserConfigSetup thead tr th:nth-child(4){
+        width: 145px !important;
+    }
+    #SMSAPP table.UserConfigSetup thead tr th:nth-child(5){
+        width: 300px !important;
+    }
+    #SMSAPP table.UserConfigSetup thead tr th:nth-child(6){
+        width: 145px !important;
+    }
+    #SMSAPP table.UserConfigSetup thead tr th:nth-child(7){
+        width: 140px !important;
+    }
+    #SMSAPP table.UserConfigSetup {
+        table-layout: fixed;
+    }
+    #SMSAPP table.UserConfigSetup .form-control {
+        max-width: 250px !important;
+        min-width: 130px !important;
+        text-align: center !important;
+        margin: 0px auto !important;
+    }
+    #SMSAPP table.UserConfigSetup select {
+        padding:0px;
+    }
+    
+    table.myTable tr th, table.UserConfigSetup tr th {
+        position: relative;
+        cursor: pointer;    
+      }
+      table.myTable tr th span, table.UserConfigSetup tr th span {
+        display: none;
+        background: #009688 !important;
+        padding: 10px;
+        position: absolute;
+        top: -50px;
+        left: 10px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+      }  
+      table.myTable tr th:hover span {
+        display: block;
+      }  
+    
+     .tooltip > .tooltip-inner {
+            background-color: #dddddd; 
+            color: #222; 
+            border: 1px solid #04635a;
+            padding: 0px;
+            font-size: 13px;
+       }
+     
+    .pbBody .list thead tr th, .pbBody .list tbody tr td {
+        text-align: center;
+        font-size: 14px !important;
+        padding: 5px !important;
+        vertical-align: middle !important;
+    }
+    .UserConfigSetup .headerRow th {
+        white-space: normal;
+    }
+    .UserConfigSetup tr th:nth-child(5) .tooltip{
+        margin-top: -15px !important;
+    }
+    .tooltip.top .tooltip-arrow {
+        border-top-color: #009688 !important;
+    }
+    
+    .UserConfigSetup tr th:nth-child(4) .tooltip{
+        margin-top: -5px !important;
+    }
+    .tooltip{
+        width: 200px !important;
+    }
+    .tooltip.in {
+        opacity: 1;
+    }
+    #Select_table th:nth-child(5) .tooltip, #Select_table th:nth-child(4) .tooltip{
+        margin-top: -7px !important;
+    }
+    .tooltip .fade .top .in{
+        top: -68 !important;
+    }
+    
+    @media (min-width: 992px) {
+         .table-responsive{
+             overflow: visible;
+         }
+         #SMSAPP .btn-small {
+            padding: 2px 5px !important;
+        }
+        #SMSAPP .btn-small {
+            margin: 2px;
+        }
+        #SMSAPP table.UserConfigSetup thead tr th:nth-last-child(1) {
+            width: 125px !important;
+        }
+    }
+    .popup_wrapper{
+        position: fixed;
+        top: 0;
+        left: 0px;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.74);
+        z-index: 9999;
+        padding: 20px;
+    }
+    .popup{
+        width: 100%;
+        max-width: 500px;
+        background: #fff;
+        padding: 20px;
+        border-radius: 4px;
+        box-shadow: 0px 2px 7px #aaa;
+        margin: 80px auto;
+        border: 3px solid #aaa;
+    }
+    
+    
+    </style>
+    
+    <apex:Form id="form1">
+    <apex:outputPanel rendered="{!!isExpired}">  
+    <div id="loader1" style="display:none">
+         <div  class="popupBackground">
+             <img class="PopupPanel" src="{!$Resource.Loading_Icon}" alt="Loading..."  />
+         </div>
+     </div>
+     
+     <div class="popup_wrapper" style="display: none">
+         <div class="popup">
+             <h1>Are you sure you want to Delete the Information</h1>
+             <br />
+             <div style="text-align: right">
+                 <button type="button" class="btn btn-primary" onclick="OkButton();">OK</button>
+                 <button type="button" class="btn" onclick="CalncelButton();">Cancel</button>
+             </div>
+         </div>
+     </div>
+     <apex:inputHidden id="hdnfield" value="{!currentIndex}"/>
+    <script>
+        var indexx;
+        function OkButton(){
+            delConfigJs(indexx);
+            $('.popup_wrapper').hide();
+        }
+        function CalncelButton(){
+           // alert('Cancel');
+            $('.popup_wrapper').hide();
+        }
+    
+        function deleteConfig(index)
+        {
+           // alert(index);
+            indexx = index;
+            //alert(indexx);
+            //indexAF(indx);
+            //document.getElementById('{$Component.hdnfield}').value = indx;
+           $('.popup_wrapper').show();
+         }
+        $(document).ready(function(){
+            $('[data-toggle="tooltip"]').tooltip();   
+        });
+
+                    
+        function profileFun(e) {
+             $('#loader1').show();
+            //console.log('this is radio button');
+            //console.log(e.value);
+            profileFunValue(e.value);
+        }
+    </script>
+        
+       <apex:actionFunction name="profileFunValue" action="{!selectedProfile}"  reRender="form1" ><!-- action="{!scheduleType}" -->
+            <apex:param name="profile" value="" assignTo="{!profileValue}"/>
+        </apex:actionFunction> 
+        <apex:pageBlock >
+             <apex:outputPanel rendered="{!isHide}">
+                <div class="text-center">
+                    <apex:commandButton value="Save"  action="{!actionSave}" rendered="{!isNew}"  status="actStatusId" reRender="form1" styleclass=" btn btn1 btn-primary" style="font-weight: 800;  margin:15px 0" />
+                    <apex:commandButton value="Reset"  action="{!reset}"  status="actStatusId" reRender="form1" styleclass="btn btn1 btn-primary"  style="font-weight: 800; margin:15px"/>
+                    <apex:commandButton value="New"  action="{!actionNew}" rendered="{!!isNew}"  status="actStatusId" reRender="form1" styleclass="btn btn1 btn-primary" style="font-weight: 800;  margin:15px 0px" />  
+                    <!-- <apex:commandButton value="Add Row" action="{!actionAddRow}"  status="actStatusId" rendered="{!isNew}"  reRender="form1" styleclass="btn btn1 btn-primary btn_margin" style="font-weight: 800;" /> -->
+                </div>
+            </apex:outputPanel>
+            <apex:outputPanel rendered="{!isNew}">
+                <div class="table-responsive">
+                    <table width="100%" id="Select_table" class="myTable table table-striped">
+                        <tr>
+                            <th style="background: #009688 !important; color: #fff;"><center>Select Profile</center></th>
+                            <th style="background: #009688 !important; color: #fff;"><center>Select User</center></th>
+                            <th style=" background: #009688 !important; color: #fff;"><center>Select Number</center></th>
+                            <th style=" background: #009688 !important; color: #fff;"><div style="text-align:center" data-toggle="tooltip" title="All the Incoming Messages in your salesforce would be automatically forwarded to this number">Auto Forward to Mobile</div></th>
+                            <th style=" background: #009688 !important; color: #fff;"><div style="text-align:center" data-toggle="tooltip" title="All the Incoming Messages in your salesforce would be automatically forwarded to this email">Auto Forward to Email</div></th>
+                            <th style=" background: #009688 !important; color: #fff;"><center>Email Alert To Owner</center></th>
+                            <th style=" background: #009688 !important; color: #fff;"><center>Default SMS Owner</center></th>
+                        </tr>
+                        <tr>
+                            <td>
+                                
+                               <center> <apex:selectList size="1" value="{!profileValue}" styleClass="form-control" style="margin:0 auto; float:none;min-width:190px" onchange="profileFun(this)" >
+                                     <apex:selectOptions value="{!ProfileList}"/>
+                                </apex:selectList></center>
+                            </td>
+                            <td>
+                               <center> 
+                                    <select id="select_id" class="js-example-basic-single js-states form-control search-picklist">
+                                                            
+                                    </select>
+                               </center>
+                                
+                            </td>
+                            <td>
+                                
+                               <center> <apex:selectList size="1" value="{!wssObj.selectNumber}" styleClass="form-control" style="margin:0 auto; float:none;">
+                                     <apex:selectOptions value="{!wssObj.listNumbers}"/>
+                                </apex:selectList></center>
+                            </td>
+                            <td>
+                                <center> <apex:inputText value="{!wssObj.mobile}"  id="AutoForwardToMobile" styleClass="phone-number form-control" style="margin:0 auto;" /></center>
+                            </td>
+                            <td> 
+                               <center> <apex:inputText value="{!wssObj.email}" styleClass="form-control" /> </center>  
+                            </td>
+                            <td>
+                               <center> <apex:inputCheckbox value="{!wssObj.isChecked}" /> </center>   
+                            </td>   
+                             <td>
+                               <center> <apex:inputCheckbox value="{!wssObj.defaultSmsOwner}" /> </center>   
+                            </td>        
+                        </tr>
+                    </table>
+                </div>
+            </apex:outputPanel>
+         
+         
+          <!--  <apex:outputPanel rendered="{!isNew}">
+               <apex:pageBlockSection title="Assign Number To Users" columns="2"/>              
+                   <apex:variable value="{!0}" var="rowNumber"/>
+                  
+                   <div class="responsive-table">
+                     <apex:pageblockTable value="{!listSelectUserWrapper}" var="recObjt" styleClass="table UserConfigSetup"> 
+                        <apex:column headerValue="S No." rendered="false" >                        
+                            <apex:outputText value="{0}"> 
+                                <apex:param value="{!rowNumber+1}" /> 
+                            </apex:outputText>                     
+                        </apex:column>   
+                                        
+                        <apex:column headerValue="Select User">  
+                             <apex:selectList size="1"  value="{!recObjt.selectUserId}" styleClass="js-example-basic-single js-states form-control search-picklist">
+                                      
+                                     <apex:selectOptions value="{!recObjt.listUsers}"/>
+                                     
+                            </apex:selectList>   
+                        </apex:column>
+                        
+                        <apex:column headerValue="Select Number">    
+                             <apex:selectList size="1" value="{!recObjt.selectNumber}" styleClass="form-control" style="margin:0 auto; float:none;">
+                                <apex:selectOptions value="{!recObjt.listNumbers}"/>
+                            </apex:selectList>  
+                        </apex:column> 
+                        
+                          <apex:column headerValue="Auto Forward to Mobile">    
+                              <apex:inputText value="{!recObjt.mobile}"  id="AutoForwardToMobile" styleClass="phone-number form-control" style="margin:0 auto;" />
+                        </apex:column>
+                        
+                        <apex:column headerValue="Auto Forward to Email">    
+                            <apex:inputText value="{!recObjt.email}" styleClass="form-control" />    
+                        </apex:column>
+                        
+                         <apex:column headerValue="Email Alert To Owner">    
+                           <apex:inputCheckbox value="{!recObjt.isChecked}" />    
+                        </apex:column>
+                         
+                        <apex:column headerValue="Action" rendered="{!rowError}"> 
+                          &nbsp;&nbsp;&nbsp;
+                            <apex:param name="rowIndex" value="{!rowNumber}"/>  
+                                 <apex:outputpanel rendered="{!rowError}"   >           
+                                <apex:commandButton value="Delete Row" action="{!actionDeleteRow}" status="actStatusId" reRender="form1" styleClass="btn btn1 btn-small" style="font-weight: 800;" >
+                                    <apex:param name="rowIndex" value="{!rowNumber}"/>
+                                </apex:commandButton>
+                                 <apex:variable var="rowNumber" value="{!rowNumber+1}"/>  
+                             </apex:outputpanel> 
+                        </apex:column>
+                    </apex:pageblockTable>
+                   </div>
+              </apex:outputPanel> 
+              -->
+              
+                 <apex:inputHidden id="hdnField" value="{!setUserName}" />             
+                <script>
+                   $(".phone-number").intlTelInput({
+                       autoHideDialCode: true,
+                       autoPlaceholder: true,
+                       nationalMode: false
+                   });
+               </script> 
+               <script type="text/javascript">  
+                    
+                   var data = {!jsonString};
+                   console.log(data);
+                   var options = '';
+                   $.each(data, function(index, ele) {
+                       options += '<option value="'+ele['id']+'" >'+ele["text"]+'</option>';
+                   });
+                   
+                   //alert(options);
+                   var id = document.getElementById("{!$Component.hdnField}").value;
+                   //alert(id);
+                   $(".search-picklist").select2(); 
+                   $(".search-picklist").html(options);
+                    
+                   $(".search-picklist").val(id);
+                   
+                   
+                   $(".search-picklist").change(function(){
+                        document.getElementById("{!$Component.hdnField}").value = $(".search-picklist").val();
+                        //setUserAF($(".search-picklist").val());
+                   })
+                                    
+                   //$(".search-picklist").select2();
+                  
+                  
+                  
+               </script>
+                
+              <apex:outputPanel >
+                 <apex:pageBlockSection title="Assigned Users details" columns="3"/> 
+                    <apex:variable value="{!0}" var="rowNumber"/>
+                    <div class="table-responsive">
+                    <apex:pageblockTable value="{!lstUserConfigWrapper}" var="recObjt" styleClass="table table-striped UserConfigSetup myTable">           
+                        <apex:column headerValue="User" style="min-width:270px">  
+                            <apex:outputLabel value="{!recObjt.userName}"/> 
+                        </apex:column>
+                        <apex:column headerValue="Number" style="min-width:120px">     
+                            <apex:outputLabel value="{!recObjt.phone}" rendered="{!!recObjt.isEdit}"/>
+                            <!--  <apex:inputText value="{!recObjt.phone}"  rendered="{!recObjt.isEdit}"  />-->
+                            <apex:selectList size="1" value="{!recObjt.phone}" rendered="{!recObjt.isEdit}" styleClass="form-control">
+                                <apex:selectOptions value="{!numbersList}"/>
+                            </apex:selectList>      
+                        </apex:column> 
+                        <apex:column headerValue="Country">     
+                            <apex:outputLabel value="{!recObjt.country}" />   
+                            <!-- 
+                             <apex:inputText value="{!recObjt.country}"  rendered="{!recObjt.isEdit}"  />
+                             -->
+                        </apex:column> 
+                        <apex:column >
+                            <apex:facet name="header"><div data-toggle="tooltip" title="All the Incoming Messages in your salesforce would be automatically forwarded to this number"> Auto Forward Mobile </div></apex:facet>     
+                            <apex:outputLabel value="{!recObjt.autoForwardMobile}" rendered="{!!recObjt.isEdit}" />   
+                          <apex:inputText value="{!recObjt.autoForwardMobile}"  id="AutoForwardToMobile" rendered="{!recObjt.isEdit}" styleClass="phone-number form-control" style="margin:0 auto; padding-top:5px" />
+                        </apex:column> 
+                        <apex:column >  
+                            <apex:facet name="header"><div data-toggle="tooltip" title="All the Incoming Messages in your salesforce would be automatically forwarded to this email">Auto Forward Email </div></apex:facet>    
+                            <apex:outputLabel value="{!recObjt.autoForwardEmail}" rendered="{!!recObjt.isEdit}" />  
+                            <apex:inputText value="{!recObjt.autoForwardEmail}"  rendered="{!recObjt.isEdit}" styleClass="form-control" />  
+                        </apex:column> 
+                         <apex:column headerValue="Email Alert To Owner">    
+                           <apex:inputCheckbox value="{!recObjt.isChecked}"  disabled="true" rendered="{!!recObjt.isEdit}"/>
+                           <apex:inputCheckbox value="{!recObjt.isChecked}" rendered="{!recObjt.isEdit}" />        
+                        </apex:column>
+                         <apex:column headerValue="Default Sms Owner">    
+                           <apex:inputCheckbox value="{!recObjt.defaultSmsOwner}"  disabled="true" rendered="{!!recObjt.isEdit}"/>
+                           <apex:inputCheckbox value="{!recObjt.defaultSmsOwner}" rendered="{!recObjt.isEdit}" />        
+                        </apex:column>
+                        
+                            <apex:column headerValue="Action" > 
+                                <apex:outputPanel rendered="{!isHide}"> 
+                                    <apex:commandLink action="{!editConfig}"  status="actStatusId" reRender="form1" rendered="{!!recObjt.isEdit}" styleClass="btn btn-small">
+                                        Edit 
+                                        <apex:param name="rowIndex" value="{!rowNumber}" assignTo="{!currentIndex}"/>  
+                                    </apex:commandLink>
+                                </apex:outputPanel>
+                                <apex:outputPanel rendered="{!And(isHide,!recObjt.isEdit)}">
+                                    <!--<apex:commandLink onClick="deleteConfig();" status="actStatusId" styleClass="btn btn-small" style="font-weight: 800;">
+                                        Delete
+                                        <apex:param name="rowIndex" value="{!rowNumber}" assignTo="{!currentIndex}" />  
+                                    </apex:commandLink>-->
+                                   <input type="button" value="Delete" onClick="deleteConfig({!rowNumber});" Class="btn btn-small" style="font-weight: 800;"/>
+                                 </apex:outputPanel>
+                                <apex:outputPanel rendered="{!isHide}">
+                                    <apex:commandLink action="{!updateConfig}" status="actStatusId" reRender="form1" rendered="{!recObjt.isEdit}" styleClass="btn btn-small" style="font-weight: 800;">
+                                        Update
+                                        <apex:param name="rowIndex" value="{!rowNumber}" assignTo="{!currentIndex}"/>  
+                                    </apex:commandLink>      
+                                </apex:outputPanel>
+                                <apex:variable var="rowNumber" value="{!rowNumber+1}"/> 
+                             </apex:column>
+                   </apex:pageblockTable>
+                   </div>
+               </apex:outputPanel>
+               <apex:outputpanel rendered="{!showError}" style="position:relative;left:75px;">
+  
+                    <div class="modal fade user_con" id="myModal" role="dialog">
+                      <div class="modal-dialog">
+                      
+                        <!-- Modal content-->
+                          <div class="modal-content">
+                            <div class="modal-body">
+                           
+                                <!--<apex:outputpanel rendered="{!showInfo}">
+                                     <div class="errorblock info" style="">
+                                          <div class="text-left" style="padding: 20px;">
+                                             <apex:image url="{!URLFOR($Resource.resource_sms_file,'/img/info-icon.png')}" />
+                                              <div class="msgText">
+                                                   <span>INFO:</span>
+                                                   <p> {!pageErrorMessage}</p>
+                                              </div>
+                                              <a href="#" data-dismiss="modal">X</a>
+                                              <div style="clear:both"></div>  
+                                          </div> 
+                                      </div> 
+                                </apex:outputpanel>-->
+                                <apex:outputpanel rendered="{!recordSaved}">
+                                    <div class="errorblock success">
+                                        <div class="text-left" style="padding: 20px;">
+                                            <apex:image url="{!URLFOR($Resource.tdc_tsw__resource_sms_file,'/img/success.png')}" />
+                                            <div class="msgText">
+                                                   <span>{!Message}</span>
+                                                   <p> {!pageErrorMessage}</p>
+                                            </div> 
+                                            <a href="#" data-dismiss="modal">X</a>
+                                            <div style="clear:both"></div>  
+                                        </div> 
+                                    </div>
+                                </apex:outputpanel>
+                                <apex:outputpanel rendered="{!showInfo}">
+                                    <div class="errorblock error">
+                                        <div class="text-left" style="padding: 20px;">
+                                            <apex:image url="{!URLFOR($Resource.tdc_tsw__resource_sms_file,'/img/cancel.png')}" />
+                                            <div class="msgText">
+                                                   <span>ERROR:</span>
+                                                   <p> {!pageErrorMessage}</p>
+                                            </div> 
+                                            <a href="#" data-dismiss="modal">X</a>
+                                            <div style="clear:both"></div>  
+                                        </div> 
+                                    </div>
+                                </apex:outputpanel>
+                                 <!--<apex:pageMessage severity="Info"    strength="1"    summary="" rendered="{!recordShowError}"/>-->
+                                
+                            </div>
+                            <div>
+                              <!--<button type="button" class="btn btn-default close_modal" data-dismiss="modal"  style="margin:15px 0">Close</button>-->
+                            </div>
+                          </div>
+                          
+                        </div>
+                      </div>
+                      
+                    <script>
+                        $('#myModal').modal('show');
+                    </script>
+                </apex:outputpanel>
+            </apex:pageBlock>
+            <apex:actionStatus id="actStatusId" >
+                <apex:facet name="start">
+                    <div>
+                        <div  class="popupBackground">
+                            <img class="PopupPanel" src="{!$Resource.Loading_Icon}" alt="Loading..."  />
+                        </div>
+                    </div>
+                </apex:facet>
+            </apex:actionStatus>
+            
+            <apex:actionFunction name="setUserAF" action="{!setUser}" reRender="form1" >
+                <apex:param value="" name="userName" assignTo="{!setUserName}" />
+            </apex:actionFunction>
+            <apex:actionFunction name="delConfigJs" action="{!delConfig}" status="actStatusId" reRender="form1" >
+                <apex:param value="" name="rowIndex" assignTo="{!currentIndex}" />
+            </apex:actionFunction>
+        </apex:outputPanel>      
+        </apex:Form>
+        
+</apex:page>

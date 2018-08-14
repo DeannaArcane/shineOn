@@ -1,0 +1,61 @@
+<apex:page controller="cuda_signnow.SignNowController">
+<style>
+    iframe {border-style:none;}
+    .waitingHolder{display:none;}
+    .loader {
+      margin: auto;
+      margin-top:50px;
+      border: 5px solid #f3f3f3;
+      border-radius: 50%;
+      border-top: 5px solid #3498db;
+      border-bottom: 5px solid #3498db;
+      width: 50px;
+      height: 50px;
+      -webkit-animation: spin 2s linear infinite;
+      animation: spin 2s linear infinite;
+    }
+
+    @-webkit-keyframes spin {
+      0% { -webkit-transform: rotate(0deg); }
+      100% { -webkit-transform: rotate(360deg); }
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+</style>
+<script type="text/javascript" src="/canvas/sdk/js/30.0/controller.js"></script>
+
+    <apex:form >
+     <apex:actionFunction action="{!redirect_back_to_record}" name="redirect" />
+    </apex:form>
+    <div class="loader" id="loader_animation"></div>
+    <apex:canvasApp developerName="sn_canvas" id="sn_canvas" border="0px" height="950px" scrolling="yes" width="100%" onCanvasAppLoad="loaded" />
+
+<script type="text/javascript">    
+    
+    Sfdc.onReady(function() { 
+        Sfdc.canvas.controller.subscribe({name : 'namespace.redirect_back_to_record', onData : function (e) {
+            redirect();
+        }});
+    });
+    
+    function loaded(){
+        var loader = document.getElementById("loader_animation");
+        loader.style.display = 'none';
+    }
+    
+    
+    /*window.addEventListener('message', function (event) {
+        var data = JSON.parse(event.data);
+        if (data.body && data.body.event && data.body.event.name === 'mynamespace.redirect_back_to_record'){
+        }
+    }, false);*/
+ 
+    
+
+    
+</script>
+
+</apex:page>

@@ -1,0 +1,27 @@
+.THIS {
+    position: relative;
+    overflow: hidden;
+}
+.THIS h2{
+	font-weight: inherit;
+}
+.THIS .redText{
+    color: red;
+}
+.THIS .greenText{
+    color: green;
+}
+.THIS .indiceName {
+	font-weight: bold;
+}
+.THIS .itemTitle{
+	border-bottom: 1px solid #E6EAF0;
+/*	background-color: rgb(230, 230, 230);
+	padding-bottom: 0;*/
+}
+.THIS .content{
+	/*background-color: white;*/
+}
+.THIS.mainContainer{
+	background-color: white;
+}

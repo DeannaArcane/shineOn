@@ -1,0 +1,87 @@
+<aura:component description="cmpDropdown">
+    <aura:attribute name="appName" type="String" required="true"/>
+    <aura:attribute name="tabName" type="String" required="true"/>
+    <aura:attribute name="index" type="Integer" required="true"/>
+    <aura:attribute name="isActive" type="Boolean" default="false"/>
+    <aura:attribute name="type" type="String" default="list"/><!-- list or radio-buttons -->
+    <aura:attribute name="title" type="String" required="true"/>
+    <aura:attribute name="subtitle" type="String"/>
+    <aura:attribute name="defaultSubtitle" type="String" required="true"/>
+    <aura:attribute name="selectedItem" type="String" required="true"/>
+    <aura:attribute name="radioButtons" type="List" required="{!v.type == 'radio-buttons'}"/>
+
+    <aura:attribute name="docItems" type="List" required="{!v.type == 'list'}"/>
+
+    <aura:registerEvent name="evtRadioButtonChange" type="pdffiller_sf:evtRadioButtonChange"/>
+    <aura:registerEvent name="evtDropdownClick" type="pdffiller_sf:evtDropdownClick"/>
+    <aura:registerEvent name="evtRefreshClick" type="pdffiller_sf:evtRefreshClick"/>
+
+    <aura:handler name="init" value="{!this}" action="{!c.onInit}"/>
+    <aura:handler event="pdffiller_sf:evtDropdownClick" action="{!c.onEvtDropdownClick}"/>
+    <aura:handler event="pdffiller_sf:evtDocItemsUpdate" action="{!c.onEvtDocItemsUpdate}"/>
+    <aura:handler event="pdffiller_sf:evtDropdownIsClosed" action="{!c.onEvtDropdownIsClosed}"/>
+    <aura:handler event="pdffiller_sf:evtRefreshClick" action="{!c.onEvtRefreshClick}"/>
+
+
+    <div class="{!'dropdown-toggle' + (v.isActive ? ' dropdown-toggle--active' : null)}" onclick="{!c.onToggleClick}">
+        <div class="dropdown-toggle__title-wrap">
+            <div class="dropdown-toggle__title">{!v.title}</div>
+            <div class="dropdown-toggle__subtitle">{!v.subtitle}</div>
+        </div>
+        <aura:if isTrue="{!v.type == 'list'}">
+            <a href="#" class="dropdown-toggle__refresh" onclick="{!c.onRefreshClick}">
+                <img src="{!$Resource.pdffiller_sf__v2 + '/refresh@2x.png'}" alt="refresh icon" class="init"/>
+                <img src="{!$Resource.pdffiller_sf__v2 + '/refresh@2x.png'}" alt="refresh icon" class="hover"/>
+            </a>
+        </aura:if>
+    </div>
+    <div class="{!'dropdown-content ' + v.type}">
+        <aura:if isTrue="{!v.type == 'list'}">
+            <div class="{!'scroll-wrap' + (v.docItems.length > 4 ? ' active' : '')}">
+                <aura:iteration var="item" items="{!v.docItems}">
+                    <div class="{!'dropdown-content__list-row dropdown-content__list-row--' + (
+                            (v.appName == 'utTemplate' || v.appName == 'PDFfillerTemplate' || v.appName == 'DocXTemplate')
+                            ? 'template' : item.icon)}">
+                        <div class="before"><img src="{!$Resource.pdffiller_sf__v2 + '/docs-sprite@2x.png'}" /></div>
+                        <input
+                                type="radio"
+                                name="{!v.appName}"
+                                value="{!item.id}"
+                                id="{!'list_item' + item.id}"
+                                onchange="{!c.onRadioClick}"
+                                checked="{!item == v.selectedItem}"
+                        />
+                        <label onclick="{!c.onLabelClick}">
+                            <span class="list__title">{!item.name}</span>
+                            <aura:if isTrue="{!v.appName != 'DocXTemplate'}">
+                                <span class="list__last-edited">{!'Last edited: ' + item.lastModifiedDate}</span>
+                            </aura:if>
+                            <span class="list__cover"></span>
+                        </label>
+                        <aura:if isTrue="{!v.appName == 'edDocument'}">
+                            <a href="#" data-type="{!item.type}" data-id="{!item.id}" onclick="{!c.onPreviewClick}" class="list__view-icon">
+                                <img src="{!$Resource.pdffiller_sf__v2 + '/docs-sprite@2x.png'}" />
+                            </a>
+                        </aura:if>
+                    </div>
+                </aura:iteration>
+            </div>
+        </aura:if>
+
+        <aura:if isTrue="{!v.type == 'radio-buttons'}">
+            <aura:iteration items="{!v.radioButtons}" var="item" indexVar="index">
+                <div class="dropdown-content__rb-row">
+                    <input
+                            type="radio"
+                            name="{!v.appName}"
+                            value="{!item}"
+                            id="{!v.appName + index}"
+                            onchange="{!c.onRadioClick}"
+                            checked="{!item == v.selectedItem}"
+                    />
+                    <label onclick="{!c.onLabelClick}"><span></span>{!item}</label>
+                </div>
+            </aura:iteration>
+        </aura:if>
+    </div>
+</aura:component>

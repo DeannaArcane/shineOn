@@ -1,0 +1,2 @@
+<apex:page controller="pdffiller_sf.SignNowController" action="{!signNowRedirect}">
+</apex:page>

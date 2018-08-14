@@ -1,0 +1,2 @@
+<apex:page controller="cuda_signnow.SignNowTemplatesController">
+</apex:page>

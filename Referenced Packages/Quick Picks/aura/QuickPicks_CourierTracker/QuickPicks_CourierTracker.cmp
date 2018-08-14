@@ -1,0 +1,30 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome" access="global" >
+    
+    <aura:attribute name="trackingId" type="String" />
+    <aura:attribute name="courierService" type="String" />
+
+    <aura:handler name="init" value="{!this}" action="{!c.loadCourierServices}"/>
+
+    <div class="slds-box mainContainer" aura:id="main">
+        
+        <div class="slds-grid slds-wrap itemTitle">
+            <div class="slds-size--1-of-1">
+                <header>            
+                    <h2 class="slds-text-heading--small slds-m-bottom--small">Quick Picks Courier Tracker</h2>            
+                </header>            
+            </div>
+        </div>
+        
+        <div class="slds-grid slds-wrap content">
+            <div class="slds-size--1-of-1 slds-grid slds-wrap slds-p-top--small">
+                <ui:inputSelect aura:id="courierServices" value="{!v.courierService}"> </ui:inputSelect>    
+            </div>   
+            <div class="slds-size--1-of-1 slds-grid slds-wrap slds-p-top--small">
+                <ui:inputText aura:id="trackingId" label="" value="{!v.trackingId}" placeholder="Tracking Number" required="true"/>      
+            </div> 
+            <div class="slds-size--1-of-1 slds-grid slds-wrap slds-p-top--small slds-show--inline-block slds-text-align--right">
+                <ui:button class="btn" label="Track" press="{!c.loadCourierService}"/>      
+            </div>            
+        </div>        
+    </div>
+</aura:component>

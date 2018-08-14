@@ -1,0 +1,94 @@
+<aura:component
+        access="global"
+        description="DocXTemplatesBar"
+        controller="pdffiller_sf.LightningSelectAttachmentController"
+        implements="force:appHostable,flexipage:availableForAllPageTypes,force:hasRecordId">
+
+    <!--<aura:attribute name="daDaDocsOptions" type="List"/>-->
+
+    <!--<aura:attribute name="isAuthAndPermissionsChecked" type="Boolean" default="false"/>-->
+    <!--<aura:attribute name="isLoggedIn" type="Boolean" default="false"/>-->
+    <!--<aura:attribute name="isPermitted" type="Boolean" default="false"/>-->
+    <!--<aura:attribute name="isPermittedAndLoggedIn" type="Boolean" default="false"/>-->
+
+    <!--<aura:attribute name="alertIcon" type="String" default="none"/>&lt;!&ndash; none, success, fail &ndash;&gt;-->
+    <!--<aura:attribute name="alertHeading" type="String" default=""/>-->
+    <!--<aura:attribute name="alertText" type="String" default=""/>-->
+    <!--<aura:attribute name="isAlertShown" type="Boolean" default="false"/>-->
+    <!--<aura:attribute name="currentTab" type="String" default="DocXTemplates"/>-->
+
+    <!--<aura:attribute name="DocXTemplateDocumentActionOptions" type="List" default="['Edit']"/>-->
+
+    <!--&lt;!&ndash;<aura:attribute name="iframeOverlaySrc" type="String" default=""/>&ndash;&gt;-->
+    <!--&lt;!&ndash;<aura:attribute name="isIframeOverlayShown" type="Boolean" default="false"/>&ndash;&gt;-->
+
+    <aura:attribute name="recordId" type="String"/>
+    <!--<aura:attribute name="namespaceUnderscored" type="String" default=""/>-->
+
+    <!--<aura:attribute name="daDaDocsUrl" type="String" default=""/>-->
+    <!--<aura:attribute name="isLoading" type="Boolean" default="false"/>-->
+
+    <!--<aura:attribute name="DocXTemplates" type="List"/>-->
+    <!--<aura:attribute name="DocXTemplateValue" type="String" default=""/>-->
+    <!--<aura:attribute name="DocXTemplateDeliveryOptionValue" type="String" default="Save To Attachments"/>-->
+    <!--<aura:attribute name="DocXTemplateDocumentActionValue" type="String" default="Edit"/>-->
+
+    <!--<aura:handler name="init" value="{!this}" action="{!c.onInit}"/>-->
+    <!--<aura:handler name="evtRadioButtonChange" event="c:evtRadioButtonChange" action="{!c.onEvtRadioButtonChange}"/>-->
+    <!--<aura:handler event="c:evtRefreshClick" action="{!c.onEvtRefreshClick}"/>-->
+    <!--<aura:handler name="evtSubmitButtonClick" event="c:evtSubmitButtonClick" action="{!c.onEvtSubmitButtonClick}"/>-->
+
+    <!--<c:cmpHeader daDaDocsUrl="{!v.daDaDocsUrl}"/>-->
+    <!--<aura:if isTrue="{!v.isAuthAndPermissionsChecked}">-->
+        <!--<aura:if isTrue="{!v.isPermittedAndLoggedIn}">-->
+            <!--<div class="wrap">-->
+                <!--<c:cmpDropdown-->
+                        <!--index="0"-->
+                        <!--appName="DocXTemplate"-->
+                        <!--defaultSubtitle="No template selected"-->
+                        <!--selectedItem="{!v.DocXTemplateValue}"-->
+                        <!--tabName="{!v.currentTab}"-->
+                        <!--title="DocX Templates"-->
+                        <!--docItems="{!v.DocXTemplates}"-->
+                        <!--isActive="true"-->
+                <!--/>-->
+                <!--<c:cmpDropdown-->
+                        <!--index="1"-->
+                        <!--appName="DocXTemplateDeliveryOption"-->
+                        <!--tabName="{!v.currentTab}"-->
+                        <!--title="Delivery options"-->
+                        <!--type="radio-buttons"-->
+                        <!--defaultSubtitle="No delivery option selected"-->
+                        <!--selectedItem="{!v.DocXTemplateDeliveryOptionValue}"-->
+                        <!--radioButtons="[-->
+                            <!--'Save To Attachments',-->
+                            <!--'Save To Files'-->
+                        <!--]"-->
+                <!--/>-->
+                <!--<c:cmpDropdown-->
+                        <!--index="2"-->
+                        <!--appName="DocXTemplateDocumentAction"-->
+                        <!--tabName="{!v.currentTab}"-->
+                        <!--title="Document actions"-->
+                        <!--type="radio-buttons"-->
+                        <!--defaultSubtitle="No action selected"-->
+                        <!--selectedItem="{!v.DocXTemplateDocumentActionValue}"-->
+                        <!--radioButtons="{!v.DocXTemplateDocumentActionOptions}"-->
+                <!--/>-->
+                <!--<c:cmpSubmitButton title="Submit" isDisabled="{!!v.DocXTemplateValue}"/>-->
+                <!--<c:cmpLoadingOverlay isLoading="{!v.isLoading}"/>-->
+            <!--</div>-->
+            <!--&lt;!&ndash;<c:cmpIframeOverlay iframeSrc="{!v.iframeOverlaySrc}" isShown="{!v.isIframeOverlayShown}"/>&ndash;&gt;-->
+            <!--<aura:set attribute="else">-->
+                <!--<c:cmpWarningMessage itemName="DocX Templates component" isPermitted="{!v.isPermitted}" isLoggedIn="{!v.isLoggedIn}"/>-->
+            <!--</aura:set>-->
+        <!--</aura:if>-->
+        <!--<aura:set attribute="else">-->
+            <!--<div class="wrap">-->
+                <!--<c:cmpLoadingOverlay isLoading="true"/>-->
+            <!--</div>-->
+        <!--</aura:set>-->
+    <!--</aura:if>-->
+    <!--<c:cmpAlert alertHeading="{!v.alertHeading}" alertText="{!v.alertText}" isShown="{!v.isAlertShown}"-->
+                <!--icon="{!v.alertIcon}"/>-->
+</aura:component>

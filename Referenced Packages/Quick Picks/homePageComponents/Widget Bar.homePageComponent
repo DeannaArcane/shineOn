@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<HomePageComponent xmlns="http://soap.sforce.com/2006/04/metadata">
+    <body>&lt;table align=&quot;left&quot; cellpadding=&quot;1&quot; cellspacing=&quot;1&quot;&gt;&lt;caption&gt; &lt;/caption&gt;&lt;/table&gt;
+
+&lt;div style=&quot;text-align: left;&quot;&gt;&lt;span style=&quot;color: #FF8C00;&quot;&gt;&lt;b&gt;Warning!&lt;/b&gt;&lt;/span&gt;&lt;/div&gt;
+
+&lt;table style=&quot;height: 50px;&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td colspan=&quot;1&quot; rowspan=&quot;1&quot;&gt;&lt;span style=&quot;background-color: #ffcc33;&quot;&gt;This Home Page Component is for older version of Salesforce. If you are using newer version remove this one and add &lt;b&gt;Quick Picks&lt;/b&gt; component to your Home Page Layout.&lt;br&gt;			  &lt;/span&gt;&lt;b&gt;&lt;span style=&quot;background-color: #ffcc33;&quot;&gt;App Setup &amp;gt; Customize &amp;gt; Home &amp;gt; Home Page Layouts &lt;/span&gt;&lt;/b&gt;&lt;span style=&quot;background-color: #ffcc33;&quot;&gt;                                                                                                                                                                                                           &lt;/span&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;</body>
+    <pageComponentType>htmlArea</pageComponentType>
+    <width>wide</width>
+</HomePageComponent>

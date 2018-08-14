@@ -1,0 +1,97 @@
+<apex:page sidebar="false" docType="html-5.0" standardStylesheets="false" applyBodyTag="false" showHeader="true" >
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" /> 
+        <meta name="viewport" content="width=device-width, initial-scale=1" /> 
+        <title>SMS App</title>
+        
+        <link href='https://fonts.googleapis.com/css?family=Raleway:400,700,600,500' rel='stylesheet' type='text/css' />
+        <apex:stylesheet value="{!URLFOR($Resource.tdc_tsw__resource_sms_file, '/css/bootstrap.min.css')}"/>
+        <apex:stylesheet value="{!URLFOR($Resource.tdc_tsw__resource_sms_file, '/css/intlTelInput.css')}"/>
+        <apex:stylesheet value="{!URLFOR($Resource.tdc_tsw__resource_sms_file, '/css/bootstrap-multiselect.css')}"/>        
+        <apex:stylesheet value="{!URLFOR($Resource.tdc_tsw__resource_sms_file, '/css/tabs.css')}"/>  
+        <apex:stylesheet value="{!URLFOR($Resource.tdc_tsw__resource_sms_file, '/css/tabstyles.css')}"/>   
+        <apex:stylesheet value="{!URLFOR($Resource.tdc_tsw__resource_sms_file, '/css/style.css')}"/>  
+        <apex:includeScript value="{!URLFOR($Resource.tdc_tsw__resource_sms_file, '/js/modernizr.custom.js')}"/>        
+        <style>
+            .tabs-style-bar nav ul li a {min-height:30px;}
+            @media (max-width: 767px) {
+                .modal-dialog {margin: 70px auto;}
+                .top_tabs nav ul li a.icon span{
+                    display: none;
+                }
+            }
+            body{
+                font-size: 14px;
+            }
+            .top_tabs ul li .icon {padding: 0 15px !important}
+            
+        </style>
+    </head>
+    <body>
+    <div id="SMSAPP">
+     
+        <apex:outputPanel id="mainform">
+          <apex:actionStatus id="actStatusId" >
+            <apex:facet name="start">
+                <div>
+                    <div  class="popupBackground">
+                        <img class="PopupPanel" src="{!$Resource.Loading_Icon}" alt="Loading..."  />
+                    </div>
+                </div>
+             </apex:facet>
+           </apex:actionStatus>
+            <section>
+                <div class="tabs tabs-style-bar top_tabs">
+                    <nav>
+                        <ul>
+                            <li><a href="#section-bar-1" class="icon icon-home"><span>ORG CONFIG</span></a></li>
+                            <li><a href="#section-bar-2" class="icon icon-box"><span>USER CONFIG</span></a></li>
+                            <li><a href="#section-bar-3" class="icon icon-display"><span>OBJECT SETUP</span></a></li>
+                            <li><a href="#section-bar-4" class="icon icon-upload"><span>GENERAL SETTINGS</span></a></li> 
+                        </ul>
+                    </nav>
+                    <div class="content-wrap main_tab01">
+                        <section id="section-bar-1">
+                            <h1>Allotted Virtual SMS Numbers</h1>
+                            <div class="table-responsive">
+                                 <apex:include pageName="tdc_tsw__OrgConfigSetup"/>
+                            </div>                            
+                        </section>
+                        <section id="section-bar-2">
+                             <h1>Assign Virtual SMS Numbers to Users</h1>
+                             <apex:include pageName="tdc_tsw__UserConfigSetup"/>                        
+                        </section>
+                        <section id="section-bar-3">
+                            <h1>Link Objects to Phone API</h1>
+                            <apex:include pageName="tdc_tsw__SmsConfigPage"/>
+                        </section>
+                       <section id="section-bar-4">
+                             <h1>SMS Subscription</h1>
+                             <apex:include pageName="tdc_tsw__SMSGeneralSettings" />                        
+                        </section> 
+                    </div><!-- /content -->
+                </div><!-- /tabs -->
+            </section>
+     
+   </apex:outputPanel>  
+  </div>
+        
+    <apex:includeScript value="{!URLFOR($Resource.tdc_tsw__resource_sms_file, '/js/jquery.min.js')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.tdc_tsw__resource_sms_file, '/js/bootstrap.min.js')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.tdc_tsw__resource_sms_file, '/js/cbpFWTabs.js')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.tdc_tsw__resource_sms_file, '/js/bootstrap-multiselect.js')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.tdc_tsw__resource_sms_file, '/js/intlTelInput.min.js')}"/>
+    <script>
+        (function() {
+    
+            [].slice.call( document.querySelectorAll( '.tabs' ) ).forEach( function( el ) {
+                new CBPFWTabs( el );
+            });
+    
+        })();
+    </script>
+    </body> 
+  
+  
+</apex:page>

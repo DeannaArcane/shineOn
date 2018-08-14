@@ -1,0 +1,6 @@
+<aura:event type="COMPONENT" description="evtRadioButtonChange">
+    <aura:attribute name="tabName" type="String" required="true" />
+    <aura:attribute name="dropdownName" type="String" required="true" />
+    <aura:attribute name="dropdownIndex" type="Integer" required="true" />
+    <aura:attribute name="value" type="String" required="true" />
+</aura:event>

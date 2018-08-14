@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>Incoming Message Alert</name>
+    <style>none</style>
+    <subject>Incoming Message Alert from 360 SMS App for Salesforce</subject>
+    <textOnly>Hello, 
+
+You have received an incoming message. 
+
+{!Message__c.Message_Text_New__c} 
+
+To view the message, click Here
+
+To view associated record, click Here
+
+More Details : 
+Sender Name:{!Message__c.Sender_Name__c} 
+Sender Number:{!Message__c.Sender_Number__c} 
+To Number:{!Message__c.ToNumber__c}
+
+
+Thanks , 
+
+360 SMS App for Salesforce</textOnly>
+    <type>custom</type>
+</EmailTemplate>

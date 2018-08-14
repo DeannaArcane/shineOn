@@ -1,0 +1,3 @@
+<apex:page standardController="cuda_signnow__Candidate_Employee__c">
+    <apex:include pageName="cuda_signnow__sn_doc_status_v2"/> 
+</apex:page>

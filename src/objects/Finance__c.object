@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <allowInChatterGroups>false</allowInChatterGroups>
+    <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
+    <deploymentStatus>InDevelopment</deploymentStatus>
+    <enableActivities>true</enableActivities>
+    <enableBulkApi>true</enableBulkApi>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>true</enableHistory>
+    <enableReports>true</enableReports>
+    <enableSearch>true</enableSearch>
+    <enableSharing>true</enableSharing>
+    <enableStreamingApi>true</enableStreamingApi>
+    <fields>
+        <fullName>Opportunity__c</fullName>
+        <externalId>false</externalId>
+        <label>Opportunity</label>
+        <referenceTo>Opportunity</referenceTo>
+        <relationshipLabel>Finances</relationshipLabel>
+        <relationshipName>Finances</relationshipName>
+        <relationshipOrder>0</relationshipOrder>
+        <reparentableMasterDetail>false</reparentableMasterDetail>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>MasterDetail</type>
+        <writeRequiresMasterRead>false</writeRequiresMasterRead>
+    </fields>
+    <label>Finance</label>
+    <listViews>
+        <fullName>All</fullName>
+        <filterScope>Everything</filterScope>
+        <label>All</label>
+    </listViews>
+    <nameField>
+        <label>Finance Details</label>
+        <trackHistory>false</trackHistory>
+        <type>Text</type>
+    </nameField>
+    <pluralLabel>Finances</pluralLabel>
+    <recordTypeTrackHistory>false</recordTypeTrackHistory>
+    <recordTypes>
+        <fullName>EPC</fullName>
+        <active>true</active>
+        <description>Full EPC Finance Fields</description>
+        <label>EPC</label>
+    </recordTypes>
+    <recordTypes>
+        <fullName>Exception</fullName>
+        <active>true</active>
+        <description>Out side of normal EPC process flow</description>
+        <label>Exception</label>
+    </recordTypes>
+    <recordTypes>
+        <fullName>Remove_Replace</fullName>
+        <active>true</active>
+        <description>Service customers to remove/replace mods for roof work.</description>
+        <label>Remove/Replace</label>
+    </recordTypes>
+    <recordTypes>
+        <fullName>SR_IO_Permit_Install</fullName>
+        <active>true</active>
+        <label>SR IO Permit/Install</label>
+    </recordTypes>
+    <recordTypes>
+        <fullName>SR_Install_Only</fullName>
+        <active>true</active>
+        <description>Installation Scope of Work only</description>
+        <label>SR-Install Only</label>
+    </recordTypes>
+    <recordTypes>
+        <fullName>SR_Install_Only_Permitted</fullName>
+        <active>true</active>
+        <description>SR Install Only Pre-permitted</description>
+        <label>SR-Install Only Permitted</label>
+    </recordTypes>
+    <recordTypes>
+        <fullName>Service_Only</fullName>
+        <active>true</active>
+        <description>Projects only require service. Project are not pre-existing in salesforce.</description>
+        <label>Service Only</label>
+    </recordTypes>
+    <searchLayouts/>
+    <sharingModel>ControlledByParent</sharingModel>
+    <webLinks>
+        <fullName>Fill_with_PDFfiller</fullName>
+        <availability>online</availability>
+        <displayType>button</displayType>
+        <linkType>page</linkType>
+        <masterLabel>Use DaDaDocs</masterLabel>
+        <openType>replace</openType>
+        <page>pdffiller_sf__ClassicSelectAttachment</page>
+        <protected>false</protected>
+    </webLinks>
+</CustomObject>

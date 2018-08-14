@@ -1,0 +1,41 @@
+.THIS.container {
+    height: 640px;
+    overflow: hidden;
+    position: relative;
+    background-color: #fff;
+    border-radius: 5px;
+}
+
+.THIS .dddInput * {
+    cursor: pointer !important;
+}
+
+.THIS .dddInput {
+    cursor: pointer;
+    position: absolute;
+    overflow: hidden;
+    z-index: 1000;
+    display: none;
+    opacity: 0;
+    width: 130px;
+    height: 20px;
+    right: 12px;
+    top: 92px;
+}
+
+.THIS .dddInput.visible {
+    display: block;
+}
+
+.THIS .dddInput .slds-form-element__label {
+    display: none;
+}
+
+.THIS .dddInput.noDocsInput {
+    width: 154px;
+    height: 32px;
+    left: 50%;
+    margin-left: -85px;
+    top: 467px;
+    right: auto;
+}

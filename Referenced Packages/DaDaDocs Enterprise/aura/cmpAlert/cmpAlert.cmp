@@ -1,0 +1,26 @@
+<aura:component description="cmpAlert">
+    <aura:handler name="init" value="{!this}" action="{!c.onInit}"/>
+    <aura:attribute name="alertHeading" type="String" required="true" />
+    <aura:attribute name="alertText" type="String" required="true" />
+    <aura:attribute name="isShown" type="Boolean" required="true"/>
+    <aura:attribute name="icon" type="String" required="true" />
+
+    <div class="{!'alert-container' + (v.isShown ? ' shown' : '')}" onclick="{!c.onCloseClick}">
+        <div class="alert-container__window">
+            <aura:if isTrue="{!v.icon == 'success'}">
+                <img class="alert-container__icon alert-container__icon--success" src="{!$Resource.pdffiller_sf__v2 + '/success.svg'}" alt="Success Icon" />
+            </aura:if>
+            <aura:if isTrue="{!v.icon == 'fail'}">
+                <div class="alert-container__icon alert-container__icon--fail"></div>
+            </aura:if>
+
+            <aura:if isTrue="{!v.alertHeading}">
+                <div class="alert-container__heading">{!v.alertHeading}</div>
+            </aura:if>
+            <aura:if isTrue="{!v.alertText}">
+                <div class="alert-container__text">{!v.alertText}</div>
+            </aura:if>
+            <div class="alert-container__close"></div>
+        </div>
+    </div>
+</aura:component>

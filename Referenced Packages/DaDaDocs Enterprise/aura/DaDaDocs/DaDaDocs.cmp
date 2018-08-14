@@ -1,0 +1,72 @@
+<aura:component
+        access="global"
+        controller="pdffiller_sf.LightningSelectAttachmentController"
+        implements="flexipage:availableForAllPageTypes,force:hasRecordId"
+>
+    <aura:attribute name="recordId" type="String" />
+    <aura:attribute name="isOverlayOpened" type="Boolean" />
+    <aura:attribute name="overlayIframeSrc" type="string" />
+    <aura:attribute name="overlayTitle" type="string" default="DaDaDocs" />
+    <aura:attribute name="overlayWindowStyle" type="string" default="" />
+    <aura:attribute name="overlayIframeStyle" type="string" default="" />
+    <aura:attribute name="isIframeLoaded" type="Boolean" default="false" />
+
+    <aura:attribute name="origin" type="string" default="" />
+
+    <aura:handler name="init" value="{!this}" action="{!c.onInit}" />
+    <aura:handler name="evtCloseIframeOverlay" event="pdffiller_sf:evtCloseIframeOverlay" action="{!c.closeIframeOverlay}"/>
+    <aura:handler event="pdffiller_sf:evtRefreshClick" action="{!c.onEvtRefreshClick}"/>
+
+    <aura:attribute name="orgUrl" type="String" default="" />
+    <aura:attribute name="orgNamespace" type="String" default="" />
+    <aura:attribute name="isOrgDataSet" type="Boolean" default="false" />
+
+
+    <aura:attribute name="dddSuccessMessage" type="String" default="" />
+    <aura:attribute name="dddErrorMessage" type="String" default="" />
+
+    <aura:attribute name="isDropdownUploadVisible" type="Boolean" default="false" />
+    <aura:attribute name="isNoDocumentsUploadVisible" type="Boolean" default="false" />
+
+    <aura:attribute name="namespaceUnderscored" type="String" default="" />
+
+    <div class="container">
+        <div class="{!v.isDropdownUploadVisible ? 'visible dddInput' : 'dddInput'}">
+            <lightning:fileUpload
+                    label="upload"
+                                  multiple="true"
+                                  accept=".pdf, .doc, .docx, .ppt, .pptx, .rtf"
+                                  recordId="{!v.recordId}"
+                                  onuploadfinished="{!c.handleUploadFinished}" />
+        </div>
+
+        <div class="{!v.isNoDocumentsUploadVisible ? 'visible noDocsInput dddInput' : 'noDocsInput dddInput'}">
+            <lightning:fileUpload
+                    label="upload"
+                    multiple="true"
+                    accept=".pdf, .doc, .docx, .ppt, .pptx, .rtf"
+                    recordId="{!v.recordId}"
+                    onuploadfinished="{!c.handleUploadFinished}" />
+        </div>
+        <aura:if isTrue="{!v.isOrgDataSet}">
+            <iframe
+                    aura:id="iframe"
+                    width="100%"
+                    height="640"
+                    style="border: none"
+                    src="{!v.orgUrl + '/apex/' + v.orgNamespace + 'LightningDaDaDocs?id=' + v.recordId + v.dddSuccessMessage + v.dddErrorMessage}"
+            ></iframe>
+        </aura:if>
+        <aura:if isTrue="{! !v.isIframeLoaded }">
+            <pdffiller_sf:cmpLoadingOverlay isLoading="true" />
+        </aura:if>
+    </div>
+    <aura:if isTrue="{!v.isOverlayOpened}">
+        <pdffiller_sf:cmpIframeOverlay
+            iframeSrc="{!v.overlayIframeSrc}"
+            title="{!v.overlayTitle}"
+            iframeStyle="{!v.overlayIframeStyle}"
+            windowStyle="{!v.overlayWindowStyle}"
+        />
+    </aura:if>
+</aura:component>

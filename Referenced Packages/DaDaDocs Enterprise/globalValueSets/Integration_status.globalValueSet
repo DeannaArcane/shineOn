@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GlobalValueSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customValue>
+        <fullName>connect</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>block</fullName>
+        <default>false</default>
+    </customValue>
+    <customValue>
+        <fullName>none</fullName>
+        <default>true</default>
+    </customValue>
+    <masterLabel>Integration status</masterLabel>
+    <sorted>false</sorted>
+</GlobalValueSet>

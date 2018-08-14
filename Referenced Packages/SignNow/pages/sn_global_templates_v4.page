@@ -1,0 +1,26 @@
+<apex:page controller="cuda_signnow.SignNowTemplatesController">
+<style>
+    iframe {border-style:none;}
+</style>
+<script type="text/javascript" src="/canvas/sdk/js/31.0/controller.js"></script>       
+<script type="text/javascript" src="/soap/ajax/31.0/connection.js"/>
+<script>
+</script>
+
+   <apex:canvasApp developerName="eurowaxcudasigntemplates" border="0px" maxHeight="infinite" maxWidth="infinite" scrolling="auto" width="1000px" height="1500px" parameters="{sntoken : '{!sntoken}', settingTemplate: '{!settingsTemplate}', recordID: '{!recordID}', accountIds: '{!ids}', docId: '{!docId}', type: '{!type}', cc_email: '{!cc_email}', Guest_Wax_Passes:''}" />
+<script>
+    Sfdc.canvas(function() {  
+     Sfdc.canvas.controller.subscribe(
+            {name : 'myns.sendVal', 
+             onData : function (data) {                 
+                  var msg = data.value;
+                  alert("msg recived on Salesforce: "+ msg);
+                  if(msg === 'close_popup'){
+                      // close popup
+                      alert("closing popup");
+                  }
+             }
+            });
+           });                                         
+</script>
+</apex:page>

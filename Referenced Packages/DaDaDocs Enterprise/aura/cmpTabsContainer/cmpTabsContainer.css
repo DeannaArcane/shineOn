@@ -1,0 +1,9 @@
+.THIS {
+    position: relative;
+}
+
+.THIS .tab-container {
+    display: block;
+    list-style: none;
+    border-top: 1px solid #ddd;
+}

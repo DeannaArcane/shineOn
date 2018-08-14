@@ -1,0 +1,18 @@
+<aura:component description="cmpLoadingOverlay">
+    <aura:attribute name="isLoading" type="Boolean" required="true" />
+
+    <div class="{!'loading-overlay' + (v.isLoading ? ' loading' : '')}">
+        <div class="g-wrap-loading">
+            <div class="g-loader">
+                <div class="g-loader__wrapper">
+                    <div class="g-loader__layer">
+                        <div class="g-loader__circle-clipper g-loader__circle-clipper--left">
+                            <div class="g-loader__circle"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="g-loader__label">Loading...</div>
+            </div>
+        </div>
+    </div>
+</aura:component>

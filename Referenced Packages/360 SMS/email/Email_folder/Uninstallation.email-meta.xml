@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <letterhead>SMS_App_label</letterhead>
+    <name>Uninstallation</name>
+    <style>freeForm</style>
+    <subject>Sorry to see you go :(</subject>
+    <type>html</type>
+</EmailTemplate>

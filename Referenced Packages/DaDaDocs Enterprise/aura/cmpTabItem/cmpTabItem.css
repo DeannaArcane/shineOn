@@ -1,0 +1,22 @@
+.THIS.tab-container__list-item {
+    display: inline-block;
+    vertical-align: top;
+    width: 50%;
+}
+
+.THIS .tab-container__link {
+    display: block;
+    text-align: center;
+    font-size: 14px;
+    height: 59px;
+    line-height: 59px;
+    border-bottom: 0 solid transparent;
+    transition: all .15s ease-out;
+    color: #000;
+    text-decoration: none;
+}
+
+.THIS .tab-container__link.tab-container__link--active {
+    border-bottom-width: 3px;
+    border-bottom-color: #ff9000;
+}

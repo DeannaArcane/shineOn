@@ -1,0 +1,169 @@
+<apex:page id="UserIntegrationList" controller="pdffiller_sf.UserIntegrationListController" extensions="pdffiller_sf.PageParameters" docType="html-5.0">
+
+    <style>
+        .myTable {
+            width: 100%;
+            counter-reset: rowCounter;
+        }
+        .myTable .row {
+            counter-increment: rowCounter;
+        }
+        .myTable .row .counter::before {
+            content: counter(rowCounter);
+        }
+    </style>
+
+    <apex:form id="userIntList">
+        <apex:pageMessages />
+
+        <apex:outputpanel >
+            <apex:actionstatus id="status">
+                <apex:facet name="start">
+                    <div class="waitingSearchDiv" id="el_loading" style="background-color: #fbfbfb;
+                       height: 100%;opacity:0.65;width:100%;">
+                        <div class="waitingHolder" style="top: 74.2px; width: 91px;">
+                            <img class="waitingImage" src="/img/loading.gif" title="Processing..."/>
+                            <span class="waitingDescription">Processing...</span>
+                        </div>
+                    </div>
+                </apex:facet>
+            </apex:actionstatus>
+        </apex:outputPanel>
+
+        <div style="padding: 10px; width: 100%;">
+            <apex:outputPanel id="userFilters">
+                <apex:outputLabel for="statusSelector" value="{!$Label.pdffiller_sf__multitoken_filter_by_status}:" />
+                <apex:selectList id="statusSelector"
+                                 style="margin: 10px;"
+                                 value="{!statusFilter}"
+                                 multiSelect="false"
+                                 size="1"
+                                 onChange="refresh();">
+                    <apex:selectOptions value="{!statusSelector}" />
+                </apex:selectList>
+                <apex:outputLabel for="userSearch" value="{!$Label.pdffiller_sf__multitoken_search_by_name}:" />
+                <apex:inputText id="userSearch" value="{!searchFilter}" style="margin: 10px;" />
+                <apex:commandButton action="{!refresh}"
+                                    id="searchButtin"
+                                    reRender="userIntList"
+                                    status="status"
+                                    value="{!$Label.pdffiller_sf__search}"
+                />
+            </apex:outputPanel>
+            <apex:pageBlock title="Users" id="userIntTable">
+                <apex:pageBlockButtons >
+                    <apex:commandButton action="{!connectSelected}"
+                                        id="connectSelectedItems"
+                                        reRender="userIntList"
+                                        status="status"
+                                        value="Connect"
+                    />
+                    <apex:commandButton action="{!activateSelected}"
+                                        id="activateSelectedItems"
+                                        reRender="userIntList"
+                                        status="status"
+                                        value="Activate"
+                    />
+                    <apex:commandButton action="{!suspendSelected}"
+                                        id="freezeSelectedItems"
+                                        reRender="userIntList"
+                                        status="status"
+                                        value="Block"
+                    />
+                    <apex:commandButton action="{!deleteSelected}"
+                                        id="deleteSelectedItems"
+                                        reRender="userIntList"
+                                        status="status"
+                                        value="Delete"
+                    />
+                </apex:pageBlockButtons>
+                <apex:pageBlockTable value="{!userIntItems}" var="wrap" width="100%" styleClass="myTable" rowClasses="row">
+                    <apex:column >
+                        <apex:facet name="header">
+                            <apex:inputCheckbox onclick="checkAll(this)"/>
+                        </apex:facet>
+                        <apex:inputCheckbox value="{!wrap.selected}" id="selectedItem"/>
+                    </apex:column>
+                    <apex:column >
+                        <apex:facet name="header">Actions</apex:facet>
+                        <apex:commandLink action="{!connectCurrent}"
+                                          reRender="userIntList"
+                                          status="status"
+                                          rendered="{!wrap.noState}">
+                            <apex:param value="{!wrap.userInt.Id}" assignTo="{!itemId}" name="somename"/>
+                            Connect
+                        </apex:commandLink>
+                        <apex:commandLink action="{!suspendCurrent}"
+                                          reRender="userIntList"
+                                          status="status"
+                                          rendered="{!wrap.isActive}">
+                            <apex:param value="{!wrap.userInt.Id}" assignTo="{!itemId}" name="somename"/>
+                            Block
+                        </apex:commandLink>
+                        <apex:commandLink action="{!activateCurrent}"
+                                          reRender="userIntList"
+                                          status="status"
+                                          rendered="{!wrap.isBlocked}">
+                            <apex:param value="{!wrap.userInt.Id}" assignTo="{!itemId}" name="somename"/>
+                            Activate
+                        </apex:commandLink>
+                        <apex:commandLink action="{!deleteCurrent}"
+                                          reRender="userIntList"
+                                          status="status"
+                                          rendered="{!OR(wrap.isActive, wrap.isBlocked)}">
+                            <apex:param value="{!wrap.userInt.Id}" assignTo="{!itemId}" name="somename"/>
+                            Delete
+                        </apex:commandLink>
+                    </apex:column>
+                    <apex:column html-class="dataCell" value="{!wrap.userInt.pdffiller_sf__Integration_user__c}">
+                        <apex:facet name="header">User</apex:facet>
+                    </apex:column>
+                    <apex:column html-class="dataCell" value="{!wrap.userInt.pdffiller_sf__User_Login__c}">
+                        <apex:facet name="header">Login</apex:facet>
+                    </apex:column>
+                    <apex:column html-class="dataCell" value="{!wrap.userInt.pdffiller_sf__Integration_status__c}">
+                        <apex:facet name="header">Status</apex:facet>
+                    </apex:column>
+                </apex:pageBlockTable>
+                <apex:facet name="footer">
+                    <apex:outputPanel >
+                        Showing page&nbsp;
+                        <apex:selectList value="{!page}"
+                                         multiSelect="false"
+                                         size="1"
+                                         onChange="refresh()">
+                            <apex:selectOptions value="{!pagesSelector}"/>
+                        </apex:selectList>
+                        of {!pages}&nbsp;
+                        <apex:commandButton action="{!refresh}"
+                                            id="refreshItems"
+                                            reRender="userIntList"
+                                            status="status"
+                                            value="Refresh"
+                        />
+                    </apex:outputPanel>
+                </apex:facet>
+            </apex:pageBlock>
+        </div>
+
+        <apex:actionFunction name="refresh"
+                             action="{!refresh}"
+                             reRender="userIntList"
+                             status="status"/>
+
+    </apex:form>
+
+    <script>
+        function checkAll(cb) {
+            var inputElem = document.getElementsByTagName("input");
+            for (var i = 0; i < inputElem.length; i++) {
+                if (inputElem[i].id.indexOf('selectedItem') != -1) {
+                    inputElem[i].checked = cb.checked;
+                }
+            }
+        }
+    </script>
+    <apex:panelGroup rendered="{!isGoogleAnalytics}">
+        <apex:includeScript loadOnReady="true" value="{!$Resource.pdffiller_sf__GoogleAnalytics}"/>
+    </apex:panelGroup>
+</apex:page>

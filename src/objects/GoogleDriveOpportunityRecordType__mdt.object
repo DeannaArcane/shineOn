@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>This custom metadata type stores the Opportunity record type settings used by the Google Drive/Opportunity integration. Each record type can have its own specific configuration (e.g. list of folder names).</description>
+    <fields>
+        <fullName>DeveloperName__c</fullName>
+        <caseSensitive>false</caseSensitive>
+        <externalId>false</externalId>
+        <fieldManageability>SubscriberControlled</fieldManageability>
+        <label>Opportunity Record Type Developer Name</label>
+        <length>255</length>
+        <required>true</required>
+        <type>Text</type>
+        <unique>true</unique>
+    </fields>
+    <fields>
+        <fullName>Subfolders__c</fullName>
+        <description>List of folder names to be created in Google Drive for a new opportunity specifically for its record type.</description>
+        <externalId>false</externalId>
+        <fieldManageability>SubscriberControlled</fieldManageability>
+        <inlineHelpText>List of folder names to be created in Google Drive for a new opportunity specifically for its record type.</inlineHelpText>
+        <label>Subfolders</label>
+        <length>131072</length>
+        <type>LongTextArea</type>
+        <visibleLines>15</visibleLines>
+    </fields>
+    <label>Google Drive Opportunity Record Type</label>
+    <listViews>
+        <fullName>All_Record_Types</fullName>
+        <columns>DeveloperName__c</columns>
+        <columns>Subfolders__c</columns>
+        <filterScope>Everything</filterScope>
+        <label>All Record Types</label>
+    </listViews>
+    <pluralLabel>Google Drive Opportunity Record Types</pluralLabel>
+    <visibility>Public</visibility>
+    <webLinks>
+        <fullName>Fill_with_PDFfiller</fullName>
+        <availability>online</availability>
+        <displayType>button</displayType>
+        <linkType>page</linkType>
+        <masterLabel>Use DaDaDocs</masterLabel>
+        <openType>replace</openType>
+        <page>pdffiller_sf__ClassicSelectAttachment</page>
+        <protected>false</protected>
+    </webLinks>
+</CustomObject>

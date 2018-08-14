@@ -1,0 +1,68 @@
+<aura:component controller="qburst_widgets.QPicks_UsIndicesController" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,forceCommunity:availableForAllPageTypes,force:hasRecordId,force:hasSObjectName" access="global">    
+
+    <aura:attribute name="DJI_change" type="String" />
+    <aura:attribute name="DJI_index" type="String" default="Loading..."/>
+    <aura:attribute name="DJI_percent" type="String" />
+    <aura:attribute name="GSPC_change" type="String" />
+    <aura:attribute name="GSPC_index" type="String" default="Loading..."/>
+    <aura:attribute name="GSPC_percent" type="String" />
+    <aura:attribute name="IXIC_change" type="String" />
+    <aura:attribute name="IXIC_index" type="String" default="Loading..."/>
+    <aura:attribute name="IXIC_percent" type="String" />
+
+    <aura:handler name="init" value="{!this}" action="{!c.fetchIndicesData}"/>
+    
+    <div class="slds-box mainContainer">
+        <div class="slds-grid slds-wrap itemTitle">
+            <div class="slds-size--1-of-1">
+                <header>            
+                    <h2 class="slds-text-heading--small slds-m-bottom--small">Quick Picks US Indices</h2>            
+                </header>            
+            </div>
+        </div>
+
+            
+        <div class="slds-grid slds-wrap content" aura:id="main">
+
+            <div class="slds-size--1-of-1 slds-grid slds-wrap slds-p-top--small">
+                <div class="slds-size--2-of-3">
+                    <ui:outputText value="Dow Jones: " class="indiceName"/> <ui:outputText value="{!v.DJI_index}"/> 
+                </div>
+                <div class="slds-size--1-of-3">                                                            
+                    <div  class="{!v.DJI_change > 0 ? 'greenText' : 'redText'}">
+                    <ui:outputText value="{!v.DJI_change}"/> <ui:outputText value="{!' ' + v.DJI_percent}"/>
+                    </div>
+                </div>
+            </div>    
+                
+            <div class="slds-size--1-of-1 slds-grid slds-wrap slds-p-top--small">
+                <div class="slds-size--2-of-3">
+                    <ui:outputText value="NASDAQ: " class="indiceName"/> <ui:outputText value="{!v.IXIC_index}"/>
+                </div>
+                <div class="slds-size--1-of-3">
+                    <div class="{!v.IXIC_change > 0 ? 'greenText' : 'redText'}">
+                    <ui:outputText value="{!v.IXIC_change}"/> <ui:outputText value="{!' ' + v.IXIC_percent}"/>
+                    </div>
+                </div>
+            </div>                           
+                
+            <div class="slds-size--1-of-1 slds-grid slds-wrap slds-p-top--small">
+                <div class="slds-size--2-of-3">
+                    <ui:outputText value="S&amp;P 500: " class="indiceName"/> <ui:outputText value="{!v.GSPC_index}"/>
+                </div>
+                <div class="slds-size--1-of-3">
+                    <div class="{!v.GSPC_change > 0 ? 'greenText' : 'redText'}">
+                    <ui:outputText value="{!v.GSPC_change}"/> <ui:outputText value="{!' ' + v.GSPC_percent}"/>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slds-spinner_container" aura:id="spinner">
+              <div class="slds-spinner--brand slds-spinner slds-spinner--medium" aria-hidden="false" role="alert">
+                <div class="slds-spinner__dot-a"></div>
+                <div class="slds-spinner__dot-b"></div>
+              </div>
+            </div>
+        </div>
+    </div>  
+</aura:component>

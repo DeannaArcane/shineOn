@@ -1,0 +1,30 @@
+<aura:component>
+    <aura:attribute name="title" type="String" required="true" />
+    <aura:attribute name="icon" type="Aura.Component" />
+    <aura:attribute name="footer" type="Aura.Component[]" />
+
+    <article class="slds-card slds-card--narrow">
+        <div class="slds-card__header slds-has-divider--bottom-space slds-grid">
+            <header class="slds-media slds-media--center slds-has-flexi-truncate">
+                <aura:if isTrue="{!!empty(v.icon)}">
+                    <div class="slds-media__figure">
+                        {!v.icon}
+                    </div>
+                </aura:if>
+                <div class="slds-media__body">
+                    <h2>
+                        <span class="slds-text-heading--small">{!v.title}</span>
+                    </h2>
+                </div>
+            </header>
+        </div>
+        <div class="slds-card__body">
+            <div class="slds-card__body--inner">
+                {!v.body}
+            </div>
+        </div>
+        <div class="slds-card__footer">
+            {!v.footer}
+        </div>
+    </article>
+</aura:component>

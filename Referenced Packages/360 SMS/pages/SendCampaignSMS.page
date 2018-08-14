@@ -1,0 +1,639 @@
+<apex:page id="pageID" controller="tdc_tsw.SendCampaignSMSCtrl" docType="html-5.0" standardStylesheets="false" sidebar="false" showHeader="false" >
+  <head>
+    <link href = "https://rawgit.com/mervick/emojionearea/master/dist/emojionearea.min.css" rel = "stylesheet"/>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>SMS APP</title>
+
+    <!-- styles -->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet"/>
+    <apex:stylesheet value="{!URLFOR($Resource.tdc_tsw__SMSAppRS, '/css/bootstrap.min.css')}"/>
+    <apex:stylesheet value="{!URLFOR($Resource.tdc_tsw__SMSAppRS, '/css/style.css')}"/>
+    
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css"/>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
+    <apex:stylesheet value="{!URLFOR($Resource.tdc_tsw__datetimepicker, '/flatpickr.min.css')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.tdc_tsw__datetimepicker, '/flatpickr.min.js')}"/> 
+    <script src = "https://rawgit.com/mervick/emojionearea/master/dist/emojionearea.js"></script>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <script>
+    /* $(document).ready(function() {
+                emojiMethod();
+        });
+        
+        function emojiMethod(){
+            $(".abc").emojioneArea({
+                pickerPosition: "left",
+                tonesStyle: "bullet"
+           }); 
+        }*/
+    
+        function jsfun1(currelm){
+             var isTrue = isGSMAlphabet(currelm.value);
+                //alert('====isTrue:'+ isTrue);
+                var segment = 1;
+                var nonGsmLength = currelm.value.length;
+                var strLength = currelm.value.length + count(currelm.value,'{') + count(currelm.value,'}') + count(currelm.value,'[') + count(currelm.value,']');
+                if(isTrue)
+                {
+                     if(strLength <= 160){
+                       segment = 1;
+                     }
+                     else{
+                          if(strLength % 153 == 0)
+                              segment = (strLength/153);
+                          else
+                             segment = (strLength/153)+1;
+                      }
+                }
+                else
+                {
+                   if(nonGsmLength <= 70){
+                       segment = 1;
+                     }
+                     else{
+                        if(nonGsmLength%67 == 0)
+                            segment = (nonGsmLength/67);
+                        else
+                            segment = (nonGsmLength/67)+1;
+                        }       
+                }               
+              document.getElementById('{!$Component.pageID:formID:optextId}').style.color="black";
+              document.getElementById('{!$Component.pageID:formID:optextId}').innerHTML='You Have Entered '+currelm.value.length+' Characters.     '+'Segment :'+parseInt(segment,10)+'(Segment will depend on merge fields)';
+        } 
+        function jsfun2(currelm){
+             var isTrue = isGSMAlphabet(currelm.value);
+                //alert('====isTrue:'+ isTrue);
+                var segment = 1;
+                var nonGsmLength = currelm.value.length;
+                var strLength = currelm.value.length + count(currelm.value,'{')*2 + count(currelm.value,'}')*2 + count(currelm.value,'[')*2 + count(currelm.value,']')*2;
+                if(isTrue)
+                {
+                     if(strLength <= 160){
+                       segment = 1;
+                     }
+                     else{
+                          if(strLength % 153 == 0)
+                              segment = (strLength/153);
+                          else
+                             segment = (strLength/153)+1;
+                      }
+                }
+                else
+                {
+                   if(nonGsmLength <= 70){
+                       segment = 1;
+                     }
+                     else{
+                        if(nonGsmLength%67 == 0)
+                            segment = (nonGsmLength/67);
+                        else
+                            segment = (nonGsmLength/67)+1;
+                        }       
+                }       
+                
+              document.getElementById('{!$Component.pageID:formID:optextId2}').style.color="black";
+              document.getElementById('{!$Component.pageID:formID:optextId2}').innerHTML='You Have Entered '+currelm.value.length+' Characters.     '+'Segment :'+parseInt(segment,10)+'(Segment will depend on merge fields)';
+        } 
+        
+        function isGSMAlphabet(text) {
+            //alert(text);
+            var regexp = new RegExp("^[A-Za-z0-9 @!\"#$%&'`()*+,_\\-./:;<=>?^{}\\\\\\[~\\]|\\r\\n]*$");
+            //alert(regexp.test(text)) ;
+            return regexp.test(text);
+            
+        }
+        
+        function count(text , c) { 
+          var result = 0, i = 0;
+          for(i;i<text.length;i++)
+          {
+              if(text[i]==c)
+                result++;
+          }     
+          //alert('=====result:'+result);
+          return result;
+          
+        }
+
+    </script>  
+    
+       
+    <style>
+        .ui-dialog .ui-dialog-content {padding:0 !important;margin:0 !important}
+        .form-control-static {padding-top:0;}
+        .heading-icon {font-size: 24px !important; margin-right: 6px;}
+        
+        .ui-dialog .ui-dialog-content {padding:0 !important;margin:0 !important}
+        .form-control-static {padding-top:0;}
+        .heading-icon {font-size: 24px !important; margin-right: 6px;}
+        body {background-color: #fff;}
+        .c_card {margin: 0 auto; background-color: #fff; border-radius: 4px;} 
+        .c_card-heading { padding: 15px 20px; text-align: center; font-size: 20px; color: #677C9D; border-bottom: 1px solid #ccc;}
+        .c_card-body { padding: 15px 20px; color: #3F567A;}
+        .c_card-body label {font-weight: 300;}
+        .form-control {font-weight: 600; color: #3F567A;border-radius: 0;    border: 1px solid #ddd;}
+        .c_card-footer { padding: 15px 20px; background-color: #F4F6F9;}
+        .btn-blue { background-color: #006DD5; font-weight: 600; color: #fff; border: 1px solid #0066D4; margin-left: 15px;}
+        .btn-white {color: #006DD5; font-weight: 600; background-color: #fff; border: 1px solid #ccc;}
+        .btn-white:hover {color: #006DD5}
+        .btn-blue:hover {color: #fff}
+        .c_card-footer { padding: 15px 20px; background-color: #F4F6F9; position: fixed; left: 0; right: 0; bottom: 0;}
+        .form-group {margin-bottom:10px;}     
+        .c_card-body { padding: 15px 20px 50px;}
+        .form-control-static {padding-bottom:0;}
+        .c_card-heading { padding: 5px 20px;}
+        label {margin-bottom:2px;}
+         
+        .btn-blue[disabled] {
+            background-color: #989a9c;
+            border: 1px solid #adadad;
+        }
+        
+        
+        .Contact_highlight, .Div_LeadHighlight{
+            margin-bottom: 10px;
+            background: #aaa;
+            padding: 5px;
+            font-weight: bold;
+            color: #000;
+            border-radius: 4px;
+        }
+        .form .Date_time fieldset table tr td{
+            display: block;
+        }
+        .form .Date_time fieldset table tr td label{
+            vertical-align: top;
+        }
+        .form label.Multiname_mapping input[type='checkbox']{
+            vertical-align:top;
+        }
+        .form .Date_time select{
+            width: 100%;
+            height: 26px;
+            max-width: 174px;
+            margin-left: 10px;
+        }
+        
+        .popupBackground {
+            position: fixed;
+            top: 0;
+            right: 0;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            background-color: #fff;
+            opacity: 0.9;
+            overflow: hidden;
+            text-align: center;
+            z-index: 999999;
+        }
+        .PopupPanel {
+            margin: 0 auto;
+            max-width: 250px;
+        }
+    </style>
+
+    </head>
+    <body>
+    <apex:form id="formID">
+     <c:DoNotDisplayPage />
+    <div id="loader1" style="display:none">
+         <div  class="popupBackground">
+             <img class="PopupPanel" src="{!$Resource.Loading_Icon}" alt="Loading..."  />
+         </div>
+     </div>
+        
+     <script>  
+        function CloseAndRefresh(){
+            isError = '{!isError}';
+            if(isError == 'false'){
+               //var url = (window.location != window.parent.location)  ? document.referrer  : document.location;
+               //window.top.location.href = url;
+               window.top.location.href = "{!returnURL}";
+               window.opener.location.reload(true);
+            }
+            else{
+                window.scrollBy(0, -200);
+            }
+        }
+     </script>
+        
+        
+        
+        <div class="c_card">
+      <div class="c_card-heading">Create Message</div>
+      <div class="c_card-body">
+        <!-- Error message -->
+        <apex:outputPanel id="ErrorMessage"  style="color:red;">
+          <apex:pageMessages escape="false" />
+        </apex:outputPanel> 
+    <apex:outputPanel rendered="{!!isNotCampaignMember}">                       
+        <div class="form">
+        
+         <apex:outputPanel rendered="{!isMultipleSender}" >      
+                <div class="form-group">
+                    <label for="">Sender Number</label>
+                    <apex:selectList size="1" value="{!senderPhoneKey}" styleClass="form-control">
+                         <apex:selectOptions value="{!lstSender}"/>
+                    </apex:selectList>    
+                </div>
+            </apex:outputPanel>
+        
+            <!-- render send to option -->
+            <apex:pageBlock > 
+                <apex:outputPanel layout="block" rendered="{!isContactsVisible}"> 
+                   <div style=" overflow:hidden;" id="checkInList" class="form-group">
+                     <div class="Contact_highlight">
+                         <label>Contacts({!contactSize})</label>
+                     </div>
+                    <!-- <div id="tableContainer" style="height: 95px; border: 1px solid #ccc; padding:6px 15px; border-radius: 6px; overflow: auto;"> 
+                        <apex:pageBlockTable value="{!lstContactWrapper}" var="tabVar">     
+                            <apex:column >
+                                 <apex:outputtext value="{!tabVar['name']}" />
+                            </apex:column>
+                        </apex:pageBlockTable> 
+                     </div>-->
+                   </div>
+                </apex:outputpanel> 
+            </apex:pageBlock> 
+            
+            <!-- render send to option -->
+            <apex:outputPanel rendered="{!isMultipleContactPhoneApi}" >      
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <label for="">Send To</label>
+                        </div>
+                        <div class="col-xs-6">
+                            <apex:selectList size="1" value="{!contactSelectedPhoneApi}" styleClass="form-control">
+                              <apex:selectOptions value="{!lstContactSendTo}"/>
+                            </apex:selectList>    
+                        </div>
+                    </div>
+                </div>
+            </apex:outputPanel>
+             <apex:outputPanel rendered="{!IF(AND(isShowFolder,contactSize > 0),true,false)}">
+                <label class="Multiname_mapping" style="font-size:14px;">
+                     <apex:inputCheckbox value="{!isContactFolder}" onclick="allowContactFolder('{!$Component.folderContactCheckboxId}')" id="folderContactCheckboxId" />
+                     Folder
+                 </label>
+           </apex:outputPanel>   
+            
+              <div class="form-group">
+            	<apex:outputPanel rendered="{!isContactFolder}">
+	                <div class="row">
+	                    <div class="col-xs-6">
+	                        <label for="">Choose Folder</label>
+	                    </div>
+	                    <div class="col-xs-6">
+	                        <apex:selectList value="{!contactfolderName}" size="1" styleClass="form-control" onChange="jsContactFunFolder(this);" id="selectContactFunFolderId">
+	                           <apex:selectOptions value="{!Folder}"/>
+	                        </apex:selectList>
+	                              
+	                    </div>
+                	</div>
+                </apex:outputPanel> 	
+            </div>
+            
+            <div class="form-group">
+                <div class="row">
+                 <apex:outputPanel rendered="{!IF(AND(isContactDefault,contactSize > 0),true,false)}"> 
+                    <div class="col-xs-6">
+                        <label for="">Choose Template</label>
+                    </div>
+                    <div class="col-xs-6">
+                   
+                        <apex:selectList value="{!contactSelectedTemplate}" size="1" styleClass="form-control" onChange="jsFun1();" id="selectContactTemplateSelectList">
+                           <apex:selectOptions value="{!allContactTemplates}"/>
+                        </apex:selectList>
+                        <script>
+                        function jsFun1(){
+                            var elem=document.getElementById('{!$Component.pageID:formID:selectContactTemplateSelectList}');
+                            actionFun2();
+                        }
+                      </script>  
+                          
+                    </div>
+                </apex:outputPanel>         
+                </div>
+            </div>
+            
+             <div class="form-group">
+                <div class="row">
+                 <apex:outputPanel rendered="{!isContactFolder}"> 
+                    <div class="col-xs-6">
+                        <label for="">Choose SMS Template</label>
+                    </div>
+                    <div class="col-xs-6">
+                   
+                        <apex:selectList value="{!contactSelectedTemplate}" size="1" styleClass="form-control" onChange="jsFun1();" id="selectListContactTemplateId">
+                           <apex:selectOptions value="{!contactTemplateOptions}"/>
+                        </apex:selectList>
+                        <script>
+                        function jsFun1(){
+                            var elem=document.getElementById('{!$Component.pageID:formID:selectListContactTemplateId}');
+                            actionFun2();
+                        }
+                      </script>  
+                          
+                    </div>
+                </apex:outputPanel>         
+                </div>
+            </div>
+   
+   
+           <apex:outputPanel id="pgId"  rendered="{!isContactsVisible}">
+            <div class="form-group">
+              <label for="">Message</label>
+              <apex:inputTextarea value="{!contactMessageText}" id="contactTemplateText"  onkeyup="jsfun1(this);" html-maxlength="1000" styleClass="form-control abc" disabled="{!OR(!isConTempTextEditable,!isTextAreaEditable)}"/>
+              <apex:outputText value="You Can Enter Up To 1000 Characters" id="optextId" rendered="true" styleClass="help-block" ></apex:outputText>
+            </div>
+            </apex:outputPanel>
+            
+            <apex:pageBlock > 
+                <apex:outputPanel layout="block" rendered="{!isLeadsVisible}"> 
+                   <div style="overflow:hidden;" id="checkInList" class="form-group">
+                       <div class="Div_LeadHighlight">
+                         <label>Leads({!leadSize})</label>
+                       </div>
+                    <!--   <div id="tableContainer" style="height: 95px; border: 1px solid #ccc; padding:0 15px; border-radius: 6px; overflow: auto;"> 
+                        <apex:pageBlockTable value="{!lstLeadWrapper}" var="tabVar">     
+                            <apex:column >
+                                 <apex:outputtext value="{!tabVar['name']}" />
+                            </apex:column>
+                        </apex:pageBlockTable> 
+                     </div>-->
+                   </div>
+                </apex:outputpanel> 
+            </apex:pageBlock>
+                
+            <apex:outputPanel rendered="{!isMultipleLeadPhoneApi}" >      
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <label for="">Send To</label>
+                        </div>
+                        <div class="col-xs-6">
+                            <apex:selectList size="1" value="{!leadSelectedPhoneApi}" styleClass="form-control">
+                              <apex:selectOptions value="{!lstLeadSendTo}"/>
+                            </apex:selectList>    
+                        </div>
+                    </div>
+                </div>
+            </apex:outputPanel>
+                        
+          <apex:outputPanel rendered="{!IF(AND(isShowFolder,leadSize > 0),true,false)}">
+                <label class="Multiname_mapping" style="font-size:14px;">
+                     <apex:inputCheckbox value="{!isLeadFolder}" onclick="allowLeadFolder('{!$Component.folderLeadCheckboxId}')" id="folderLeadCheckboxId" />
+                     Folder
+                 </label>
+           </apex:outputPanel>   
+            
+             <div class="form-group">
+            	<apex:outputPanel rendered="{!isLeadFolder}">
+	                <div class="row">
+	                    <div class="col-xs-6">
+	                        <label for="">Choose Folder</label>
+	                    </div>
+	                    <div class="col-xs-6">
+	                        <apex:selectList value="{!leadfolderName}" size="1" styleClass="form-control" onChange="jsLeadFunFolder(this);" id="selectFolderId">
+	                           <apex:selectOptions value="{!Folder}"/>
+	                        </apex:selectList>
+	                              
+	                    </div>
+                	</div>
+                </apex:outputPanel> 	
+            </div>
+                        
+            <div class="form-group">
+                <div class="row">
+                 <apex:outputPanel rendered="{!IF(AND(isLeadDefault,leadSize > 0),true,false)}"> 
+                    <div class="col-xs-6">
+                        <label for="">Choose Template</label>
+                    </div>
+                    <div class="col-xs-6">
+                        <apex:selectList value="{!leadSelectedTemplate}" size="1" styleClass="form-control" onChange="jsFun2();" id="selectLeadTemplateSelectList">
+                           <apex:selectOptions value="{!allLeadTemplates}"/>
+                        </apex:selectList>
+                        <script>
+                        function jsFun2(){
+                            var elem=document.getElementById('{!$Component.pageID:formID:selectLeadTemplateSelectList}');
+                            actionFun1();
+                        }
+                      </script>          
+                    </div>
+                   </apex:outputPanel> 
+                </div>
+            </div>
+            
+             <div class="form-group">
+                <div class="row">
+                 <apex:outputPanel rendered="{!isLeadFolder}"> 
+                    <div class="col-xs-6">
+                        <label for="">Choose SMS Template</label>
+                    </div>
+                    <div class="col-xs-6">
+                        <apex:selectList value="{!leadSelectedTemplate}" size="1" styleClass="form-control" onChange="jsFun2();" id="selectListLeadTemplateId">
+                           <apex:selectOptions value="{!leadTemplateOptions}"/>
+                        </apex:selectList>
+                        <script>
+                        function jsFun2(){
+                            var elem=document.getElementById('{!$Component.pageID:formID:selectListLeadTemplateId}');
+                            actionFun1();
+                        }
+                      </script>          
+                    </div>
+                   </apex:outputPanel> 
+                </div>
+            </div>
+            
+            <apex:outputPanel id="leadTemplateTextpgId" rendered="{!isLeadsVisible}">
+            <div class="form-group">
+              <label for="">Message</label>
+              <apex:inputTextarea value="{!leadMessageText}" id="leadTemplateText"  onkeyup="jsfun2(this);" html-maxlength="1000" styleClass="form-control" disabled="{!OR(!isLeadTempTextEditable,!isTextAreaEditable)}"/>
+              <apex:outputText value="You Can Enter Up To 1000 Characters" id="optextId2" rendered="true" styleClass="help-block" ></apex:outputText>
+            </div>
+            </apex:outputPanel>
+            
+            <apex:outputPanel rendered="{!IF(AND(isSchedulable,isSchedulingMessage),true,false)}">
+                    
+               <label class="Multiname_mapping" style="font-size:14px">
+                     <apex:inputCheckbox value="{!isChecked}" onclick="allowScheduling('{!$Component.CheckboxId}')" id="CheckboxId"  />
+                     Schedule 
+                 </label>
+                 
+            </apex:outputPanel>
+             
+             <apex:outputPanel id="scheduleSection">
+                <apex:outputPanel rendered="{!isChecked}" styleClass="Date_time">
+                <apex:selectRadio value="{!radioSelectedValue}" onchange="radioFun(this)">
+                        <apex:selectOptions value="{!items}"/>
+                    </apex:selectRadio><p/> 
+                    <p class="">
+                      <apex:inputText value="{!scheduledDateTime}" styleClass="datepicker" html-placeholder="Start Date" html-data-input="" />
+                      <a class="input-button" onclick="$('.datepicker').val('')"><i class="fa fa-close"></i></a>
+                    </p>
+                 <!-- <apex:inputText value="{!scheduledDate}" styleClass="datepicker" html-placeholder="Start Date"/>          
+                    <apex:SelectList value="{!scheduledTime}" size="1"  >
+                         <apex:selectOptions value="{!FirstReminder}"/>    
+                    </apex:SelectList> <p/>
+                    <apex:outputPanel rendered="{!IF(OR(isEveryDay == true,isEveryMonth == true),true,false)}">                   
+                         <apex:inputText value="{!endDate}" styleClass="datepicker" html-placeholder="End Date" /> 
+                    </apex:outputPanel> 
+                   <script>
+                        setTimeout(function(){
+                             $(".datepicker").datepicker({ dateFormat: "yy-mm-dd" }).val();
+                             $('#loader1').hide();
+                        },300)                       
+                    </script>
+                  -->  
+                  <p>
+                    <apex:outputPanel rendered="{!IF(OR(isEveryDay == true,isEveryMonth == true),true,false)}">                   
+                         <apex:inputText value="{!endDate}" styleClass="datepicker2" html-placeholder="End Date" /> 
+                         <a class="input-button" onclick="$('.datepicker2').val('')"><i class="fa fa-close"></i></a>
+                    </apex:outputPanel>
+                    </p>
+                    <script>
+                        setTimeout(function(){
+                          // $(".datepicker").datepicker({ dateFormat: "yy-mm-dd" }).val();
+                          flatpickr(".datepicker", {
+                            enableTime: true,
+                            minuteIncrement : 1
+                          });
+                          flatpickr(".datepicker2", {
+                            enableTime: false
+                          });
+                          $('#loader1').hide();
+                        },300) 
+                                              
+                    </script>
+                </apex:outputPanel> 
+            </apex:outputPanel> 
+            
+           <br/>
+          
+            
+        </div><br /><br />
+        </apex:outputPanel> 
+      </div>
+      <div class="c_card-footer text-right">
+          <apex:outputPanel rendered="{!!isNotCampaignMember}">
+                <apex:outputPanel rendered="{!isChecked}"> 
+                    <apex:commandButton action="{!Schedule}" value="Schedule" styleClass="btn btn-blue" style="margin-left:20px;" rerender="formID" onComplete="CloseAndRefresh();" onclick="disableButton(this)"/> 
+                </apex:outputPanel>
+                <apex:commandButton action="{!cancel}" styleClass="btn btn-white" style="margin-left:20px;" onComplete="CloseAndRefresh();" rerender="formID" value="Cancel"/>
+                <apex:outputPanel rendered="{!!isChecked}"> 
+                    <apex:commandButton action="{!sendMessage}" styleClass="btn btn-blue" onComplete="CloseAndRefresh();" rerender="formID" onclick="disableButton(this)" value="Send" />
+                </apex:outputPanel>
+          </apex:outputPanel>  
+        </div>
+    </div>  
+
+    
+<apex:actionFunction name="actionFun2" action="{!getContactTemplate}" reRender="pgId" oncomplete="jsfun1(document.getElementById('{!$Component.contactTemplateText}'));"/>
+
+<apex:actionFunction name="actionFun1" action="{!getLeadTemplate}" reRender="leadTemplateTextpgId" oncomplete="jsfun2(document.getElementById('{!$Component.leadTemplateText}'));"/>
+
+<apex:actionFunction name="showSchedule"  reRender="formID" >
+    <apex:param name="allowSchedule" value="" assignTo="{!isChecked}"/>
+</apex:actionFunction>
+
+<apex:actionFunction name="radioButtonValue" action="{!scheduleType}"  reRender="formID" ><!-- action="{!scheduleType}SecheduleSection" -->
+    <apex:param name="radioButton" value="" assignTo="{!radiSelectedValue}"/>
+</apex:actionFunction>
+
+<apex:actionFunction name="contactfolderValue" action="{!getContactFolderName}"  reRender="formID" >
+    <apex:param name="folder" value="" assignTo="{!contactfolderName}"/>
+</apex:actionFunction>
+
+<apex:actionFunction name="leadfolderValue" action="{!getLeadFolderName}"  reRender="formID" >
+    <apex:param name="folder" value="" assignTo="{!leadfolderName}"/>
+</apex:actionFunction>
+
+<apex:actionFunction name="showContactFolder"  reRender="formID"  action="{!manageContactFolder}">
+	    <apex:param name="varContactAllow" value="" assignTo="{!isContactFolder}"/>
+	</apex:actionFunction>	
+
+<apex:actionFunction name="showLeadFolder"  reRender="formID"  action="{!manageLeadFolder}">
+	    <apex:param name="varLeadAllow" value="" assignTo="{!isLeadFolder}"/>
+	</apex:actionFunction>
+
+</apex:form>
+<script>
+  function disableButton(buttonObj){
+      buttonObj.disabled=true;
+   }
+   
+    function allowScheduling(checkBoxId)
+    {
+        $('#loader1').show();   
+        if(document.getElementById(checkBoxId).checked)
+        {
+       
+          showSchedule(true);  
+        } 
+        else
+        {    
+           showSchedule(false);  
+        }
+    }
+    
+    function radioFun(e) {
+        $('#loader1').show();
+        //console.log('this is radio button');
+        //console.log(e.value);
+        radioButtonValue(e.value);
+    }
+    
+    function jsContactFunFolder(e)
+    {
+    	//alert(e.value);
+    	contactfolderValue(e.value);
+    }
+    
+    function jsLeadFunFolder(e)
+    {
+    	//alert(e.value);
+    	leadfolderValue(e.value);
+    }
+    
+    function allowContactFolder(checkBoxId)
+	{
+         $('#loader1').show();
+         //alert(document.getElementById(checkBoxId).checked);
+        if(document.getElementById(checkBoxId).checked)
+        {
+          showContactFolder(true);  
+        } 
+        else
+        {    
+           showContactFolder(false);  
+        }
+	 }   
+	  
+	 function allowLeadFolder(checkBoxId)
+	 { 
+         $('#loader1').show();
+        if(document.getElementById(checkBoxId).checked)
+        {
+          showLeadFolder(true);  
+        } 
+        else
+        {    
+           showLeadFolder(false);  
+        }
+	 }  
+    
+</script>
+</body>
+</apex:page>

@@ -1,0 +1,10 @@
+<aura:component description="cmpHeader">
+    <aura:attribute name="daDaDocsUrl" type="String" required="true"/>
+
+    <header class="dadadocs-header">
+        <a href="{!v.daDaDocsUrl}" onclick="{!c.openFullEditor}" class="{!v.daDaDocsUrl ? 'dadadocs-header__title enabled' : 'dadadocs-header__title'}">
+            <img class="dadadocs-header__image" src="{!$Resource.pdffiller_sf__v2 + '/logo.png'}" alt="DaDaDocs Logo" />
+            <span class="dadadocs-header__title-text">DaDaDocs</span>
+        </a>
+    </header>
+</aura:component>

@@ -1,0 +1,44 @@
+.THIS {
+  pointer-events: none;
+}
+
+.THIS * {
+  pointer-events: auto;
+}
+
+.THIS .icon {
+  margin-right: 5px;
+}
+
+.THIS .icon svg {
+  fill: white;
+}
+
+.THIS .slds-notify {
+  opacity: 0.95;
+  font-weight: inherit;
+}
+
+.THIS .slds-notify-info {
+  background-color: rgb(0, 112, 210);
+}
+
+.THIS .slds-notify-error {
+  background-color: rgb(194, 57, 52);
+}
+
+.THIS .slds-notify-warning {
+  background-color: rgb(255, 166, 55);
+}
+
+.THIS .slds-notify-warning {
+  color: #16325c;
+}
+
+.THIS .slds-notify-warning svg {
+  fill: #16325c;
+}
+
+.THIS .slds-notify-success {
+  background-color: rgb(4, 132, 75);
+}

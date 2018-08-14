@@ -1,0 +1,64 @@
+<aura:component controller="qburst_widgets.QPicks_WeatherController" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,forceCommunity:availableForAllPageTypes,force:hasRecordId,force:hasSObjectName" access="global">    
+    <aura:dependency resource="markup://force:editRecord" type="EVENT" />
+
+    <aura:attribute name="sObjectName" type="String" /> 
+    <aura:attribute name="recordId" type="Id" />
+
+    <aura:attribute name="searchText" type="String" />
+    <aura:attribute name="location" type="String" />
+    <aura:attribute name="image" type="String" />
+    <aura:attribute name="temperature" type="String" />
+    <aura:attribute name="units" type="String" />
+    <aura:attribute name="condition" type="String" />
+
+    <aura:handler event="force:refreshView" action="{!c.refreshWeatherData}" />
+
+    <aura:handler name="init" value="{!this}" action="{!c.fetchWeatherData}"/>
+    
+    <div class="slds-box mainContainer" aura:id="main">
+        
+        <div class="slds-grid slds-wrap itemTitle">
+            <div class="slds-size--1-of-1">
+                <header>            
+                    <h2 class="slds-text-heading--small slds-m-bottom--small">Quick Picks Weather</h2>            
+                </header>            
+            </div>
+        </div>
+        
+        <div class="slds-size--1-of-1 slds-grid slds-wrap slds-p-top--small">
+            <div class="slds-form-element slds-size--1-of-1">
+                    <label class="slds-form-element__label slds-assistive-text" for="searchBox">Search</label>
+                    <div class="slds-form-element__control">
+                        <ui:inputText aura:id="searchTerm" label="" value="{!v.searchText}" change="{!c.fetchWeatherData}" class="field" placeholder="Search for..." />                    
+                    </div>
+            </div>
+            <div class="{! v.image == null ? 'noImage' : 'slds-p-top--small slds-size--1-of-2 slds-max-small-size--1-of-1 slds-text-align--center weatherImage' }">
+                <aura:if isTrue="{!v.image != null}">
+                    <img src="{!v.image}" /> <br/>
+                </aura:if>
+            </div>
+            <div class="slds-size--1-of-2 slds-max-small-size--1-of-1 slds-p-top--medium slds-text-align--center weatherDetails">                
+                <div class="slds-p-top--small temperature">
+                	<ui:outputText value="{!v.temperature}"/> 
+                    <aura:if isTrue="{!v.temperature != null}">
+                        <ui:outputText value="&deg;"/> 
+                        <ui:outputText value="{!v.units}"/> 
+                    </aura:if>				
+                </div>     
+                <div class="{! v.temperature == null ? 'noImage' : 'condition' }">
+                    <ui:outputText value="{!v.condition}"/>     
+                </div>               
+                <div class="slds-p-top--medium location">
+                    <ui:outputText value="{!v.location}"/>     
+                </div>            
+            </div>
+        </div>
+
+        <div class="slds-spinner_container" aura:id="spinner">
+          <div class="slds-spinner--brand slds-spinner slds-spinner--medium" aria-hidden="false" role="alert">
+            <div class="slds-spinner__dot-a"></div>
+            <div class="slds-spinner__dot-b"></div>
+          </div>
+        </div>
+    </div>
+</aura:component>

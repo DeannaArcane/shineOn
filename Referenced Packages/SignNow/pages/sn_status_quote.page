@@ -1,0 +1,6 @@
+<!--<apex:page standardController="Quote">
+    <apex:include pageName="sn_doc_status_v2"/>
+</apex:page>-->
+
+<apex:page standardController="Contact">
+</apex:page>

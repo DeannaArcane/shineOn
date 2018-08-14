@@ -1,0 +1,42 @@
+<apex:page doctype="html-5.0" standardController="tdc_tsw__Scheduled_Sms__c"  tabStyle="tdc_tsw__Scheduled_Sms__c" id="pageId" sidebar="false">
+    <style>
+        .page_wrapper{
+           
+            padding: 30px;
+            font-size: initial;
+            max-width: auto;
+            border: 1px solid #1797c0;
+            border-radius: 5px;
+            box-shadow: 0px 4px 14px 3px #aaa;
+            margin: 5px auto;
+            color: #a94442;
+            background-color: #f2dede;
+            border-color: #ebccd1;
+        }
+        .page_wrapper ul li, ol li {
+            margin-left: -1.5em;
+            padding-left: 0;
+        }
+        .page-list{
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        .page_wrapper p{
+            font-size: 14px;
+        }
+    </style>
+  <div class="page_wrapper">
+       <c:DoNotDisplayPage />
+      <h1 style="font-size: 18px;">To schedule a Text Message, Please follow the following steps:-</h1>
+      <ol class="page-list">
+      <li>Go to detail page of any Record.</li>
+      <li>Click on Send SMS button.</li>
+      <li>Type your message and click on 'Schedule' checkbox.</li>
+      <li>Now, schedule your message.</li>
+      </ol>
+      <p>
+           <Strong>Note :</Strong> If Schedule checkbox is not available , then go to 'SMS Setup' tab and check the     
+            'Enable Scheduler' Checkbox for the particular object.
+      </p>
+  </div>
+</apex:page>

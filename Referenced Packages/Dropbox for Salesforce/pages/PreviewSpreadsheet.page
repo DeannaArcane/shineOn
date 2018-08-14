@@ -1,0 +1,27 @@
+<apex:page showHeader="false" sidebar="false" standardStylesheets="false" applyBodyTag="false" applyHtmlTag="false" controller="Dropbox_for_SF.PreviewSpreadsheetController">
+
+	<html>
+
+        <head>
+            <link href="//fonts.googleapis.com/css?family=Open+Sans:400,600" rel="stylesheet" type="text/css"/>
+            <apex:includeScript value="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js" />
+            <apex:stylesheet value="{!URLFOR($Resource.Dropbox_for_SF__mobileassets, 'mobileassets/css/normalize.css')}"/>
+            <apex:stylesheet value="{!URLFOR($Resource.Dropbox_for_SF__style, 'css/fi-sprite.css')}" />
+            <apex:stylesheet value="{!URLFOR($Resource.Dropbox_for_SF__style, 'css/fi-core.css')}" />
+
+        </head>
+        <body>
+		    <div class="fi-modal-preview">
+	            <div class="fi-share-title">
+	              <h2>{!title}</h2>
+	            </div>  
+
+		        <div class="fi-modal-content">
+				    <apex:outputText escape="false" value="{!body}"/>
+		        </div>
+		    </div>        
+        </body>
+    </html>
+
+    
+</apex:page>

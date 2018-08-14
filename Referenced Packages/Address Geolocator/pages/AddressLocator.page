@@ -1,0 +1,624 @@
+<apex:page controller="bhaddrloc.clsAddressLocator"  >
+<style>
+    .black_overlay{
+      display: none;
+      position: absolute;
+      top: 0%;
+      left: 0%;
+      width: 100%;
+      height: 100%;
+      background-color: black;
+      z-index:1001;
+      -moz-opacity: 0.6;
+      opacity:.60;
+      filter: alpha(opacity=60);
+    }
+    .white_content {
+      display: none;
+      position: absolute;
+      top: 20%;
+      left: 25%;
+      width: auto;
+      height: 400px;
+      padding: 16px;
+      border: 2px solid #2e76bf;
+      background-color: white;
+      z-index:1002;
+      overflow: auto;
+      position:fixed;
+    }
+    
+    .white_content1 {
+      display: none;
+      position: absolute;
+      left: 45%;
+      width: 150px;
+      height: 50px;
+      padding: 10px;
+      color : white ;
+      font-size:15px;
+      background-color: 2px solid #2e76bf;
+      z-index:1002;
+      overflow: auto;
+      position:fixed;
+      top:50%
+    }
+    
+    
+    .img {
+        margin-left:5px;
+        margin-right:5px;
+        }
+        
+        #footer {
+        font-size: 11px;
+        padding-top: 5px;
+        margin-top: 10px;
+        color: #666666;
+        text-align:right;
+        }
+
+  </style>
+      <script type="text/javascript" src="{!strGoogleMapURL}"></script> 
+      <script type = "text/javascript">
+      
+        
+        var geocoder;
+        var map;
+        var long ;
+        var latlngbounds;
+        var cleanmarker = [];
+        var markers = [] ;
+        var marker ;       
+        var dupli = [];
+        
+        var kk ;
+
+        function clearOverlays() 
+        {
+              for (var i = 0; i < cleanmarker.length; i++ )
+               {
+                    cleanmarker[i].setMap(null);
+                    
+                    
+               }
+               
+               markers = [] ; 
+        } 
+
+        function initialize()
+        {
+          
+          geocoder = new google.maps.Geocoder();
+          var latlng = new google.maps.LatLng(0, 0);
+          var mapOptions = {
+            zoom: 8,
+            center: latlng,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+          }
+          map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
+          latlngbounds = new google.maps.LatLngBounds();
+        }
+
+
+        function handleAddress(address, id, lat, lng, setSeqNo, name )
+        {
+             if(address == null )
+             { 
+               initialize();
+             }
+             codeAddress(address, id, lat, lng, setSeqNo, name);
+        }
+
+        function codeAddress(address, id, lat, lng, setSeqNo, name) 
+        {
+            var IDExist = false;
+               
+                 for (var i = 0; i < markers.length; i++) 
+                 {              
+                    if (markers[i]==id)
+                    {
+                        IDExist=true;
+                    }
+                 }  
+            
+             
+            if(IDExist==true)
+            {
+                alert("Address is already marked on the Google Map. \nUse \"Clean Map\" to clean the markers and try again.");
+            }            
+            else            
+            {
+                 geocoder.geocode( { 'address': address}, function(results, status) {
+              if (status == google.maps.GeocoderStatus.OK) 
+                 {
+                  marker = new google.maps.Marker
+                  ({
+                      map: map,
+                      draggable:true,
+                      position: results[0].geometry.location,
+                      title: name,
+              
+                  });          
+                       
+                                           
+                        markers.push(id);              
+                        cleanmarker.push(marker);
+                  
+                  google.maps.event.addListener(marker, 'dragend', function(event){
+                    //alert('drag ended ' + event.latLng + ' ' + name);
+                    var x = '{!$Component.Long1.pbStep3.pbStep3table}:'+setSeqNo+':aa';
+                    var y = '{!$Component.Long1.pbStep3.pbStep3table}:'+setSeqNo+':bb';
+                    document.getElementById(x).value = event.latLng.lat();
+                    document.getElementById(y).value = event.latLng.lng();
+                    document.getElementById(id+'_laterr').innerHTML= 'Error: ' + (event.latLng.lat() - lat);
+                    document.getElementById(id+'_lngerr').innerHTML= 'Error: ' + (event.latLng.lng() - lng);
+                  });
+    
+                  var x = '{!$Component.Long1.pbStep3.pbStep3table}:'+setSeqNo+':aa';
+                  var y = '{!$Component.Long1.pbStep3.pbStep3table}:'+setSeqNo+':bb';
+                  document.getElementById(x).value = results[0].geometry.location.lat();
+                  document.getElementById(y).value = results[0].geometry.location.lng();
+                  //document.getElementById(id+'_laterr').innerHTML= 'Error: ' + (results[0].geometry.location.lat() - lat);
+                  //document.getElementById(id+'_lngerr').innerHTML= 'Error: ' + (results[0].geometry.location.lng() - lng);
+                  
+                  console.log('setting marker');
+                  //map.setCenter(results[0].geometry.location);
+                  latlngbounds.extend(results[0].geometry.location);
+                  map.setCenter(latlngbounds.getCenter());
+                  map.fitBounds(latlngbounds);
+                } else {
+                  alert("Geocode was not successful for the following reason: " + status);
+                }
+              });
+            }
+        }
+        
+                
+
+        function bulk_codeAddress() {
+          /*var pagesz = 0;
+          markers = [] ;
+          initialize();
+          var objpageSize = document.getElementById('{!$Component.Long1.pbStep3.pagesize}');
+          //if(objpageSize != null)
+              pagesz = '{!Paging1}' * 1;
+          console.log('pagesize = ' + pagesz);
+          for(var xx = 0; xx < pagesz; xx++){
+           // console.log('{!$Component.Long1.pbStep3.pbStep3table}:'+xx+':chk');
+           // console.log('checked or not ' + document.getElementById('{!$Component.Long1.pbStep3.pbStep3table}:'+xx+':chk').checked);
+            if(document.getElementById('{!$Component.Long1.pbStep3.pbStep3table}:'+xx+':chk').checked)
+            {
+              //get address
+              var addr = document.getElementById('{!$Component.Long1.pbStep3.pbStep3table}:'+xx+':address').innerHTML;
+              //alert(addr);
+              // console.log ('getting address ' + addr);
+              //get id
+              var id = document.getElementById('thisid').value;
+              //console.log ('getting id ' + id);
+              //get latitude
+              var latt = document.getElementById('{!$Component.Long1.pbStep3.pbStep3table}:'+xx+':latitude').innerHTML;
+              //console.log ('getting latitude ' + latt);
+              //get longitude
+              var longt = document.getElementById('{!$Component.Long1.pbStep3.pbStep3table}:'+xx+':longitude').innerHTML;
+              //alert(latt + ' ' + longt + xx );
+              //get name
+              var name = document.getElementById('{!$Component.Long1.pbStep3.pbStep3table}:'+xx+':name').innerHTML;
+              //console.log ('getting longt ' + longt);
+              
+              codeAddress(addr, id, latt, longt, xx, name );
+              
+            }
+          }*/
+        }
+        
+        
+        function LatiLongiLoacator()
+        {
+        
+          var pagesz = 0;
+          initialize();
+          var objpageSize = document.getElementById('{!$Component.Long1.pbStep3.pagesize}');
+          pagesz = '{!Paging1}' * 1;
+          
+          for(var xx = 0; xx < pagesz; xx++)
+          {
+              if(document.getElementById('{!$Component.Long1.pbStep3.pbStep3table}:'+xx+':chk').checked)
+               {
+                   var id = document.getElementById('thisid').value;
+                 
+                  //get latitude
+                  var latt = document.getElementById('{!$Component.Long1.pbStep3.pbStep3table}:'+xx+':latitude').innerHTML;
+                 
+                  //get longitude
+                  var longt = document.getElementById('{!$Component.Long1.pbStep3.pbStep3table}:'+xx+':longitude').innerHTML;
+                  
+                  //get name
+                   var name = document.getElementById('{!$Component.Long1.pbStep3.pbStep3table}:'+xx+':name').innerHTML;
+                  
+                       modeAddress(id, latt, longt, xx , name);
+                  
+              
+               }
+            }  
+        }
+        
+        function modeAddress(id, latt, lng, setSeqNo , name) 
+        {
+             var j ;
+             var i;
+             var usa = [] ;
+             var marker ;
+             
+             if( latt != '' &&  lng != '')
+             {
+                 j = new google.maps.LatLng(latt , lng);
+                 usa.push(j);
+                  
+             }  
+           
+             
+             for( i = 0 ; i < usa.length ; i++)
+             {
+                   marker = new google.maps.Marker
+                  ({
+                      map: map,
+                      draggable:true,
+                      position: usa[i] ,
+                      title: name
+                           
+                  });
+                  
+                  
+              google.maps.event.addListener(marker, 'dragend', function(event){
+                //alert('drag ended ' + event.latLng + ' ' + name);
+                var x = '{!$Component.Long1.pbStep3.pbStep3table}:'+setSeqNo+':aa';
+                var y = '{!$Component.Long1.pbStep3.pbStep3table}:'+setSeqNo+':bb';
+                document.getElementById(x).value = event.latLng.lat();
+                document.getElementById(y).value = event.latLng.lng();
+               
+              });
+                   latlngbounds.extend(usa[i]);
+                   map.setCenter(latlngbounds.getCenter());
+                   map.fitBounds(latlngbounds); 
+              
+                   cleanmarker.push(marker);
+              } 
+        }
+        
+        
+        function showtab()
+        {
+            if(document.getElementById("myButton").value == "Show Filter")
+            {
+                document.getElementById('showhide').style.visibility="visible";
+                document.getElementById("myButton").value="Hide Filter";
+                document.getElementById('show').style.visibility="hidden";
+            }
+            else
+            {
+                document.getElementById('showhide').style.visibility="hidden";
+                document.getElementById("myButton").value="Show Filter";
+                document.getElementById('show').style.visibility="visible";
+            }
+            
+          
+            
+        }
+
+        
+        function AlertDone()
+        {
+            alert("Done");
+        
+        }
+
+        function updateLatLng(thisid, latid, lngid)
+        { 
+            var latval = ''; var lngval = '';
+            if(document.getElementById(latid))
+               latval = document.getElementById(latid).innerHTML;
+
+            if(document.getElementById(lngid))
+               lngval = document.getElementById(lngid).innerHTML;
+
+
+           // alert(latval + ' ' + lngval);
+            callagain(thisid, latval, lngval);//mapped to AJAX call 
+        }
+      google.maps.event.addDomListener(window, 'load', initialize); 
+          
+      </script>
+      
+        
+     <apex:form id="Long1" >
+     
+     <apex:outputPanel id="ERR" >
+        
+        <apex:pageMessages />
+      </apex:outputPanel>     
+      
+         <!-- <div id="progressBarId" style="position:fixed;top:1em; right:1em; z-index:1000"> -->
+            <apex:actionStatus id="Process" style="align:center;" onstart="document.getElementById('light1').style.display='block';document.getElementById('fade').style.display='block'" onstop="document.getElementById('light1').style.display='none';document.getElementById('fade').style.display='none'"   >
+               
+              <!--  <apex:facet name="start" >
+                  <apex:image url="{!$Resource.progress}"  />                        
+                </apex:facet> -->
+            </apex:actionStatus>     
+        <!-- </div>  -->
+     <apex:sectionHeader title="Address Geolocator" />
+     <apex:pageBlock title="Step1. Select Object/Entity" id="pbStep1" >
+         <apex:selectList value="{!Myobject1}" size="1" id="objectListId">
+             <apex:selectOptions value="{!items}"/>
+             <apex:actionSupport event="onchange" action="{!changeSObject}" reRender="tab3, tab" status="Process" />     
+         </apex:selectList>
+     </apex:pageBlock>
+     <apex:pageBlock title="Step 2. Select Field mapping">
+      
+          <apex:outputPanel id="tab3">
+          
+          
+
+          <apex:pageBlockTable value="{!emptyList}" var="a">
+          
+          <apex:column headerValue="Name/#">
+            <apex:selectList value="{!Identifier}" size="1" title="Object"  label="Identifier" id="lstIdentifier">
+               <apex:selectOptions value="{!Name}"></apex:selectOptions>  
+            </apex:selectList><br/>
+          </apex:column>
+           
+          <apex:column headerValue="Street">
+            <apex:selectList value="{!Street}" size="1" title="Object"  label="Street" id="lstStreet">
+                <apex:selectOptions value="{!Name}"></apex:selectOptions>
+            </apex:selectList><br/>
+          </apex:column>
+  
+        <apex:column headerValue="City">
+          <apex:selectList value="{!City}" size="1" title="Object"  label="City" id="lstCity">
+              <apex:selectOptions value="{!Name}"></apex:selectOptions>
+          </apex:selectList><br/>
+        </apex:column>
+
+        <apex:column headerValue="State">
+          <apex:selectList value="{!State}" size="1" title="Object"  label="State" id="lstState">
+              <apex:selectOptions value="{!Name}"></apex:selectOptions>
+          </apex:selectList><br/>
+        </apex:column>
+        
+        <apex:column headerValue="PostalCode">
+          <apex:selectList value="{!PostalCode}" size="1" title="Object"  label="Postal Code" id="lstPostalCode">
+              <apex:selectOptions value="{!Name}"></apex:selectOptions>
+          </apex:selectList><br/>
+        </apex:column>
+
+        <apex:column headerValue="Country">
+          <apex:selectList value="{!Country}" size="1" title="Object"  label="Country" id="lstCountry">
+              <apex:selectOptions value="{!Name}"></apex:selectOptions>
+          </apex:selectList><br/>
+        </apex:column>
+          
+        <apex:column headerValue="Latitude">
+          <apex:selectList value="{!Latitude}" size="1" title="Object"  label="Latitude" id="lstLatitude">
+              <apex:selectOptions value="{!Name}"></apex:selectOptions>
+          </apex:selectList><br/>
+        </apex:column>
+
+        <apex:column headerValue="Longitude">
+          <apex:selectList value="{!Longitude}" size="1" title="Object"  label="Longitude" id="lstLongitude">
+              <apex:selectOptions value="{!Name}"></apex:selectOptions>
+          </apex:selectList><br/>
+        </apex:column>
+          </apex:pageBlockTable>
+
+         </apex:outputPanel>
+        <apex:outputText value="" />
+
+
+         <apex:pageBlockButtons location="top">
+                   <apex:commandButton value="Auto Match" action="{!autoMatch}" rerender="ERR,lstIdentifier,lstStreet,lstCity,lstState,lstPostalCode,lstCountry,lstLatitude,lstLongitude" status="Process" title="Match Field Automatically" />
+                   <apex:commandButton value="Load from Mapping" action="{!test}"  rerender="ERR, tabnn" onComplete="document.getElementById('light').style.display='block';document.getElementById('fade').style.display='block'" title="Match Fields From The Saved Mapping" rendered="{!$ObjectType.bhaddrloc__Geolocator_Mapping__c.accessible}" />
+                   <apex:commandButton value="Save Mapping" action="{!saveMapping}" onComplete="javascript:alert('{!MappingSavedMsg}')"  title="Create Your Own Mapping" rendered="{!$ObjectType.bhaddrloc__Geolocator_Mapping__c.Createable}" rerender="ERR" />
+         </apex:pageBlockButtons>
+         <!-- onComplete="javascript:alert('Mapping saved.')"  -->
+    </apex:pageBlock>  
+          
+      <!-- ========================================================================================================================== -->
+      
+      <apex:outputPanel id="tab" >
+                      
+                      <apex:pageblock id="pbStep3" title="Step 3. View Records">
+                         <apex:pageBlockButtons >
+                           <apex:commandButton action="{!refreshList}" reRender="ERR,tab,tab2" value="Refresh List" status="Process" title="Refresh List"  / >
+                           <!-- <apex:commandButton action="{!test}" value="Locate Addresses" oncomplete="bulk_codeAddress()" status="Process" title="Locate selected addresses on the map " /> -->
+                           <apex:commandButton action="{!test}" value="Locate Lat/Lng on Map" oncomplete="LatiLongiLoacator()" status="Process" title="Locate selected records on the map by its Latitude and Longitude" rerender="ERR"/>
+                           <apex:commandButton action="{!BulkUpdateLongLati}" reRender="tab,tab2,ERR" value="Update Geolocation" title="Update Record's Latitude Longitude in Bulk" status="Process"  />
+                           
+                         </apex:pageBlockButtons>
+                         
+                         
+                     <!--   <apex:commandbutton value="show"  action="{!toggleContent}" reRender="showhide" status="Process">  
+                        </apex:commandbutton>  -->
+                        
+                        
+                      <!--  <apex:commandButton value="show"  onclick="showtab()" rerender="showhide" id="mybutton" /> -->
+                      
+                    
+                    <table>
+                    <tr>
+                    <!-- <td align="left"><input onclick="showtab()" type="button" value="Show Filter" id="myButton"></input> </td>
+                    <td align="left" style="vertical-align:middle"><div id = "show" style="font-style:italic">...{!FilterOption}</div></td> -->
+                    <td align="left"><div style = "background-color:#B3D1FF;" id ="showhide"  >
+                            <apex:outputLabel value="Show " ></apex:outputLabel> 
+                            <apex:selectList value="{!FilterOption}" size="1" >
+                            <apex:selectOptions value="{!filters}"/>
+                            <apex:actionSupport event="onchange" action="{!refreshList}" reRender="tab,tab2,ERR" status="Process" /> 
+                            </apex:selectList>
+                        </div>
+                    </td>
+                    </tr>
+                    </table>
+                          <apex:pageBlockTable id="pbStep3Table" value="{!account1}" var="a" >
+                          <apex:column width="20px">
+                            <apex:inputCheckbox value="{!a.selected}" id="chk"/>
+                          </apex:column>
+                                 
+                                 <apex:column headerValue="Name" width="150px" >
+                                 
+                                   <apex:commandLink onclick="window.open('/{!JSINHTMLENCODE(a.id)}')" id="name">
+                                         <apex:param value="{!a.id}" name="id" assignTo="{!selectedId }" ></apex:param> 
+                                         {!a.Name}
+                                   </apex:commandLink>  
+                                  </apex:column>
+                                  
+                                   
+                                  <apex:column value="{!a.Address}" headerValue="Address" id="address" width="170px"/> 
+                                    
+                                   <apex:column headerValue="Latitude" value="{!a.Latitude}" id="latitude" width="150px">
+                                    </apex:column>
+                                   
+                                   
+                                   <apex:column headerValue="Longitude" value="{!a.Longitude}" id="longitude" width="170px">
+                                 <!--  <apex:inputText id="Long2"/>  -->
+                                   </apex:column>
+                                   
+                                   
+                                 
+                                   <apex:column headerValue="Locate Address"  title="Geolocate the address" width="20px" style="background-color:#F2F3F3">
+                                   <apex:outputLink value="#" onclick="handleAddress('{!JSINHTMLENCODE(a.Address)}' , '{!JSINHTMLENCODE(a.id)}' , '{!JSINHTMLENCODE(a.Latitude)}' , '{!JSINHTMLENCODE(a.Longitude)}', {!JSINHTMLENCODE(TEXT(a.setSeqNo))} , '{!JSINHTMLENCODE(a.Name)}' ) "   >
+                                      <apex:image url="{!$Resource.bhaddrloc__google_map_marker}" width="20" height="20"/> 
+                                   </apex:outputLink>
+                                  </apex:column>
+                                   
+                                  
+                                  <apex:column headerValue="Latitude (Geolocate)" width="150px" title="Shows the geolocated coordinate" style="background-color:#F2F3F3">
+                                    
+                                    <apex:inputText value="{!a.Latitude_GM}" id="aa" />
+                                    <input type="hidden" value="{!a.id}" id="thisid" />
+                                  <!--  <span id="{!a.id}_laterr" style="color:red"></span> -->
+                                      </apex:column>
+                                  <apex:column headerValue="Longitude (Geolocate)" width="150px" title="Shows the geolocated coordinate" style="background-color:#F2F3F3">
+                                    <apex:inputText value="{!a.Longitude_GM}" id="bb" />
+                                    <input type="hidden" value="{!a.id}" id="thisid" />
+                              <!--      <span id="{!a.id}_lngerr" style="color:red"></span>  -->
+                                  </apex:column>
+                                  
+                               <!--
+                                  
+                                 <apex:column headerValue="Update Geolocation" >
+                                       <a href="javascript:#" id="{!a.id}" name="updateids" onclick="updateLatLng('{!a.id}', '{!a.id}_lat', '{!a.id}_lng')">Update</a>
+
+                                  </apex:column>   
+                                  
+                               -->   
+                               
+                                
+                               
+                             <!--  <apex:column headerValue="Update Geolocation" >
+                                    <apex:commandLink action="{!UpdateLongLati}" oncomplete="AlertDone()">
+                                        <apex:param value="{!a.id}" name="id" assignTo="{!selectedId }"  ></apex:param>
+                                          update
+                                   </apex:commandLink>
+                                   
+                                   
+                                 
+                                  </apex:column>-->
+
+                                </apex:pageBlockTable>
+                                    <apex:outputPanel id="tab2" rendered="{!checkList}"> 
+                                    <table width="100%">
+                                    <tr>
+                                        <td><apex:outputText value="{!currPageRecords} Records Found - {!Paging1} records per page  " id="pagesize" /></td>
+                                        <td><apex:commandLink action="{!showFirst}" reRender="ERR,tab"  >
+                                        
+                                           <apex:image url="{!$Resource.bhaddrloc__First}" width="16" height="16" styleClass="img"/>
+                                           
+                                      </apex:commandLink>
+
+                                      <apex:commandLink action="{!showPrevious}" reRender="ERR,tab"  >
+                                        <apex:image url="{!$Resource.bhaddrloc__Previous}" width="16" height="16" styleClass="img"/> 
+                                      </apex:commandLink>
+
+                                      <apex:outputText value="Page {!currPage} of {!dTotalPages}" />
+
+
+                                      <apex:commandLink action="{!showNext}" reRender="ERR,tab" >
+                                        <apex:image url="{!$Resource.bhaddrloc__Next}" width="16" height="16" styleClass="img"/>
+                                      </apex:commandLink>   
+                                      <apex:commandLink action="{!showLast}" reRender="tab"  >
+                                         <apex:image url="{!$Resource.bhaddrloc__Last}" width="16" height="16" styleClass="img"/>
+                                      </apex:commandLink>
+                                      
+
+                                      <apex:inputHidden id="select" value="{!selectedId}"     />  
+                                      </td>
+                                        <td> &nbsp;</td>
+                                    </tr>
+                                    </table>
+                                    </apex:outputPanel> 
+
+                       </apex:pageblock>  
+                  
+      </apex:outputPanel>
+   <!-- <apex:actionFunction action="{!UpdateLongLati}" name="callagain" rerender="showstate">
+        <apex:param name="firstParam" assignTo="{!selectedId}" value="" />
+        <apex:param name="secondParam" assignTo="{!Lati2}" value="" />
+        <apex:param name="thirdParam" assignTo="{!Long2}" value="" />
+        
+    </apex:actionFunction> -->
+
+      <!-- ============================================================================================================================  -->
+      
+
+       <apex:pageBlock title="Google Map View"  >
+       <apex:pageBlockButtons >
+       
+            <apex:commandButton action="{!test}" value="Clean Map" oncomplete="clearOverlays()" title="Clean markers from the Map"   />
+            
+        </apex:pageBlockButtons>    
+        
+       <div id="map_canvas" style="width:100%; height:400px;"></div>
+     </apex:pageBlock>
+        <div>
+            <input id="address" type="textbox" style="visibility:hidden"  />
+            <!-- <input type="button" value="geocode" onclick="codeAddress()" id = "address_click" /> -->
+                
+        </div>
+        <div id="light" class="white_content">
+        <apex:pageBlock id="tabnn" title="Geolocator Mappings">
+          <apex:pageBlockButtons >
+            <apex:commandButton value="Cancel" action="{!test}" reRender="tab" onclick="document.getElementById('light').style.display='none';document.getElementById('fade').style.display='none'" / >
+          </apex:pageBlockButtons>
+          <apex:outputText value="Click on the name hyperlink to load the field mapping" /> <br/>
+        
+          
+          <apex:pageBlockTable value="{!geolocateMappings}" var="a" >
+            <apex:column headerValue="Name" >
+                 <apex:commandLink action="{!selectMapping}" id="name" rerender=" tab,lstIdentifier,lstStreet,lstCity,lstState,lstPostalCode,lstCountry,lstLatitude,lstLongitude" onComplete="document.getElementById('light').style.display='none';document.getElementById('fade').style.display='none'">
+                       <apex:param value="{!a.id}" name="id" assignTo="{!mappingId }" ></apex:param> 
+                       {!a.Name}
+                 </apex:commandLink>  
+            </apex:column>
+            <apex:column value="{!a.bhaddrloc__Identifier__c}" />
+            <apex:column value="{!a.bhaddrloc__Street__c}" />
+            <apex:column value="{!a.bhaddrloc__City__c}" />
+            <apex:column value="{!a.bhaddrloc__State__c}" />
+            <apex:column value="{!a.bhaddrloc__Postal_Code__c}" />
+            <apex:column value="{!a.bhaddrloc__Country__c}" />
+            <apex:column value="{!a.bhaddrloc__Latitude__c}" />
+            <apex:column value="{!a.bhaddrloc__Longitude__c}" />
+        </apex:pageBlockTable>
+        </apex:pageBlock>              
+        </div>
+        <div id="fade" class="black_overlay"></div>   
+        <div id="light1" class="white_content1">
+            <apex:outputText value="Loading..." ></apex:outputText>
+        </div> 
+        </apex:form>
+        
+     <div id="footer" style="width:100%;">App developed by:
+    <a href="http://www.bytehash.com" target="_blank"><span style="color:#2c5884">Byte</span><span style="color:#a04340">hash</span> Technologies </a>
+    </div>
+        
+   
+      
+  </apex:page>

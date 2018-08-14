@@ -1,0 +1,61 @@
+<apex:page controller="cuda_signnow.SignNowController">
+<style>
+    iframe {border-style:none;}
+    .waitingHolder{display:none;}
+    .loader {
+      margin: auto;
+      margin-top:50px;
+      border: 5px solid #f3f3f3;
+      border-radius: 50%;
+      border-top: 5px solid #3498db;
+      border-bottom: 5px solid #3498db;
+      width: 50px;
+      height: 50px;
+      -webkit-animation: spin 2s linear infinite;
+      animation: spin 2s linear infinite;
+    }
+
+    @-webkit-keyframes spin {
+      0% { -webkit-transform: rotate(0deg); }
+      100% { -webkit-transform: rotate(360deg); }
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+</style>
+<script type="text/javascript" src="/canvas/sdk/js/30.0/controller.js"></script>
+
+    <apex:form >
+     <apex:actionFunction action="{!loadWithAdminParameter}" name="load_with_admin_parameter" />
+    </apex:form>
+     <apex:canvasApp developerName="sn_canvas" border="0px" height="950px" scrolling="yes" width="100%" onCanvasAppLoad="loaded"/>
+     <div class="loader" id="loader_animation"></div>
+     
+     <script>
+         
+     function loaded(){
+        var loader = document.getElementById("loader_animation");
+        loader.style.display = 'none';
+     }
+    
+    function getUrlParamater(name) {
+        name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
+        var regexS = "[\\?&]" + name + "=([^&#]*)";
+        var regex = new RegExp(regexS);
+        var results = regex.exec(location.href);
+        if (results == null)
+            return "";
+        else
+            return results[1];
+    }
+    
+
+     var page_view = getUrlParamater("view");
+     if(page_view == ""){
+         load_with_admin_parameter();
+     }
+</script>
+     
+</apex:page>

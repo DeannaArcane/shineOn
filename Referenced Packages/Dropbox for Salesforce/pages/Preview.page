@@ -1,0 +1,85 @@
+<apex:page controller="Dropbox_for_SF.PreviewController" showHeader="false" sidebar="false" applyBodyTag="false" applyHtmlTag="false">
+
+	<html>
+
+        <head>
+            <link href="//fonts.googleapis.com/css?family=Open+Sans:400,600" rel="stylesheet" type="text/css"/>
+            <apex:includeScript value="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js" />
+            <apex:includeScript value="{!URLFOR($Resource.Dropbox_for_SF__webassets, 'js/jquery.ba-postmessage.min.js')}" />
+            <apex:includeScript value="{!URLFOR($Resource.Dropbox_for_SF__webassets, 'js/jquery.ba-bbq.min.js')}" />
+            <apex:stylesheet value="{!URLFOR($Resource.Dropbox_for_SF__mobileassets, 'mobileassets/css/normalize.css')}"/>
+            <apex:stylesheet value="{!URLFOR($Resource.Dropbox_for_SF__style, 'css/fi-sprite.css')}" />
+            <apex:stylesheet value="{!URLFOR($Resource.Dropbox_for_SF__style, 'css/fi-core.css')}" />
+
+            <script type="text/javascript">
+
+
+                $.receiveMessage(
+                    function(e){
+                        var p = $.deparam(e.data)
+                        showContent(p.type, p.link);
+                    }
+                );
+
+            	window.showContent = function(displayType, source){
+
+            		$('.fi-message').hide();
+
+            		if(displayType == 'pdf'){
+            			$('#pdfPreview').attr('src', source);
+                        $('#pdfPreview').height($(window.top).height() - $('.fi-share-title').height());
+            			$('#pdfPreview').show();
+            		}
+
+            		if(displayType == 'img'){
+            			$('#imgPreview').attr('src', source);
+                        $('#imgPreview').height($(window.top).height() - $('.fi-share-title').height());
+            			$('#imgPreview').show();
+            		}
+
+            	}
+
+            	$(document).ready(function(){
+            		$('.fi-message').show();
+            		$('#pdfPreview').hide();
+            		$('#imgPreview').hide();
+
+                    var search = window.location.search.replace('?raw=1', '%3Fraw%3D1');
+                    if(search[0] == '?'){
+                        search = search.substring(1);
+                    }
+
+                    var p = $.deparam(search);
+                    p.link = encodeURI(p.link).replace('#', '%23');
+                    console.log(search);
+                    console.log(p);
+
+                    if(p.type)
+                        showContent(p.type, p.link);
+
+            	});
+
+            </script>
+        </head>
+
+        <body>
+
+		    <div class="fi-modal-preview">
+	            <div class="fi-share-title">
+	              <h2>{!title}</h2>
+	            </div>  
+
+	            <div class="fi-message active">
+	                <span class="ok">{!$Label.Loading}</span>
+	            </div>
+
+		        
+		        <div class="fi-modal-content">
+		            <iframe id="pdfPreview" />
+		            <img id="imgPreview"  />
+		        </div>
+		    </div>
+		</body>
+	</html>
+
+</apex:page>

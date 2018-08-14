@@ -1,0 +1,16 @@
+.THIS {
+    position: relative;
+    overflow: hidden;
+}
+.THIS.mainContainer{
+	background-color: white;
+}
+.THIS .placeName {
+	font-weight: bold;
+}
+.THIS .itemTitle{
+	border-bottom: 1px solid #E6EAF0;
+}
+.THIS h2{
+	font-weight: inherit;
+}

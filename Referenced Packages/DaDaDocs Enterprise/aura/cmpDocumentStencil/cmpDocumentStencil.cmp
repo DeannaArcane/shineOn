@@ -1,0 +1,21 @@
+<aura:component>
+    <aura:attribute name="count" type="Integer" default="3" />
+
+    <aura:attribute access="private" name="items" type="Integer[]" />
+
+    <aura:handler name="init" value="{!this}" action="{!c.init}" />
+
+    <aura:iteration items="{!v.items}" var="item">
+        <div class="forcePlaceholder" style="{!'opacity:'+ (v.count - item)/v.count +';'}">
+            <div class="placeholder related_record">
+                <div class="body dark flex-grid flex-v-center">
+                    <div class="icon icon-small"></div>
+                    <div class="text-body">
+                        <div class="text text-long"></div>
+                        <div class="text text-medium"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </aura:iteration>
+</aura:component>

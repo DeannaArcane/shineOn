@@ -1,0 +1,9 @@
+.THIS {
+    position: relative;
+}
+
+.THIS .slds-card__header {
+    margin-bottom: 0.75rem;
+    padding-top: 0.8rem;
+    padding-bottom: 0.8rem;
+}

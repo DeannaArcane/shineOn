@@ -1,0 +1,12 @@
+<apex:page id="pageID" standardController="tdc_tsw__Message_Template__c"   extensions="tdc_tsw.SendBulkSMSCOLightning" recordSetVar="testRecords" docType="html-5.0" standardStylesheets="false" sidebar="false" showHeader="false">
+    <script>
+        var recId = "{!$CurrentPage.parameters.Id}";
+       
+        if(recId != '' && recId != null && recId.length > 0)
+        {
+            window.parent.location.href = '/apex/CreateSmsTemplate?surveyId='+recId;
+        }
+      
+    </script>
+    
+</apex:page>

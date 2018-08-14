@@ -1,0 +1,32 @@
+<aura:component >
+    <aura:attribute name="show" type="Boolean" default="true" />
+    <aura:attribute name="message" type="String" required="true" />
+    <aura:attribute name="variant" type="String" default="info" />
+    <aura:attribute name="live" type="Integer" default="5" description="Time in seconds after which notify will be closed. If equal 0 - notify will not close by himself" />
+
+    <aura:handler name="change" value="{!v.show}" action="{!c.handleChangeShow}" />
+
+    <aura:renderIf isTrue="{!v.show}">
+        <div class="slds-notify_container">
+            <div class="{!'slds-notify slds-notify-'+v.variant+' slds-notify--toast'}" role="alert">
+                <span class="slds-assistive-text">{!v.variant}</span>
+                <lightning:buttonIcon class="slds-notify__close"
+                    iconName="utility:close"
+                    variant="bare-inverse"
+                    size="large"
+                    alternativeText="{!$Label.pdffiller_sf.close}"
+                    onclick="{!c.handleClose}"
+                />
+                <div class="slds-notify__content">
+                    <h2 class="slds-text-heading--small">
+                        <lightning:icon iconName="{!'utility:'+v.variant}"
+                            size="x-small"
+                            class="icon"
+                        />
+                        {!v.message}
+                    </h2>
+                </div>
+            </div>
+        </div>
+    </aura:renderIf>
+</aura:component>

@@ -1,0 +1,14 @@
+<aura:component description="cmpTabItem">
+    <aura:attribute name="activeTab" type="String" required="true"/>
+    <aura:attribute name="currentTab" type="String" required="true"/>
+    <aura:attribute name="displayTitle" type="String" required="true"/>
+
+    <aura:registerEvent name="evtTabClick" type="pdffiller_sf:evtTabClick" />
+
+    <li class="tab-container__list-item">
+        <a
+            class="{!'tab-container__link' + (v.activeTab == v.currentTab ? ' tab-container__link--active' : null)}"
+            onclick="{!c.onTabClick}"
+        >{!v.displayTitle}</a>
+    </li>
+</aura:component>

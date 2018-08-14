@@ -1,0 +1,98 @@
+<aura:component
+        access="global"
+        description="PDFfillerBar"
+        controller="pdffiller_sf.LightningSelectAttachmentController"
+        implements="force:appHostable,flexipage:availableForAllPageTypes,force:hasRecordId">
+
+    <aura:attribute name="daDaDocsOptions" type="List"/>
+
+    <aura:attribute name="isAuthAndPermissionsChecked" type="Boolean" default="false"/>
+    <aura:attribute name="isLoggedIn" type="Boolean" default="false"/>
+    <aura:attribute name="isPermitted" type="Boolean" default="false"/>
+    <aura:attribute name="isPermittedAndLoggedIn" type="Boolean" default="false"/>
+
+    <aura:attribute name="alertIcon" type="String" default="none"/><!-- none, success, fail -->
+    <aura:attribute name="alertHeading" type="String" default=""/>
+    <aura:attribute name="alertText" type="String" default=""/>
+    <aura:attribute name="isAlertShown" type="Boolean" default="false"/>
+    <aura:attribute name="currentTab" type="String" default="PDFfillerTemplates"/>
+    <aura:attribute name="promptValue" type="String" default=""/>
+    <aura:attribute name="promptHeading" type="String" default=""/>
+    <aura:attribute name="promptText" type="String" default=""/>
+    <aura:attribute name="promptFiredFrom" type="String" default=""
+        description="
+            A unique identifier which can be used for choosing callback in submit event handler.
+            Should be refreshed after callback is fired."/>
+    <aura:attribute name="isPromptShown" type="Boolean" default="false"/>
+
+    <aura:attribute name="PDFfillerTemplateDocumentActionOptions" type="List" default="['Edit', 'Import To Documents']"/>
+
+    <!--<aura:attribute name="iframeOverlaySrc" type="String" default=""/>-->
+    <!--<aura:attribute name="isIframeOverlayShown" type="Boolean" default="false"/>-->
+
+    <aura:attribute name="recordId" type="String"/>
+    <aura:attribute name="namespaceUnderscored" type="String" default=""/>
+
+    <aura:attribute name="daDaDocsUrl" type="String" default=""/>
+    <aura:attribute name="isLoading" type="Boolean" default="false"/>
+
+    <aura:attribute name="PDFfillerTemplates" type="List" />
+    <aura:attribute name="PDFfillerTemplateValue" type="String" default=""/>
+    <aura:attribute name="PDFfillerTemplateDocumentActionValue" type="String" default="Edit"/>
+
+    <aura:registerEvent name="evtPromptValueChanged" type="pdffiller_sf:evtPromptValueChanged"/>
+
+    <aura:handler name="init" value="{!this}" action="{!c.onInit}"/>
+    <aura:handler name="evtRadioButtonChange" event="pdffiller_sf:evtRadioButtonChange" action="{!c.onEvtRadioButtonChange}"/>
+    <aura:handler event="pdffiller_sf:evtRefreshClick" action="{!c.onEvtRefreshClick}"/>
+    <aura:handler name="evtSubmitButtonClick" event="pdffiller_sf:evtSubmitButtonClick" action="{!c.onEvtSubmitButtonClick}"/>
+    <aura:handler name="evtPromptSubmit" event="pdffiller_sf:evtPromptSubmit" action="{!c.onEvtPromptSubmit}"/>
+    <aura:handler event="pdffiller_sf:evtPromptValueChanged" action="{!c.onEvtPromptValueChanged}"/>
+
+    <pdffiller_sf:cmpHeader daDaDocsUrl="{!v.daDaDocsUrl}" />
+    <aura:if isTrue="{!v.isAuthAndPermissionsChecked}">
+        <aura:if isTrue="{!v.isPermittedAndLoggedIn}">
+            <div class="wrap">
+                <pdffiller_sf:cmpDropdown index="0"
+                    appName="PDFfillerTemplate"
+                    defaultSubtitle="No file selected"
+                    selectedItem="{!v.PDFfillerTemplateValue}"
+                    tabName="{!v.currentTab}"
+                    title="PDFfiller Files"
+                    docItems="{!v.PDFfillerTemplates}"
+                    isActive="true"
+                />
+                <pdffiller_sf:cmpDropdown index="1"
+                    appName="PDFfillerTemplateDocumentAction"
+                    tabName="{!v.currentTab}"
+                    title="Document actions"
+                    type="radio-buttons"
+                    defaultSubtitle="No action selected"
+                    selectedItem="{!v.PDFfillerTemplateDocumentActionValue}"
+                    radioButtons="{!v.PDFfillerTemplateDocumentActionOptions}"
+                />
+                <pdffiller_sf:cmpSubmitButton title="Submit" isDisabled="{!!v.PDFfillerTemplateValue}"/>
+                <pdffiller_sf:cmpLoadingOverlay isLoading="{!v.isLoading}"/>
+            </div>
+            <pdffiller_sf:cmpPrompt promptHeading="{!v.promptHeading}"
+                    promptText="{!v.promptText}"
+                    promptValue="{!v.promptValue}"
+                    firedFrom="{!v.promptFiredFrom}"
+                    isShown="{!v.isPromptShown}"
+            />
+            <!--<c:cmpIframeOverlay iframeSrc="{!v.iframeOverlaySrc}" isShown="{!v.isIframeOverlayShown}"/>-->
+            <aura:set attribute="else">
+                <pdffiller_sf:cmpWarningMessage itemName="PDFfiller Files component" isPermitted="{!v.isPermitted}" isLoggedIn="{!v.isLoggedIn}"/>
+            </aura:set>
+        </aura:if>
+        <aura:set attribute="else">
+            <div class="wrap">
+                <pdffiller_sf:cmpLoadingOverlay isLoading="true"/>
+            </div>
+        </aura:set>
+    </aura:if>
+    <pdffiller_sf:cmpAlert alertHeading="{!v.alertHeading}"
+            alertText="{!v.alertText}"
+            isShown="{!v.isAlertShown}"
+            icon="{!v.alertIcon}" />
+</aura:component>

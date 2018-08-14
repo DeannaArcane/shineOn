@@ -1,0 +1,49 @@
+<apex:page id="AclPage" controller="pdffiller_sf.AclPageController">
+    <apex:outputPanel rendered="{!!isLocalFrontEnv}">
+        <apex:stylesheet value="{!URLFOR($Resource.pdffiller_sf__v2) + '/salesforce.css'}"/>
+    </apex:outputPanel>
+    <apex:outputPanel rendered="{!isLocalFrontEnv}">
+        <apex:stylesheet value="https://localhost:8080/salesforce.css"/>
+    </apex:outputPanel>
+    <apex:form >
+        <apex:actionFunction name="getProjectIdOrigDocument" action="{!getProjectIdOrigDocument}"
+                             onComplete="getProjectIdAndAccessLink();"/>
+        <apex:actionFunction name="getProjectIdAndAccessLink" action="{!getProjectIdAndAccessLink}"
+                             onComplete="hideLoader();" reRender="recordAccessWrapper"/>
+        <apex:actionFunction name="goToEditor" action="{!goToEditor}"/>
+
+        <c:ApplicationUtils tokenRequiredOnload="true"/>
+        <c:Loader uniqueCSSClass="g-wrap-loading_active"/>
+        <div id="recordAccessWrapper" class="nomap">
+            <div class="dadadocs-step__header">
+                <div>{!$Label.who_can_use_template}</div>
+            </div>
+            <div class="dadadocs-step__content dadadocs-step__content-cell_full dadadocs-step--5">
+
+                <c:RecordAccessControls record_id="{!projectId}"/>
+            </div>
+            <button class="dadadocs-button dadadocs-button_orange dadadocs-actions_save" id="saveBtn"
+                    onclick="saveAccessControls()" type="button">
+                {!$Label.save}
+            </button>
+        </div>
+    </apex:form>
+
+
+    <script type="text/javascript">
+        loadAccessParams();
+
+        function hideLoader() {
+            document.querySelector('.g-wrap-loading_global').classList.remove('g-wrap-loading_active');
+        }
+
+        function loadAccessParamsCompleted() {
+            getProjectIdOrigDocument();
+        }
+
+        function afterSaveAccessControls() {
+            goToEditor();
+        }
+
+    </script>
+</apex:page>

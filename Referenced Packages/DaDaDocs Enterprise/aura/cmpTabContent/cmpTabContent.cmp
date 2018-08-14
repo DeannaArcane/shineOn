@@ -1,0 +1,98 @@
+<aura:component description="cmpTabContent">
+    <aura:attribute name="daDaDocsOptions" type="List" required="true"/>
+
+    <aura:attribute name="isAuthAndPermissionsChecked" type="Boolean" required="true"/>
+    <aura:attribute name="isTemplatesPermitted" type="Boolean" required="true"/>
+    <aura:attribute name="isTemplatesPermittedAndLoggedIn" type="Boolean" required="true"/>
+
+    <aura:attribute name="documentActionOptions" type="List" required="true"/>
+
+    <aura:attribute name="activeTab" type="String" required="true"/>
+    <aura:attribute name="currentTab" type="String" required="true"/>
+
+    <!-- Edit Document tab -->
+    <aura:attribute name="documents" type="List" required="{!v.currentTab == 'edit-document'}"/>
+    <aura:attribute name="edDocumentValue" type="String" required="{!v.currentTab == 'edit-document'}"/>
+    <aura:attribute name="edDocumentActionValue" type="String" required="{!v.currentTab == 'edit-document'}"/>
+
+    <!-- Use Template tab -->
+    <aura:attribute name="templates" type="List" required="{!v.currentTab == 'use-template'}"/>
+    <aura:attribute name="utTemplateValue" type="String" required="{!v.currentTab == 'use-template'}"/>
+    <aura:attribute name="utDeliveryOptionValue" type="String" required="{!v.currentTab == 'use-template'}"/>
+    <aura:attribute name="utDocumentActionValue" type="String" required="{!v.currentTab == 'use-template'}"/>
+
+    <div class="{!'tab-content' + (v.activeTab == v.currentTab ? ' tab-content--active' : null)}">
+
+        <aura:if isTrue="{!v.currentTab == 'edit-document'}">
+            <div class="tab-content-wrap">
+                <pdffiller_sf:cmpDropdown appName="edDocument"
+                        tabName="{!v.currentTab}"
+                        title="Documents"
+                        defaultSubtitle="No document selected"
+                        isActive="true"
+                        selectedItem="{!v.edDocumentValue}"
+                        docItems="{!v.documents}"
+                        index="0"
+                />
+                <pdffiller_sf:cmpDropdown appName="edDocumentAction"
+                        tabName="{!v.currentTab}"
+                        title="Document actions"
+                        type="radio-buttons"
+                        defaultSubtitle="No action selected"
+                        selectedItem="{!v.edDocumentActionValue}"
+                        radioButtons="{!v.documentActionOptions}"
+                        index="1"
+                />
+                <pdffiller_sf:cmpSubmitButton title="Submit" isDisabled="{!!v.edDocumentValue}"/>
+            </div>
+        </aura:if>
+
+        <aura:if isTrue="{!v.currentTab == 'use-template'}">
+            <aura:if isTrue="{!v.isAuthAndPermissionsChecked}">
+                <aura:if isTrue="{!v.isTemplatesPermittedAndLoggedIn}">
+                    <div class="tab-content-wrap">
+                        <pdffiller_sf:cmpDropdown appName="utTemplate"
+                                tabName="{!v.currentTab}"
+                                title="Templates"
+                                defaultSubtitle="No template selected"
+                                isActive="true"
+                                selectedItem="{!v.utTemplateValue}"
+                                docItems="{!v.templates}"
+                                index="0"
+                        />
+                        <pdffiller_sf:cmpDropdown appName="utDeliveryOption"
+                                tabName="{!v.currentTab}"
+                                title="Delivery options"
+                                type="radio-buttons"
+                                defaultSubtitle="No delivery option selected"
+                                selectedItem="{!v.utDeliveryOptionValue}"
+                                radioButtons="[
+                                    'Save To Attachments',
+                                    'Save To Files'
+                                ]"
+                                index="1"
+                        />
+                        <pdffiller_sf:cmpDropdown appName="utDocumentAction"
+                                tabName="{!v.currentTab}"
+                                title="Document actions"
+                                type="radio-buttons"
+                                defaultSubtitle="No action selected"
+                                selectedItem="{!v.utDocumentActionValue}"
+                                radioButtons="{!v.documentActionOptions}"
+                                index="2"
+                        />
+                        <pdffiller_sf:cmpSubmitButton title="Use Template" isDisabled="{!!v.utTemplateValue}"/>
+                    </div>
+                    <aura:set attribute="else">
+                        <pdffiller_sf:cmpWarningMessage itemName="Templates tab" isPermitted="{!v.isTemplatesPermitted}" isLoggedIn="true"/>
+                    </aura:set>
+                </aura:if><!-- v.isTemplatesPermitted -->
+                <aura:set attribute="else">
+                    <div class="tab-content-wrap">
+                        <pdffiller_sf:cmpLoadingOverlay isLoading="true"/>
+                    </div>
+                </aura:set>
+            </aura:if><!-- v.isAuthAndPermissionsChecked -->
+        </aura:if><!-- v.currentTab == 'use-template' -->
+    </div>
+</aura:component>

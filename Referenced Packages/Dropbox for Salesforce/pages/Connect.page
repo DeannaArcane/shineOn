@@ -1,0 +1,41 @@
+<apex:page showHeader="false" sidebar="false" controller="Dropbox_for_SF.ConnectController" action="{!runOAuth}">
+	
+	<script type="text/javascript">
+		var connect = connect || {};
+		connect.close = function(){
+			document.domain = 'force.com';
+			window.opener.completeConnection();
+			window.close();
+		};
+	</script>
+
+	<apex:pageMessages />
+    <apex:includeScript value="//ajax.googleapis.com/ajax/libs/angularjs/1.2.17/angular.min.js"/>
+
+	<apex:variable rendered="{!NOT(isConnected) || (isConnected && isUserTeamMember && NOT(isDfBConnection))}" value="" var="">
+		<apex:stylesheet value="{!URLFOR($Resource.Dropbox_for_SF__style, 'css/fi-core.css')}" />
+
+		<div class="fi-connect-intro">
+			<img src="{!URLFOR($Resource.style, 'img/fi-connect.png')}" />
+			
+			<apex:outputPanel rendered="{!NOT(isConnected)}">
+			 	<apex:outputText value="{!$Label.dropbox_for_sf__Connect_Text}" escape="false"/>
+
+				<p class="pbtn"><a class="fi-btn fi-btn-blue" href="{!OAuthUrl}">{!$Label.dropbox_for_sf__Connect_Continue}</a></p>
+
+			</apex:outputPanel>
+			<apex:outputPanel rendered="{!isConnected && isAdmin && isUserTeamMember}">
+				<apex:outputText value="{!$Label.dropbox_for_sf__Connect_DfB_Text}" escape="false"/>
+				<p class="pbtn"><a class="fi-btn fi-btn-blue" href="{!OAuthUrlForBusiness}">{!$Label.dropbox_for_sf__Connect_DfB_Continue}</a></p>
+				<p class="pbtn"><a class="fi-btn fi-btn-blue" href="#" onclick="connect.close();">{!$Label.dropbox_for_sf__Connect_DfB_No}</a></p>
+			</apex:outputPanel>
+		</div>
+	</apex:variable>
+	<apex:variable rendered="{!isDfbConnection || (NOT(isUserTeamMember) && isConnected)}" value="" var="">
+		<script type="text/javascript">
+			connect.close();
+		</script>
+	</apex:variable>
+
+
+</apex:page>

@@ -1,0 +1,1175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <allowInChatterGroups>true</allowInChatterGroups>
+    <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <deprecated>false</deprecated>
+    <enableActivities>true</enableActivities>
+    <enableBulkApi>true</enableBulkApi>
+    <enableFeeds>true</enableFeeds>
+    <enableHistory>true</enableHistory>
+    <enableReports>true</enableReports>
+    <enableSearch>true</enableSearch>
+    <enableSharing>true</enableSharing>
+    <enableStreamingApi>true</enableStreamingApi>
+    <fields>
+        <fullName>Account__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Account</label>
+        <referenceTo>Account</referenceTo>
+        <relationshipName>Messages</relationshipName>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Attached_Files_c__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <formula>IF(ISBLANK(Attachments_Ids__c), &quot;&quot;,
+HYPERLINK(&apos;/servlet/servlet.FileDownload?file=&apos;+LEFT(Attachments_Ids__c,18),IMAGE(&apos;/resource/tdc_tsw__Lightning_Resource/icons/doctype/&apos;+RIGHT(LEFT(Attachments_Ids__c,31),12),&apos;&apos;))&amp;&quot; &quot;&amp;
+
+IF(VALUE(RIGHT(Attachments_Ids__c,(LEN(Attachments_Ids__c)-(LEN(Attachments_Ids__c)-1))))&gt;1,
+HYPERLINK(&apos;/servlet/servlet.FileDownload?file=&apos;+LEFT(RIGHT(Attachments_Ids__c,LEN(Attachments_Ids__c)-FIND(&apos;,&apos;,Attachments_Ids__c)),18),IMAGE(&apos;/resource/tdc_tsw__Lightning_Resource/icons/doctype/&apos;+RIGHT(LEFT(RIGHT(Attachments_Ids__c,LEN(Attachments_Ids__c)-FIND(&apos;,&apos;,Attachments_Ids__c)),31),12),&apos;&apos;))&amp;&quot; &quot;&amp;
+
+IF(VALUE(RIGHT(Attachments_Ids__c,(LEN(Attachments_Ids__c)-(LEN(Attachments_Ids__c)-1))))&gt;2,
+HYPERLINK(&apos;/servlet/servlet.FileDownload?file=&apos;+LEFT(RIGHT(Attachments_Ids__c,LEN(Attachments_Ids__c)-FIND(&apos;,&apos;,Attachments_Ids__c,FIND(&apos;,&apos;,Attachments_Ids__c)+1)),18),IMAGE(&apos;/resource/tdc_tsw__Lightning_Resource/icons/doctype/&apos;+RIGHT(LEFT(RIGHT(Attachments_Ids__c,LEN(Attachments_Ids__c)-FIND(&apos;,&apos;,Attachments_Ids__c,FIND(&apos;,&apos;,Attachments_Ids__c)+1)),31),12),&apos;&apos;))&amp;&quot; &quot;&amp;
+
+IF(VALUE(RIGHT(Attachments_Ids__c,(LEN(Attachments_Ids__c)-(LEN(Attachments_Ids__c)-1))))&gt;3,
+HYPERLINK(&apos;/servlet/servlet.FileDownload?file=&apos;+LEFT(RIGHT(Attachments_Ids__c,LEN(Attachments_Ids__c)-FIND(&apos;,&apos;,Attachments_Ids__c,FIND(&apos;,&apos;,Attachments_Ids__c,FIND(&apos;,&apos;,Attachments_Ids__c)+1)+1)),18),IMAGE(&apos;/resource/tdc_tsw__Lightning_Resource/icons/doctype/&apos;+RIGHT(LEFT(RIGHT(Attachments_Ids__c,LEN(Attachments_Ids__c)-FIND(&apos;,&apos;,Attachments_Ids__c,FIND(&apos;,&apos;,Attachments_Ids__c,FIND(&apos;,&apos;,Attachments_Ids__c)+1)+1)), 31),12),&apos;&apos;))&amp;&quot; &quot;&amp;
+
+IF(VALUE(RIGHT(Attachments_Ids__c,(LEN(Attachments_Ids__c)-(LEN(Attachments_Ids__c)-1))))&gt;4,
+HYPERLINK(&apos;/servlet/servlet.FileDownload?file=&apos;+LEFT(RIGHT(Attachments_Ids__c,32),18),IMAGE(&apos;/resource/tdc_tsw__Lightning_Resource/icons/doctype/&apos;+LEFT(RIGHT(Attachments_Ids__c, 13),12),&apos;&apos;)),&quot;&quot;),&quot;&quot;),&quot;&quot;),&quot;&quot;))</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Attached Files</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Attachments_Ids__c</fullName>
+        <deprecated>false</deprecated>
+        <description>Attachments_Ids</description>
+        <externalId>false</externalId>
+        <label>Attachments Ids</label>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>Campaign__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Campaign</label>
+        <referenceTo>Campaign</referenceTo>
+        <relationshipLabel>SMS History</relationshipLabel>
+        <relationshipName>SMS_History</relationshipName>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Case__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Case</label>
+        <referenceTo>Case</referenceTo>
+        <relationshipLabel>SMS History</relationshipLabel>
+        <relationshipName>SMS_History</relationshipName>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Contact__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Contact</label>
+        <referenceTo>Contact</referenceTo>
+        <relationshipName>Messages</relationshipName>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Created_Date__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <formula>CreatedDate</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Created Date</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>DateTime</type>
+    </fields>
+    <fields>
+        <fullName>Delivered_SMS__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <formula>IMAGE( IF( AND(Delivered__c == true, Name == &apos;Outgoing&apos;),&apos;/resource/tdc_tsw__imageCheck2&apos;,&apos;/resource/tdc_tsw__imageCancel1&apos;), &apos;&apos;)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Delivered SMS</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Delivered__c</fullName>
+        <defaultValue>false</defaultValue>
+        <deprecated>false</deprecated>
+        <description>Checked if Message is created in Twilio</description>
+        <externalId>false</externalId>
+        <label>Delivered</label>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Delivery_Status__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <formula>IF(Delivered__c , &quot;Delivered&quot;, &quot;Sent&quot;)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Delivery Status</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>FeedElementId__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>FeedElementId</label>
+        <length>255</length>
+        <required>false</required>
+        <trackFeedHistory>true</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Incoming_Status__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <formula>IF(Read__c , &quot;Read&quot;, &quot;Not Read&quot;)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Status of Incoming Messages</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Lead__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Lead</label>
+        <referenceTo>Lead</referenceTo>
+        <relationshipName>Messages</relationshipName>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>MessageId__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>MessageId</label>
+        <length>100</length>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Message_Segment__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Message Segment</label>
+        <precision>2</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Message_Text_New__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Message</label>
+        <length>2000</length>
+        <trackFeedHistory>true</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>3</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Message__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>SMS History</label>
+        <referenceTo>Message__c</referenceTo>
+        <relationshipLabel>SMS History</relationshipLabel>
+        <relationshipName>Message</relationshipName>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Opportunity__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Opportunity</label>
+        <referenceTo>Opportunity</referenceTo>
+        <relationshipName>Messages</relationshipName>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Read_Status__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <formula>IF( Read__c = true, &quot;Read&quot;, &quot;Unread&quot;)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Read Status</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Read__c</fullName>
+        <defaultValue>false</defaultValue>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Read ?</label>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Related_Object_Id_URL__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <formula>HYPERLINK(LEFT($Api.Partner_Server_URL_260, FIND( &apos;/services&apos;, $Api.Partner_Server_URL_260)) &amp;   Related_Object_Id__c  ,  Related_Object__c  )</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Related Object</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Related_Object_Id__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Related Object Id</label>
+        <length>20</length>
+        <required>false</required>
+        <trackFeedHistory>true</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Related_Object__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Related Object</label>
+        <length>255</length>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>SMS_Template__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>SMS Template</label>
+        <referenceTo>Message_Template__c</referenceTo>
+        <relationshipLabel>SMS History</relationshipLabel>
+        <relationshipName>SMS_History</relationshipName>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Sender_Name__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Sender Name</label>
+        <length>255</length>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Sender_Number__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Sender Number</label>
+        <required>false</required>
+        <trackFeedHistory>true</trackFeedHistory>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Phone</type>
+    </fields>
+    <fields>
+        <fullName>Source__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Source</label>
+        <length>255</length>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Status__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Status</label>
+        <length>100</length>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Template_Parse_Id__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Template Parse Id</label>
+        <length>255</length>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>ToNumber__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>To Number</label>
+        <required>false</required>
+        <trackFeedHistory>true</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Phone</type>
+    </fields>
+    <fields>
+        <fullName>isCaseCreated__c</fullName>
+        <defaultValue>false</defaultValue>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>isCaseCreated</label>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>isLeadCreated__c</fullName>
+        <defaultValue>false</defaultValue>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>isLeadCreated</label>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <label>SMS History</label>
+    <listViews>
+        <fullName>All</fullName>
+        <columns>NAME</columns>
+        <columns>Message_Text_New__c</columns>
+        <columns>ToNumber__c</columns>
+        <columns>Sender_Number__c</columns>
+        <columns>Created_Date__c</columns>
+        <columns>Delivered_SMS__c</columns>
+        <columns>Delivered__c</columns>
+        <filterScope>Everything</filterScope>
+        <label>All</label>
+    </listViews>
+    <listViews>
+        <fullName>Incoming_SMS</fullName>
+        <columns>NAME</columns>
+        <columns>Message_Text_New__c</columns>
+        <columns>Sender_Number__c</columns>
+        <columns>ToNumber__c</columns>
+        <columns>Read__c</columns>
+        <columns>Contact__c</columns>
+        <columns>OWNER.FIRST_NAME</columns>
+        <columns>CREATED_DATE</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>NAME</field>
+            <operation>equals</operation>
+            <value>Incoming</value>
+        </filters>
+        <label>Incoming SMS</label>
+    </listViews>
+    <listViews>
+        <fullName>Outgoing_SMS</fullName>
+        <columns>NAME</columns>
+        <columns>Message_Text_New__c</columns>
+        <columns>ToNumber__c</columns>
+        <columns>Delivered__c</columns>
+        <columns>Sender_Number__c</columns>
+        <columns>Created_Date__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>NAME</field>
+            <operation>equals</operation>
+            <value>Outgoing</value>
+        </filters>
+        <label>Outgoing SMS</label>
+    </listViews>
+    <listViews>
+        <fullName>Unread_Incoming_SMS</fullName>
+        <columns>NAME</columns>
+        <columns>Message_Text_New__c</columns>
+        <columns>Read__c</columns>
+        <columns>Related_Object_Id_URL__c</columns>
+        <columns>Sender_Number__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>NAME</field>
+            <operation>equals</operation>
+            <value>Incoming</value>
+        </filters>
+        <filters>
+            <field>Read__c</field>
+            <operation>equals</operation>
+            <value>0</value>
+        </filters>
+        <label>Unread Incoming SMS</label>
+    </listViews>
+    <nameField>
+        <label>SMS Type</label>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <type>Text</type>
+    </nameField>
+    <pluralLabel>SMS History</pluralLabel>
+    <recordTypeTrackFeedHistory>false</recordTypeTrackFeedHistory>
+    <recordTypeTrackHistory>false</recordTypeTrackHistory>
+    <recordTypes>
+        <fullName>Incoming</fullName>
+        <active>true</active>
+        <label>Incoming</label>
+    </recordTypes>
+    <recordTypes>
+        <fullName>Outgoing</fullName>
+        <active>true</active>
+        <label>Outgoing</label>
+    </recordTypes>
+    <searchLayouts>
+        <customTabListAdditionalFields>Message_Text_New__c</customTabListAdditionalFields>
+        <excludedStandardButtons>New</excludedStandardButtons>
+        <excludedStandardButtons>Accept</excludedStandardButtons>
+        <excludedStandardButtons>ChangeOwner</excludedStandardButtons>
+        <listViewButtons>Mark_As_Read_Bulk</listViewButtons>
+        <searchResultsAdditionalFields>Contact__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Sender_Number__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>ToNumber__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Message_Text_New__c</searchResultsAdditionalFields>
+    </searchLayouts>
+    <sharingModel>Private</sharingModel>
+    <webLinks>
+        <fullName>Create_Case</fullName>
+        <availability>online</availability>
+        <displayType>button</displayType>
+        <linkType>javascript</linkType>
+        <masterLabel>Create Case</masterLabel>
+        <openType>onClickJavaScript</openType>
+        <protected>false</protected>
+        <url>{!REQUIRESCRIPT(&quot;/soap/ajax/25.0/connection.js&quot;)} 
+{!REQUIRESCRIPT(&quot;/soap/ajax/25.0/apex.js&quot;)} 
+{!REQUIRESCRIPT(&apos;/resource/tdc_tsw__jQueryForPopup/jQuery/jquery-1.8.2.min.js&apos;)} 
+{!REQUIRESCRIPT(&apos;/resource/tdc_tsw__jQueryForPopup/jQuery/ui/jquery-ui-1.9.1.custom.min.js&apos;)}	
+
+var condition = &apos;{!Message__c.isCaseCreated__c}&apos;; 
+var suppliedPhone = &apos;{!Message__c.Sender_Number__c}&apos;;
+var description = &quot;{!JSENCODE(Message__c.Message_Text_New__c)}&quot;;
+var msgId = &apos;{!Message__c.Id}&apos;;
+try
+{ 
+if(condition == 0){ 
+var objCase = new sforce.SObject(&apos;Case&apos;); 
+objCase.SuppliedPhone = suppliedPhone; 
+objCase.Description = description;
+objCase.Origin = &apos;Phone&apos;;
+objCase.Status = &apos;New&apos;;
+objCase.Subject = suppliedPhone; 
+
+result = sforce.connection.create([objCase]);
+//alert(&apos;=====result:&apos;+result[0].id); 
+if(result[0].success == &apos;true&apos;){ 
+alert(&apos;A New Case with SuppliedPhone - &apos; + objCase.SuppliedPhone + &apos; was Created Successfully.&apos;); 
+}
+// update sms history record 
+var newRecords = []; 
+var message= new sforce.SObject(&quot;tdc_tsw__Message__c&quot;); 
+message.Id = msgId; 
+//alert(&apos;=====message.Id&apos;+ message.Id);
+if(result[0].id!= null)
+{
+   message.tdc_tsw__Case__c = result[0].id;
+   //alert(&apos;=====message.Case__c&apos;+ message.tdc_tsw__Case__c);
+}
+message.tdc_tsw__isCaseCreated__c = &apos;true&apos;; 
+newRecords.push(message); 
+result = sforce.connection.update([message]); 
+window.location.reload();
+}
+else{
+alert(&apos;Case is already created&apos;); 
+}
+}catch(exception )
+{
+try 
+{
+//alert(exception); 
+var msgException = exception; 
+var errMsg = &quot;{faultcode:&apos;sf:API_DISABLED_FOR_ORG&apos;, faultstring:&apos;API_DISABLED_FOR_ORG: API is not enabled for this Organization or Partner&apos;, detail:{UnexpectedErrorFault:{exceptionCode:&apos;API_DISABLED_FOR_ORG&apos;, exceptionMessage:&apos;API is not enabled for this Organization or Partner&apos;, }, }, }&quot;; 
+if(msgException == errMsg){ 
+if(condition == 0) 
+{
+requireCssFile(&apos;/resource/jQueryForPopup/jQuery/ui/css/ui-lightness/jquery-ui-1.9.1.custom.min.css&apos;); 
+
+function requireCssFile(filename) 
+{ 
+var fileref = document.createElement(&apos;link&apos;); 
+fileref.setAttribute(&apos;rel&apos;, &apos;stylesheet&apos;); 
+fileref.setAttribute(&apos;type&apos;, &apos;text/css&apos;); 
+fileref.setAttribute(&apos;href&apos;, filename); 
+document.getElementsByTagName(&apos;head&apos;)[0].appendChild(fileref); 
+} 
+ 
+var url = window.location.href; 
+var j$ = jQuery.noConflict(); 
+var iframe_url = &apos;{!URLFOR(&quot;/apex/tdc_tsw__UpdateThroughButton?messageId=&quot;)}&apos;+msgId+&apos;&amp;mobilePhone=&apos;+suppliedPhone+&apos;&amp;description=&apos;+description+&apos;&amp;isCase=&apos;+&apos;true&apos;+&apos;&amp;RUrl=&apos;+url;
+var j$modalDialog = j$(&apos;&lt;div id=&quot;opppopup&quot;&gt;&lt;/div&gt;&apos;) 
+.html(&apos;&lt;iframe id=&quot;iframeContentId&quot; src=&quot;&apos; + iframe_url + &apos;&quot; frameborder=&quot;0&quot; height=&quot;100%&quot; width=&quot;100%&quot; marginheight=&quot;0&quot; marginwidth=&quot;0&quot; scrolling=&quot;no&quot;/&gt;&apos;) 
+.dialog({height: 125}); 
+j$modalDialog.dialog(&apos;open&apos;); 
+}
+else{
+alert(&apos;Case is already created&apos;); 
+} 
+}
+}catch(exception ) 
+{ 
+alert(exception); 
+} 
+}</url>
+    </webLinks>
+    <webLinks>
+        <fullName>Create_Cases</fullName>
+        <availability>online</availability>
+        <displayType>massActionButton</displayType>
+        <linkType>javascript</linkType>
+        <masterLabel>Create Case</masterLabel>
+        <openType>onClickJavaScript</openType>
+        <protected>false</protected>
+        <requireRowSelection>true</requireRowSelection>
+        <url>{!REQUIRESCRIPT(&quot;/soap/ajax/25.0/connection.js&quot;)} 
+{!REQUIRESCRIPT(&quot;/soap/ajax/25.0/apex.js&quot;)} 
+var records = {!GETRECORDIDS($ObjectType.Message__c)}; 
+if (records[0] == null) 
+{ 
+alert(&apos;Please Select At least One Message To Create Case&apos;); 
+} 
+else 
+{  
+sforce.apex.execute(&quot;tdc_tsw.CreateLeadAndCase&quot;,&quot;createCase&quot;,{lstId : records }); 
+window.location.reload(); 
+}</url>
+    </webLinks>
+    <webLinks>
+        <fullName>Create_Lead</fullName>
+        <availability>online</availability>
+        <displayType>button</displayType>
+        <linkType>javascript</linkType>
+        <masterLabel>Create Lead</masterLabel>
+        <openType>onClickJavaScript</openType>
+        <protected>false</protected>
+        <url>{!REQUIRESCRIPT(&quot;/soap/ajax/31.0/connection.js&quot;)} 
+{!REQUIRESCRIPT(&apos;/js/functions.js&apos;)} 
+{!REQUIRESCRIPT(&apos;/resource/tdc_tsw__jQueryForPopup/jQuery/jquery-1.8.2.min.js&apos;)} 
+{!REQUIRESCRIPT(&apos;/resource/tdc_tsw__jQueryForPopup/jQuery/ui/jquery-ui-1.9.1.custom.min.js&apos;)}	
+
+var condition = &apos;{!Message__c.isLeadCreated__c}&apos;; 
+var lastname = &apos;Incoming lead&apos;+&apos;{!Message__c.Sender_Number__c}&apos;; 
+var mobilePhone = &apos;{!Message__c.Sender_Number__c}&apos;; 
+var description = &quot;{!JSENCODE(Message__c.Message_Text_New__c)}&quot;; 
+var company = &apos;360 Sms&apos;; 
+var msgId = &apos;{!Message__c.Id}&apos;; 
+try 
+{ 
+if(condition == 0){ 
+var objLead = new sforce.SObject(&apos;Lead&apos;); 
+objLead.LastName= lastname; 
+objLead.MobilePhone = mobilePhone; 
+objLead.Description= description; 
+
+objLead.Company = company; 
+
+result = sforce.connection.create([objLead]); 
+
+if(result[0].success == &apos;true&apos;){ 
+alert(&apos;A New Lead with Name - &apos; + objLead.LastName+ &apos; was Created Successfully.&apos;); 
+} 
+
+// update sms history record 
+var newRecords = []; 
+var message= new sforce.SObject(&quot;tdc_tsw__Message__c&quot;); 
+message.Id = msgId; 
+//alert(&apos;=====message.Lead__c&apos;+ message.Lead__c); 
+if(result[0].id!= null &amp;&amp; message.tdc_tsw__Lead__c == null) 
+{ 
+message.tdc_tsw__Lead__c = result[0].id; 
+//alert(&apos;=====message.Lead__c&apos;+ message.Lead__c); 
+} 
+message.tdc_tsw__isLeadCreated__c= &apos;true&apos;; 
+newRecords.push(message); 
+result = sforce.connection.update([message]); 
+window.location.reload(); 
+} 
+else{ 
+alert(&apos;Lead is already created&apos;); 
+} 
+}catch(exception) 
+{ 
+try 
+{ 
+var msgException = exception; 
+var errMsg = &quot;{faultcode:&apos;sf:API_DISABLED_FOR_ORG&apos;, faultstring:&apos;API_DISABLED_FOR_ORG: API is not enabled for this Organization or Partner&apos;, detail:{UnexpectedErrorFault:{exceptionCode:&apos;API_DISABLED_FOR_ORG&apos;, exceptionMessage:&apos;API is not enabled for this Organization or Partner&apos;, }, }, }&quot;; 
+if(msgException == errMsg){ 
+if(condition == 0) 
+{
+
+requireCssFile(&apos;/resource/jQueryForPopup/jQuery/ui/css/ui-lightness/jquery-ui-1.9.1.custom.min.css&apos;);
+
+function requireCssFile(filename)
+{
+var fileref = document.createElement(&apos;link&apos;);
+fileref.setAttribute(&apos;rel&apos;, &apos;stylesheet&apos;);
+fileref.setAttribute(&apos;type&apos;, &apos;text/css&apos;);
+fileref.setAttribute(&apos;href&apos;, filename);
+document.getElementsByTagName(&apos;head&apos;)[0].appendChild(fileref);
+}
+  
+var url = window.location.href; 
+var j$ = jQuery.noConflict(); 
+var iframe_url = &apos;{!URLFOR(&quot;/apex/tdc_tsw__UpdateThroughButton?messageId=&quot;)}&apos;+msgId+&apos;&amp;lastname=&apos;+lastname+&apos;&amp;mobilePhone=&apos;+mobilePhone+&apos;&amp;description=&apos;+description+&apos;&amp;company=&apos;+company+&apos;&amp;isLead=&apos;+&apos;true&apos;+&apos;&amp;RUrl=&apos;+url;
+var j$modalDialog = j$(&apos;&lt;div id=&quot;opppopup&quot;&gt;&lt;/div&gt;&apos;) 
+.html(&apos;&lt;iframe id=&quot;iframeContentId&quot; src=&quot;&apos; + iframe_url + &apos;&quot; frameborder=&quot;0&quot; height=&quot;100%&quot; width=&quot;100%&quot; marginheight=&quot;0&quot; marginwidth=&quot;0&quot; scrolling=&quot;no&quot;/&gt;&apos;) 
+.dialog({height: 125}); 
+j$modalDialog.dialog(&apos;open&apos;); 
+} 
+else{ 
+alert(&apos;Lead is already created&apos;); 
+} 
+} 
+
+}catch(exception ) 
+{ 
+alert(exception); 
+} 
+}</url>
+    </webLinks>
+    <webLinks>
+        <fullName>Create_Leads</fullName>
+        <availability>online</availability>
+        <displayType>massActionButton</displayType>
+        <linkType>javascript</linkType>
+        <masterLabel>Create Lead</masterLabel>
+        <openType>onClickJavaScript</openType>
+        <protected>false</protected>
+        <requireRowSelection>true</requireRowSelection>
+        <url>{!REQUIRESCRIPT(&quot;/soap/ajax/25.0/connection.js&quot;)}
+{!REQUIRESCRIPT(&quot;/soap/ajax/25.0/apex.js&quot;)}
+var records = {!GETRECORDIDS($ObjectType.Message__c)}; 
+if (records[0] == null) 
+{ 
+alert(&apos;Please Select At least One Message To Create Lead&apos;); 
+} 
+else 
+{ 
+sforce.apex.execute(&quot;tdc_tsw.CreateLeadAndCase&quot;,&quot;createLead&quot;,{lstId : records });
+window.location.reload();
+}</url>
+    </webLinks>
+    <webLinks>
+        <fullName>Mark_As_Read</fullName>
+        <availability>online</availability>
+        <displayType>button</displayType>
+        <linkType>javascript</linkType>
+        <masterLabel>Mark As Read</masterLabel>
+        <openType>onClickJavaScript</openType>
+        <protected>false</protected>
+        <url>{!REQUIRESCRIPT(&quot;/soap/ajax/31.0/connection.js&quot;)} 
+{!REQUIRESCRIPT(&apos;/js/functions.js&apos;)} 
+{!REQUIRESCRIPT(&apos;/resource/tdc_tsw__jQueryForPopup/jQuery/jquery-1.8.2.min.js&apos;)} 
+{!REQUIRESCRIPT(&apos;/resource/tdc_tsw__jQueryForPopup/jQuery/ui/jquery-ui-1.9.1.custom.min.js&apos;)} 
+try{	
+var messageObj = new sforce.SObject(&quot;tdc_tsw__Message__c&quot;); 
+messageObj.Id = &apos;{!Message__c.Id}&apos;; 
+messageObj.tdc_tsw__Read__c= true; 
+sforce.connection.update([messageObj]); 
+window.location.reload(); 
+}catch(exception){ 
+var msgException = exception; 
+var errMsg = &quot;{faultcode:&apos;sf:API_DISABLED_FOR_ORG&apos;, faultstring:&apos;API_DISABLED_FOR_ORG: API is not enabled for this Organization or Partner&apos;, detail:{UnexpectedErrorFault:{exceptionCode:&apos;API_DISABLED_FOR_ORG&apos;, exceptionMessage:&apos;API is not enabled for this Organization or Partner&apos;, }, }, }&quot;; 
+if(msgException == errMsg){
+
+requireCssFile(&apos;/resource/jQueryForPopup/jQuery/ui/css/ui-lightness/jquery-ui-1.9.1.custom.min.css&apos;);
+
+function requireCssFile(filename)
+{
+var fileref = document.createElement(&apos;link&apos;);
+fileref.setAttribute(&apos;rel&apos;, &apos;stylesheet&apos;);
+fileref.setAttribute(&apos;type&apos;, &apos;text/css&apos;);
+fileref.setAttribute(&apos;href&apos;, filename);
+document.getElementsByTagName(&apos;head&apos;)[0].appendChild(fileref);
+} 
+ 
+var objApi = &apos;tdc_tsw__Message__c&apos;; 
+var records = []; 
+records[0] = &apos;{!Message__c.Id}&apos;; 
+var fieldApi = &apos;tdc_tsw__Read__c&apos;; 
+var fieldVal = &apos;true&apos;; 
+var url = window.location.href; 
+var objIds = &apos;&apos;;	
+for (var n=0; n&lt;records.length; n++) 
+{ 
+objIds = objIds + &apos;,&apos; + records[n]; 
+} 
+var j$ = jQuery.noConflict(); 
+var iframe_url = &apos;{!URLFOR(&quot;/apex/tdc_tsw__UpdateThroughButton?id=&quot;)}&apos;+objIds+&apos;&amp;objApi=&apos;+objApi+&apos;&amp;fieldApi=&apos;+fieldApi+&apos;&amp;fieldVal=&apos;+fieldVal+&apos;&amp;RUrl=&apos;+url; 
+var j$modalDialog = j$(&apos;&lt;div id=&quot;opppopup&quot;&gt;&lt;/div&gt;&apos;) 
+.html(&apos;&lt;iframe id=&quot;iframeContentId&quot; src=&quot;&apos; + iframe_url + &apos;&quot; frameborder=&quot;0&quot; height=&quot;100%&quot; width=&quot;100%&quot; marginheight=&quot;0&quot; marginwidth=&quot;0&quot; scrolling=&quot;no&quot;/&gt;&apos;) 
+.dialog({height: 125});
+j$modalDialog.dialog(&apos;open&apos;); 
+}else{ 
+alert(exception); 
+} 
+}</url>
+    </webLinks>
+    <webLinks>
+        <fullName>Mark_As_Read_Bulk</fullName>
+        <availability>online</availability>
+        <displayType>massActionButton</displayType>
+        <linkType>javascript</linkType>
+        <masterLabel>Read All</masterLabel>
+        <openType>onClickJavaScript</openType>
+        <protected>false</protected>
+        <requireRowSelection>true</requireRowSelection>
+        <url>{!REQUIRESCRIPT(&quot;/soap/ajax/31.0/connection.js&quot;)} 
+{!REQUIRESCRIPT(&apos;/js/functions.js&apos;)} 
+{!REQUIRESCRIPT(&apos;/resource/tdc_tsw__jQueryForPopup/jQuery/jquery-1.8.2.min.js&apos;)} 
+{!REQUIRESCRIPT(&apos;/resource/tdc_tsw__jQueryForPopup/jQuery/ui/jquery-ui-1.9.1.custom.min.js&apos;)} 
+
+var objIds = &apos;&apos;; 
+var records = {!GETRECORDIDS($ObjectType.Message__c)}; 
+if (records[0] == null) 
+{ 
+alert(&apos;Please Select At least One Message to Mark As Read&apos;); 
+} 
+else 
+{ 
+try{ 
+var updateRecords = []; 
+for (var n=0; n&lt;records.length; n++) 
+{ 
+objIds = objIds + &apos;,&apos; + records[n]; 
+var messageObj = new sforce.SObject(&quot;tdc_tsw__Message__c&quot;); 
+messageObj.Id = records[n]; 
+messageObj.tdc_tsw__Read__c= true; 
+updateRecords.push(messageObj); 
+} 
+sforce.connection.update(updateRecords); 
+window.location.reload(); 
+}catch(exception){ 
+var msgException = exception; 
+var errMsg = &quot;{faultcode:&apos;sf:API_DISABLED_FOR_ORG&apos;, faultstring:&apos;API_DISABLED_FOR_ORG: API is not enabled for this Organization or Partner&apos;, detail:{UnexpectedErrorFault:{exceptionCode:&apos;API_DISABLED_FOR_ORG&apos;, exceptionMessage:&apos;API is not enabled for this Organization or Partner&apos;, }, }, }&quot;; 
+if(msgException == errMsg){ 
+
+
+requireCssFile(&apos;/resource/jQueryForPopup/jQuery/ui/css/ui-lightness/jquery-ui-1.9.1.custom.min.css&apos;);
+
+function requireCssFile(filename)
+{
+var fileref = document.createElement(&apos;link&apos;);
+fileref.setAttribute(&apos;rel&apos;, &apos;stylesheet&apos;);
+fileref.setAttribute(&apos;type&apos;, &apos;text/css&apos;);
+fileref.setAttribute(&apos;href&apos;, filename);
+document.getElementsByTagName(&apos;head&apos;)[0].appendChild(fileref);
+} 
+
+var objApi = &apos;tdc_tsw__Message__c&apos;; 
+var fieldApi = &apos;tdc_tsw__Read__c&apos;; 
+var fieldVal = &apos;true&apos;; 
+var url = window.location.href; 
+var j$ = jQuery.noConflict(); 
+var iframe_url = &apos;{!URLFOR(&quot;/apex/tdc_tsw__UpdateThroughButton?id=&quot;)}&apos;+objIds+&apos;&amp;objApi=&apos;+objApi+&apos;&amp;fieldApi=&apos;+fieldApi+&apos;&amp;fieldVal=&apos;+fieldVal+&apos;&amp;RUrl=&apos;+url; 
+var j$modalDialog = j$(&apos;&lt;div id=&quot;opppopup&quot;&gt;&lt;/div&gt;&apos;) 
+.html(&apos;&lt;iframe id=&quot;iframeContentId&quot; src=&quot;&apos; + iframe_url + &apos;&quot; frameborder=&quot;0&quot; height=&quot;100%&quot; width=&quot;100%&quot; marginheight=&quot;0&quot; marginwidth=&quot;0&quot; scrolling=&quot;no&quot; /&gt;&apos;) 
+.dialog({height: 125});
+j$modalDialog.dialog(&apos;open&apos;); 
+}else{ 
+alert(exception); 
+} 
+}	
+}</url>
+    </webLinks>
+    <webLinks>
+        <fullName>Reply</fullName>
+        <availability>online</availability>
+        <displayType>button</displayType>
+        <linkType>javascript</linkType>
+        <masterLabel>Reply</masterLabel>
+        <openType>onClickJavaScript</openType>
+        <protected>false</protected>
+        <url>{!REQUIRESCRIPT(&quot;/soap/ajax/31.0/connection.js&quot;)} 
+{!REQUIRESCRIPT(&apos;/js/functions.js&apos;)} 
+{!REQUIRESCRIPT(&apos;/resource/tdc_tsw__jQueryForPopup/jQuery/jquery-1.8.2.min.js&apos;)}
+{!REQUIRESCRIPT(&apos;/resource/tdc_tsw__jQueryForPopup/jQuery/ui/jquery-ui-1.9.1.custom.min.js&apos;)}
+{!REQUIRESCRIPT(&apos;/resource/tdc_tsw__jQueryForPopup/jQuery/postmessage/jquery.ba-postmessage.js&apos;)}
+{!REQUIRESCRIPT(&apos;/resource/tdc_tsw__jQueryForPopup/jQuery/bbq/jquery.ba-bbq.min.js&apos;)}
+requireCssFile(&apos;/resource/tdc_tsw__jQueryForPopup/jQuery/ui/css/ui-lightness/jquery-ui-1.9.1.custom.min.css&apos;);
+
+
+function requireCssFile(filename) 
+{ 
+var fileref = document.createElement(&apos;link&apos;); 
+fileref.setAttribute(&apos;rel&apos;, &apos;stylesheet&apos;); 
+fileref.setAttribute(&apos;type&apos;, &apos;text/css&apos;); 
+fileref.setAttribute(&apos;href&apos;, filename); 
+document.getElementsByTagName(&apos;head&apos;)[0].appendChild(fileref); 
+} 
+
+var j$ = jQuery.noConflict(); 
+var recId = window.location.href.substring(window.location.href.lastIndexOf(&apos;/&apos;) + 1);
+//var messageid=&quot;{!Contact.Id}&quot;; 
+//alert(leadid); 
+var iframe_url = &apos;{!URLFOR(&quot;/apex/tdc_tsw__SendSMS?id=&quot;)}&apos;+recId+&apos;&amp;type1=&apos;+&apos;relatedList1&apos;+&apos;&amp;retURL=&apos;+window.location.href; 
+//alert(iframe_url); 
+var child_domain = iframe_url.substring(0, iframe_url.indexOf(&apos;/&apos;, 9)); 
+var parent_domain = window.location.protocol + &apos;//&apos; + window.location.host; 
+var j$modalDialog = j$(&apos;&lt;div id=&quot;opppopup&quot;&gt;&lt;/div&gt;&apos;) 
+.html(&apos;&lt;iframe id=&quot;iframeContentId&quot; src=&quot;&apos; + iframe_url + &apos;&quot; frameborder=&quot;0&quot; height=&quot;100%&quot; width=&quot;100%&quot; marginheight=&quot;0&quot; marginwidth=&quot;0&quot; /&gt;&apos;) 
+.dialog({ 
+autoOpen: false, 
+resizable: true, 
+width: 800, 
+height: 500, 
+autoResize: true, 
+modal: true, 
+draggable: true, 
+margin:0, 
+padding:0 
+}); 
+
+j$modalDialog.dialog(&apos;open&apos;);</url>
+    </webLinks>
+    <webLinks>
+        <fullName>Resend</fullName>
+        <availability>online</availability>
+        <displayType>button</displayType>
+        <linkType>javascript</linkType>
+        <masterLabel>Resend</masterLabel>
+        <openType>onClickJavaScript</openType>
+        <protected>false</protected>
+        <url>{!REQUIRESCRIPT(&quot;/soap/ajax/31.0/connection.js&quot;)} 
+{!REQUIRESCRIPT(&apos;/js/functions.js&apos;)} 
+{!REQUIRESCRIPT(&apos;/resource/tdc_tsw__jQueryForPopup/jQuery/jquery-1.8.2.min.js&apos;)}
+{!REQUIRESCRIPT(&apos;/resource/tdc_tsw__jQueryForPopup/jQuery/ui/jquery-ui-1.9.1.custom.min.js&apos;)}
+{!REQUIRESCRIPT(&apos;/resource/tdc_tsw__jQueryForPopup/jQuery/postmessage/jquery.ba-postmessage.js&apos;)}
+{!REQUIRESCRIPT(&apos;/resource/tdc_tsw__jQueryForPopup/jQuery/bbq/jquery.ba-bbq.min.js&apos;)}
+requireCssFile(&apos;/resource/tdc_tsw__jQueryForPopup/jQuery/ui/css/ui-lightness/jquery-ui-1.9.1.custom.min.css&apos;);
+
+
+function requireCssFile(filename) 
+{ 
+var fileref = document.createElement(&apos;link&apos;); 
+fileref.setAttribute(&apos;rel&apos;, &apos;stylesheet&apos;); 
+fileref.setAttribute(&apos;type&apos;, &apos;text/css&apos;); 
+fileref.setAttribute(&apos;href&apos;, filename); 
+document.getElementsByTagName(&apos;head&apos;)[0].appendChild(fileref); 
+} 
+
+var j$ = jQuery.noConflict(); 
+var messageid=&quot;{!Message__c.Id}&quot;; 
+//alert(leadid); 
+var iframe_url = &apos;{!URLFOR(&quot;/apex/tdc_tsw__SendSMS?id=&quot;)}&apos;+messageid+&apos;&amp;retURL=&apos;+window.location.href; 
+
+//alert(iframe_url); 
+var child_domain = iframe_url.substring(0, iframe_url.indexOf(&apos;/&apos;, 9)); 
+var parent_domain = window.location.protocol + &apos;//&apos; + window.location.host; 
+var j$modalDialog = j$(&apos;&lt;div id=&quot;opppopup&quot;&gt;&lt;/div&gt;&apos;) 
+.html(&apos;&lt;iframe id=&quot;iframeContentId&quot; src=&quot;&apos; + iframe_url + &apos;&quot; frameborder=&quot;0&quot; height=&quot;100%&quot; width=&quot;100%&quot; marginheight=&quot;0&quot; marginwidth=&quot;0&quot; /&gt;&apos;) 
+.dialog({ 
+autoOpen: false, 
+resizable: true, 
+width: 800, 
+height: 500, 
+autoResize: true, 
+modal: true, 
+draggable: true, 
+margin:0, 
+padding:0 
+}); 
+
+j$modalDialog.dialog(&apos;open&apos;);</url>
+    </webLinks>
+    <webLinks>
+        <fullName>Resend_RelatedList</fullName>
+        <availability>online</availability>
+        <displayType>massActionButton</displayType>
+        <linkType>javascript</linkType>
+        <masterLabel>Resend</masterLabel>
+        <openType>onClickJavaScript</openType>
+        <protected>false</protected>
+        <requireRowSelection>false</requireRowSelection>
+        <url>{!REQUIRESCRIPT(&quot;/soap/ajax/31.0/connection.js&quot;)} 
+{!REQUIRESCRIPT(&apos;/js/functions.js&apos;)} 
+{!REQUIRESCRIPT(&apos;/resource/tdc_tsw__jQueryForPopup/jQuery/jquery-1.8.2.min.js&apos;)}
+{!REQUIRESCRIPT(&apos;/resource/tdc_tsw__jQueryForPopup/jQuery/ui/jquery-ui-1.9.1.custom.min.js&apos;)}
+{!REQUIRESCRIPT(&apos;/resource/tdc_tsw__jQueryForPopup/jQuery/postmessage/jquery.ba-postmessage.js&apos;)}
+{!REQUIRESCRIPT(&apos;/resource/tdc_tsw__jQueryForPopup/jQuery/bbq/jquery.ba-bbq.min.js&apos;)}
+requireCssFile(&apos;/resource/tdc_tsw__jQueryForPopup/jQuery/ui/css/ui-lightness/jquery-ui-1.9.1.custom.min.css&apos;);
+
+
+function requireCssFile(filename) 
+{ 
+var fileref = document.createElement(&apos;link&apos;); 
+fileref.setAttribute(&apos;rel&apos;, &apos;stylesheet&apos;); 
+fileref.setAttribute(&apos;type&apos;, &apos;text/css&apos;); 
+fileref.setAttribute(&apos;href&apos;, filename); 
+document.getElementsByTagName(&apos;head&apos;)[0].appendChild(fileref); 
+} 
+
+var j$ = jQuery.noConflict(); 
+var recId = window.location.href.substring(window.location.href.lastIndexOf(&apos;/&apos;) + 1); 
+//var messageid=&quot;{!Contact.Id}&quot;; 
+//alert(leadid); 
+var iframe_url = &apos;{!URLFOR(&quot;/apex/tdc_tsw__SendSMS?id=&quot;)}&apos;+recId +&apos;&amp;type=&apos;+&apos;relatedList&apos;+&apos;&amp;retURL=&apos;+window.location.href; 
+//alert(iframe_url); 
+var child_domain = iframe_url.substring(0, iframe_url.indexOf(&apos;/&apos;, 9)); 
+var parent_domain = window.location.protocol + &apos;//&apos; + window.location.host; 
+var j$modalDialog = j$(&apos;&lt;div id=&quot;opppopup&quot;&gt;&lt;/div&gt;&apos;) 
+.html(&apos;&lt;iframe id=&quot;iframeContentId&quot; src=&quot;&apos; + iframe_url + &apos;&quot; frameborder=&quot;0&quot; height=&quot;100%&quot; width=&quot;100%&quot; marginheight=&quot;0&quot; marginwidth=&quot;0&quot; /&gt;&apos;) 
+.dialog({ 
+autoOpen: false, 
+resizable: true, 
+width: 800, 
+height: 500, 
+autoResize: true, 
+modal: true, 
+draggable: true, 
+margin:0, 
+padding:0 
+}); 
+
+j$modalDialog.dialog(&apos;open&apos;);</url>
+    </webLinks>
+    <webLinks>
+        <fullName>SMS_Opt_Out</fullName>
+        <availability>online</availability>
+        <displayType>button</displayType>
+        <linkType>javascript</linkType>
+        <masterLabel>SMS Opt-Out</masterLabel>
+        <openType>onClickJavaScript</openType>
+        <protected>false</protected>
+        <url>{!REQUIRESCRIPT(&quot;/soap/ajax/31.0/connection.js&quot;)} 
+{!REQUIRESCRIPT(&apos;/js/functions.js&apos;)} 
+{!REQUIRESCRIPT(&apos;/resource/tdc_tsw__jQueryForPopup/jQuery/jquery-1.8.2.min.js&apos;)} 
+{!REQUIRESCRIPT(&apos;/resource/tdc_tsw__jQueryForPopup/jQuery/ui/jquery-ui-1.9.1.custom.min.js&apos;)}	
+
+var answer = confirm(&quot;Are you sure?&quot;); 
+if(answer==true){ 
+var relatedObj = &apos;{!Message__c.Related_Object__c}&apos;; 
+var relatedObjId = &apos;{!Message__c.Related_Object_Id__c}&apos;; 
+if(relatedObj != &apos;&apos; &amp;&amp; relatedObjId != &apos;&apos;){
+var idthreeChars =&apos;&apos;;
+for(var i=0;i&lt;3;i++){
+idthreeChars = idthreeChars + relatedObjId[i];
+}
+try{ 
+var selectedRecord = new sforce.SObject(relatedObj); 
+selectedRecord.Id = relatedObjId; 
+
+if(idthreeChars == &apos;003&apos; || idthreeChars == &apos;001&apos; || idthreeChars == &apos;00Q&apos;){
+selectedRecord.tdc_tsw__SMS_Opt_out__c = true; 
+}else{
+selectedRecord.SMS_Opt_out__c = true;
+}
+
+var upResult = sforce.connection.update([selectedRecord]); 
+if (upResult[0].getBoolean(&quot;success&quot;)){ 
+alert(&apos;Opt-Out, Successfully.&apos;); 
+window.location.reload(); 
+}else{ 
+alert(&apos;Error occurred in Opt-Out : &apos; + upresult[0]); 
+} 
+}catch(exception){ 
+var msgException = exception; 
+var errMsg = &quot;{faultcode:&apos;sf:API_DISABLED_FOR_ORG&apos;, faultstring:&apos;API_DISABLED_FOR_ORG: API is not enabled for this Organization or Partner&apos;, detail:{UnexpectedErrorFault:{exceptionCode:&apos;API_DISABLED_FOR_ORG&apos;, exceptionMessage:&apos;API is not enabled for this Organization or Partner&apos;, }, }, }&quot;; 
+if(msgException == errMsg){ 
+
+
+requireCssFile(&apos;/resource/jQueryForPopup/jQuery/ui/css/ui-lightness/jquery-ui-1.9.1.custom.min.css&apos;);
+
+function requireCssFile(filename)
+{
+var fileref = document.createElement(&apos;link&apos;);
+fileref.setAttribute(&apos;rel&apos;, &apos;stylesheet&apos;);
+fileref.setAttribute(&apos;type&apos;, &apos;text/css&apos;);
+fileref.setAttribute(&apos;href&apos;, filename);
+document.getElementsByTagName(&apos;head&apos;)[0].appendChild(fileref);
+} 
+
+var objApi = &apos;{!Message__c.Related_Object__c}&apos;; 
+var records = []; 
+records[0] = &apos;{!Message__c.Related_Object_Id__c}&apos;; 
+
+var fieldVal = &apos;true&apos;; 
+var url = window.location.href; 
+var objIds = &apos;&apos;;	
+for (var n=0; n&lt;records.length; n++) 
+{ 
+objIds = objIds + &apos;,&apos; + records[n]; 
+}
+if(idthreeChars == &apos;003&apos; || idthreeChars == &apos;001&apos; || idthreeChars == &apos;00Q&apos;){
+var fieldApi = &apos;tdc_tsw__SMS_Opt_out__c&apos;; 
+}else{
+var fieldApi = &apos;SMS_Opt_out__c&apos;; 
+}
+ 
+var j$ = jQuery.noConflict(); 
+var iframe_url = &apos;{!URLFOR(&quot;/apex/tdc_tsw__UpdateThroughButton?id=&quot;)}&apos;+objIds+&apos;&amp;objApi=&apos;+objApi+&apos;&amp;fieldApi=&apos;+fieldApi+&apos;&amp;fieldVal=&apos;+fieldVal+&apos;&amp;RUrl=&apos;+url; 
+var j$modalDialog = j$(&apos;&lt;div id=&quot;opppopup&quot;&gt;&lt;/div&gt;&apos;) 
+.html(&apos;&lt;iframe id=&quot;iframeContentId&quot; src=&quot;&apos; + iframe_url + &apos;&quot; frameborder=&quot;0&quot; height=&quot;100%&quot; width=&quot;100%&quot; marginheight=&quot;0&quot; marginwidth=&quot;0&quot; scrolling=&quot;no&quot;/&gt;&apos;) 
+.dialog({height: 125});
+j$modalDialog.dialog(&apos;open&apos;);  
+}else{
+var fieldErr = &quot;{faultcode:&apos;sf:INVALID_FIELD&apos;, faultstring:&apos;INVALID_FIELD: No such column &apos;SMS_Opt_out__c&apos; on entity &apos;&quot;+relatedObj+&quot;&apos;. If you are attempting to use a custom field, be sure to append the &apos;__c&apos; after the custom field name. Please reference your WSDL or the describe call for the appropriate names.&apos;, detail:{InvalidFieldFault:{exceptionCode:&apos;INVALID_FIELD&apos;, exceptionMessage:&apos;No such column &apos;SMS_Opt_out__c&apos; on entity &apos;&quot;+relatedObj+&quot;&apos;. If you are attempting to use a custom field, be sure to append the &apos;__c&apos; after the custom field name. Please reference your WSDL or the describe call for the appropriate names.&apos;, row:&apos;-1&apos;, column:&apos;-1&apos;, }, }, }&quot;;
+
+if(msgException == fieldErr){
+alert(&apos;Please first create a CheckBox field as Name API: SMS_Opt_out__c on &apos;+ relatedObj);
+}else{
+alert(exception);
+} 
+} 
+} 
+}else{ 
+alert(&apos;This message has not any related record.&apos;); 
+} 
+}</url>
+    </webLinks>
+</CustomObject>

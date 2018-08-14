@@ -1,0 +1,4 @@
+<aura:event type="APPLICATION" description="evtDropdownClick">
+    <aura:attribute name="tabName" type="String" required="true" />
+    <aura:attribute name="dropdownName" type="String" required="true" />
+</aura:event>

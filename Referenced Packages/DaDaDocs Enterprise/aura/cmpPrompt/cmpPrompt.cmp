@@ -1,0 +1,25 @@
+<aura:component description="cmpPrompt">
+    <aura:attribute name="promptHeading" type="String" required="true" />
+    <aura:attribute name="promptText" type="String" required="true" />
+    <aura:attribute name="promptValue" type="String" required="true" />
+    <aura:attribute name="isShown" type="Boolean" required="true"/>
+    <aura:attribute name="firedFrom" type="String" required="true"/>
+
+    <aura:registerEvent name="evtPromptSubmit" type="pdffiller_sf:evtPromptSubmit"/>
+
+    <aura:handler name="init" value="{!this}" action="{!c.onInit}"/>
+
+    <div class="{!'prompt-container' + (v.isShown ? ' shown' : '')}" onclick="{!c.onCloseClick}">
+        <div class="prompt-container__window">
+            <div class="prompt-container__heading">
+                {!v.promptHeading}
+                <div class="prompt-container__close"></div>
+            </div>
+            <div class="prompt-container__body clearfix">
+                <label for="promptInput" class="prompt-container__label">{!v.promptText}</label>
+                <input id="promptInput" aura:id="promptInput" name="promptInput" class="prompt-container__prompt-input" value="{!v.promptValue}" />
+                <button class="prompt-container__prompt-submit" onclick="{!c.onSubmitClick}"><span>OK</span></button>
+            </div>
+        </div>
+    </div>
+</aura:component>

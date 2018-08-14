@@ -1,0 +1,72 @@
+<aura:component>
+    <aura:attribute name="recordId" type="String" required="true" />
+    <aura:attribute name="doctypeIcon" type="String" required="true" />
+    <aura:attribute name="title" type="String" required="true" />
+    <aura:attribute name="owner" type="User" required="true" />
+    <aura:attribute name="lastModifiedDate" type="Datetime" required="true" />
+    <aura:attribute name="needDownload" type="Boolean" default="false" />
+    <aura:attribute name="canEdit" type="Boolean" default="false" />
+    <aura:attribute name="canS2S" type="Boolean" default="false" />
+    <aura:attribute name="canL2F" type="Boolean" default="false" />
+
+    <aura:registerEvent name="onAction" type="pdffiller_sf:evtAction"/>
+
+    <div class="slds-truncate slds-media">
+        <div class="slds-media__figure" onclick="{!c.handleFileClick}">
+            <lightning:icon
+                iconName="{!'doctype:'+v.doctypeIcon}"
+                size="medium"
+                alternativeText="{!'[.'+v.doctypeIcon+']'}"
+            />
+        </div>
+        <div class="slds-media__body">
+            <p class="slds-page-header__title slds-truncate file-title" title="{!v.title}">
+                <ui:outputText value="{!v.title}" click="{!c.handleFileClick}" />
+            </p>
+            <p class="slds-text-body--small">
+                <ui:outputText value="{!v.owner.Name}" /> • <ui:outputDate value="{!v.lastModifiedDate}" format="M/d/yyyy h:mm a" />
+            </p>
+        </div>
+        <aura:if isTrue="{!v.canEdit || v.canS2S || v.canL2F}">
+            <div class="menu-trigger">
+                <ui:menu>
+                    <ui:menuTrigger>
+                        <lightning:buttonIcon
+                            class="triggerButton"
+                            iconName="utility:down"
+                            variant="border-filled"
+                            size="x-small"
+                            alternativeText="{!$Label.pdffiller_sf.show_more_actions}"
+                        />
+                    </ui:menuTrigger>
+                    <ui:menuList class="uiMenuList--right">
+                        <aura:if isTrue="{!v.canEdit}">
+                            <ui:actionMenuItem
+                                aura:id="fill"
+                                class="slds-dropdown__item"
+                                label="{!$Label.pdffiller_sf.fill}"
+                                click="{!c.handleAction}"
+                            />
+                        </aura:if>
+                        <aura:if isTrue="{!v.canS2S}">
+                            <ui:actionMenuItem
+                                aura:id="send2sign"
+                                class="slds-dropdown__item"
+                                label="{!$Label.pdffiller_sf.send2sign}"
+                                click="{!c.handleAction}"
+                            />
+                        </aura:if>
+                        <aura:if isTrue="{!v.canL2F}">
+                            <ui:actionMenuItem
+                                aura:id="link2fill"
+                                class="slds-dropdown__item"
+                                label="{!$Label.pdffiller_sf.link2fill}"
+                                click="{!c.handleAction}"
+                            />
+                        </aura:if>
+                    </ui:menuList>
+                </ui:menu>
+            </div>
+        </aura:if>
+    </div>
+</aura:component>

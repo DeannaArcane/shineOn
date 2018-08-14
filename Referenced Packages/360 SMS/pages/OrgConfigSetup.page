@@ -1,0 +1,124 @@
+<apex:page controller="tdc_tsw.OrgConfigSetupCtrl"  standardStylesheets="false" sidebar="false">
+
+<style>
+    .message.infoM3{
+        max-width: 500px;
+        margin: 0px auto;
+        padding: 10px;
+    }
+   .infoM3 .messageCell span {
+        font-weight: bold;
+        display: inline-block;
+        margin: 12px 5px 0px -40px;
+    } 
+    .button_center input.btn{
+        text-align: center;
+        margin: 4px 10px;
+    }
+</style>
+
+    <apex:Form id="form1">
+     
+        <div class="col-lg-12 tab02_btn">
+            <apex:outputPanel rendered="{!isHide}">
+                <div class="button_center">
+                        <apex:commandButton value="{!buttonName}"  styleclass="btn btn-primary" action="{!updateOrgConfig}"  status="actStatusId" rerender="form1" style="font-weight:800;" />                            
+                        <apex:outputLink value="{!endPoint}" styleclass="btn btn-primary" style="font-weight:900;" rendered="{!if((listNumber.size > 0 && !isExpired), true, false)}">Incoming Setup</apex:outputLink>
+                </div>
+            </apex:outputPanel>
+        </div>
+        <apex:outputPanel rendered="{!!isExpired}">  
+            <div class="col-lg-12 tab02_btn">
+                <!--
+                <apex:outputPanel rendered="{!isHide}">
+                    <div class="button_center">
+                       <apex:outputLink value="{!endPoint}" styleclass="btn btn-primary" style="font-weight:900;" rendered="{!if(listNumber.size > 0, true, false)}">Incoming Setup</apex:outputLink>                            
+                    </div>
+                 </apex:outputPanel>
+                 -->
+            </div>
+        <div class="">
+            <div class="col-sm-12 table-wrapper">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th style="width:32%"><center>Number</center></th>
+                                <th><center>Country</center></th>
+                                <th><center>Status</center></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <apex:repeat var="OrgObj" value="{!listNumber}">
+                            <tr>
+                                <td style="width:32%"> <center><apex:outputLabel value="{!OrgObj.Name}"/></center></td>
+                                <td><center><apex:outputLabel value="{!OrgObj.tdc_tsw__Country__c}"/></center></td>
+                                <td><center><apex:outputLabel value="{!OrgObj.tdc_tsw__Status__c}"/></center></td>
+                            </tr>
+                        </apex:repeat>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+         <apex:outputpanel rendered="{!showErrorBlock}" style="position:relative;left:75px;">-
+  
+                    <div class="modal fade user_con" id="myModal" role="dialog">
+                      <div class="modal-dialog">
+                        <!-- Modal content-->
+                          <div class="modal-content">
+                            <div class="modal-body">
+                            <apex:pageMessages />
+                                <apex:outputpanel rendered="{!showSuccess}">
+                                    <div class="errorblock success">
+                                        <div class="text-left" style="padding: 20px;">
+                                            <apex:image url="{!URLFOR($Resource.tdc_tsw__resource_sms_file,'/img/success.png')}" />
+                                            <div class="msgText">
+                                                   <span>SUCCESS:</span>
+                                                   <p><apex:outputText value="{!showTextError}" escape="false"/></p>
+                                            </div> 
+                                            <a href="#" data-dismiss="modal" onclick="location.reload();">X</a>
+                                            <div style="clear:both"></div>  
+                                        </div> 
+                                    </div>
+                                </apex:outputpanel>
+                                <apex:outputpanel rendered="{!showError}">
+                                    <div class="errorblock error">
+                                        <div class="text-left" style="padding: 5px 20px 20px;">
+                                            <apex:image url="{!URLFOR($Resource.tdc_tsw__resource_sms_file,'/img/cancel.png')}" />
+                                            <div class="msgText">
+                                                   <span>ERROR:</span>
+                                                   <p style="padding-left: 80px;"><apex:outputText value="{!showTextError}" escape="false"/></p>
+                                            </div> 
+                                            <a href="#" data-dismiss="modal" onclick="location.reload();">X</a>
+                                            <div style="clear:both"></div>  
+                                        </div> 
+                                    </div>
+                                </apex:outputpanel>
+                                 <!--<apex:pageMessage severity="Info"    strength="1"    summary="" rendered="{!recordShowError}"/>-->
+                                
+                            </div>
+                            <div>
+                              <!--<button type="button" class="btn btn-default close_modal" data-dismiss="modal"  style="margin:15px 0">Close</button>-->
+                            </div>
+                          </div>
+                          
+                        </div>
+                      </div>
+                      
+                    <script>
+                        $('#myModal').modal('show');
+                    </script>
+            </apex:outputpanel>
+             <apex:actionStatus id="actStatusId" >
+            <apex:facet name="start">
+                <div>
+                    <div  class="popupBackground">
+                        <img class="PopupPanel" src="{!$Resource.Loading_Icon}" alt="Loading..."  />
+                    </div>
+                </div>
+            </apex:facet>
+        </apex:actionStatus>
+    </apex:outputPanel>    
+   </apex:Form>
+</apex:page>

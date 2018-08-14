@@ -1,0 +1,2565 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
+    <labels>
+        <fullName>access_encrypted_fields</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>access_encrypted_fields</shortDescription>
+        <value>Enable Encrypted Fields</value>
+    </labels>
+    <labels>
+        <fullName>access_key_id</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>access_key_id</shortDescription>
+        <value>Access Key ID</value>
+    </labels>
+    <labels>
+        <fullName>actions</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>actions</shortDescription>
+        <value>Actions</value>
+    </labels>
+    <labels>
+        <fullName>activate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>activate</shortDescription>
+        <value>Activate</value>
+    </labels>
+    <labels>
+        <fullName>add_recipients</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>add_recipients</shortDescription>
+        <value>Add Recipients:</value>
+    </labels>
+    <labels>
+        <fullName>add_selection</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>add_selection</shortDescription>
+        <value>Add Selection</value>
+    </labels>
+    <labels>
+        <fullName>admin_not_authorized</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>admin_not_authorized</shortDescription>
+        <value>Your organization&apos;s administrator is not authorized in PDFFiller</value>
+    </labels>
+    <labels>
+        <fullName>admin_reauth_description</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>admin_reauth_description</shortDescription>
+        <value>Grant Salesforce access to PDFfiller</value>
+    </labels>
+    <labels>
+        <fullName>admin_reauth_label</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>admin_reauth_label</shortDescription>
+        <value>Authenticate with your PDFfiller account</value>
+    </labels>
+    <labels>
+        <fullName>admin_use_dadadocs_button_header</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>admin_use_dadadocs_button_header</shortDescription>
+        <value>&apos;Use DaDaDocs&apos; button settings</value>
+    </labels>
+    <labels>
+        <fullName>admin_use_dadadocs_button_text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>admin_use_dadadocs_button_text</shortDescription>
+        <value>Select layout(s) from the list below</value>
+    </labels>
+    <labels>
+        <fullName>all</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>all</shortDescription>
+        <value>All</value>
+    </labels>
+    <labels>
+        <fullName>all_templates</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>all_templates</shortDescription>
+        <value>All Templates</value>
+    </labels>
+    <labels>
+        <fullName>attachment</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>attachment</shortDescription>
+        <value>Attachment</value>
+    </labels>
+    <labels>
+        <fullName>attachments_for_upload_button</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>attachments_for_upload_button</shortDescription>
+        <value>Enable upload button for attachments. (default file uploading via Files)</value>
+    </labels>
+    <labels>
+        <fullName>attachments_for_upload_button_feature</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>attachments_for_upload_button_feature</shortDescription>
+        <value>Use Chatter files prior to Attachments</value>
+    </labels>
+    <labels>
+        <fullName>audit_trail_tooltip</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>audit_trail_tooltip</shortDescription>
+        <value>Audit trail</value>
+    </labels>
+    <labels>
+        <fullName>auth_instruction_action</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>auth_instruction_action</shortDescription>
+        <value>To view this page register with PDFFiller REST API Oauth 2.0 Credentials</value>
+    </labels>
+    <labels>
+        <fullName>authenticate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>authenticate</shortDescription>
+        <value>Authenticate</value>
+    </labels>
+    <labels>
+        <fullName>authorize_in_amazon_s3</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>authorize_in_amazon_s3</shortDescription>
+        <value>Authorize in Amazon S3</value>
+    </labels>
+    <labels>
+        <fullName>available_layouts</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>available_security</shortDescription>
+        <value>Available Layouts</value>
+    </labels>
+    <labels>
+        <fullName>available_security</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>available_security</shortDescription>
+        <value>Available Security Settings</value>
+    </labels>
+    <labels>
+        <fullName>back_to_documents_list</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>back_to_documents_list</shortDescription>
+        <value>Back to Documents List</value>
+    </labels>
+    <labels>
+        <fullName>back_to_templates_list</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>back_to_templates_list</shortDescription>
+        <value>Back to Templates List</value>
+    </labels>
+    <labels>
+        <fullName>basic_auth_grant_access_button</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>basic_auth_grant_access_button</shortDescription>
+        <value>Grant Access</value>
+    </labels>
+    <labels>
+        <fullName>basic_auth_grant_access_descr</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>file</shortDescription>
+        <value>Basic Authentication Only (not for OAuth)</value>
+    </labels>
+    <labels>
+        <fullName>basic_auth_grant_access_header</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>basic_auth_grant_access_header</shortDescription>
+        <value>Grant PDFfiller Access to your Salesforce Organization Data</value>
+    </labels>
+    <labels>
+        <fullName>basic_auth_header</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>basic_auth_header</shortDescription>
+        <value>Basic Authentication Settings</value>
+    </labels>
+    <labels>
+        <fullName>bucket_path</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>bucket_path</shortDescription>
+        <value>Bucket Path</value>
+    </labels>
+    <labels>
+        <fullName>button_share_org_wide</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>button_share_org_wide</shortDescription>
+        <value>Share with All in Org</value>
+    </labels>
+    <labels>
+        <fullName>button_was_generated</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>button_was_generated</shortDescription>
+        <value>Button was generated</value>
+    </labels>
+    <labels>
+        <fullName>cancel</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>cancel</shortDescription>
+        <value>Cancel</value>
+    </labels>
+    <labels>
+        <fullName>case_not_handled_error</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>case_not_handled_error</shortDescription>
+        <value>Case not handled</value>
+    </labels>
+    <labels>
+        <fullName>choose_attachment_fill</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>choose_attachment_fill</shortDescription>
+        <value>Attachments</value>
+    </labels>
+    <labels>
+        <fullName>choose_chatter_file_fill</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>choose_chatter_file_fill</shortDescription>
+        <value>Salesforce Files</value>
+    </labels>
+    <labels>
+        <fullName>choose_delivery_option</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>choose_delivery_option</shortDescription>
+        <value>Choose Flow Option</value>
+    </labels>
+    <labels>
+        <fullName>close</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>close</shortDescription>
+        <value>Close</value>
+    </labels>
+    <labels>
+        <fullName>cloud_storage_integration</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>cloud_storage_integration</shortDescription>
+        <value>Cloud Storage Integration</value>
+    </labels>
+    <labels>
+        <fullName>confirm_custom_auth_logout</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>confirm_custom_auth_logout</shortDescription>
+        <value>Are you sure you want to logout?</value>
+    </labels>
+    <labels>
+        <fullName>confirm_delete_data_collection_form</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>confirm_delete_data_collection_form</shortDescription>
+        <value>Are you sure you want to delete this Data Collection form?</value>
+    </labels>
+    <labels>
+        <fullName>confirm_delete_document</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>confirm_delete_document</shortDescription>
+        <value>Are you sure you want to delete this document?</value>
+    </labels>
+    <labels>
+        <fullName>confirm_delete_docx_template</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>confirm_delete_docx_template</shortDescription>
+        <value>Are you sure you want to delete this DOCX template?</value>
+    </labels>
+    <labels>
+        <fullName>confirm_delete_pdffiller_file</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>confirm_delete_pdffiller_file</shortDescription>
+        <value>Are you sure you want to delete this file?</value>
+    </labels>
+    <labels>
+        <fullName>confirm_delete_template</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>confirm_delete_template</shortDescription>
+        <value>Are you sure you want to delete this template?</value>
+    </labels>
+    <labels>
+        <fullName>confirm_execute_postinstall_script</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>confirm_execute_postinstall_script</shortDescription>
+        <value>Are you sure you want to run Execute postinstall script?</value>
+    </labels>
+    <labels>
+        <fullName>confirm_install_all_templates</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>confirm_install_all_templates</shortDescription>
+        <value>Are you sure you want to run Install all templates?</value>
+    </labels>
+    <labels>
+        <fullName>confirm_install_org_wide_user_access_feature</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>confirm_install_org_wide_user_access_feature</shortDescription>
+        <value>Are you sure you want to run Install organization-wide user access feature from the DaDaDocs?</value>
+    </labels>
+    <labels>
+        <fullName>confirm_message</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>confirm_message</shortDescription>
+        <value>Are you sure?</value>
+    </labels>
+    <labels>
+        <fullName>confirm_uninstall</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>confirm_uninstall</shortDescription>
+        <value>Are you sure you want to run Uninstall?</value>
+    </labels>
+    <labels>
+        <fullName>confirm_uninstall_org_wide_user_access_feature</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>confirm_uninstall_org_wide_user_access_feature</shortDescription>
+        <value>Are you sure you want to run Uninstall organization-wide user access feature from the DaDaDocs?</value>
+    </labels>
+    <labels>
+        <fullName>create_button_error</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>create_button_error</shortDescription>
+        <value>An error occurred while generating button</value>
+    </labels>
+    <labels>
+        <fullName>create_shortcut_button</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>create_shortcut_button</shortDescription>
+        <value>Create Shortcut Button</value>
+    </labels>
+    <labels>
+        <fullName>create_template</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>create_template</shortDescription>
+        <value>Create Template</value>
+    </labels>
+    <labels>
+        <fullName>create_template_hint_header</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>create_template_hint_header</shortDescription>
+        <value>Requires a Document Selection</value>
+    </labels>
+    <labels>
+        <fullName>create_template_hint_text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>create_template_hint_text</shortDescription>
+        <value>Before creating a new template you must select a document from the ‘Documents’ tab</value>
+    </labels>
+    <labels>
+        <fullName>created_by</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>created_by</shortDescription>
+        <value>Created By</value>
+    </labels>
+    <labels>
+        <fullName>custom_auth_grant_access_button</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>custom_auth_grant_access_button</shortDescription>
+        <value>Connect</value>
+    </labels>
+    <labels>
+        <fullName>custom_auth_grant_access_descr</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>custom_auth_grant_access_descr</shortDescription>
+        <value>Press connect to authenticate with PDFfiller account using custom token management</value>
+    </labels>
+    <labels>
+        <fullName>custom_auth_grant_access_header</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>custom_auth_grant_access_header</shortDescription>
+        <value>Authenticate your PDFfiller account via custom token</value>
+    </labels>
+    <labels>
+        <fullName>custom_auth_logout_btn</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>custom_auth_logout_btn</shortDescription>
+        <value>Logout</value>
+    </labels>
+    <labels>
+        <fullName>custom_auth_logout_descr</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>custom_auth_logout_descr</shortDescription>
+        <value>Press logout for exit from PDFFiller account</value>
+    </labels>
+    <labels>
+        <fullName>custom_auth_logout_header</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>custom_auth_logout_header</shortDescription>
+        <value>Logout from PDFFiller account</value>
+    </labels>
+    <labels>
+        <fullName>custom_object_layout</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>custom_object_layout</shortDescription>
+        <value>(Custom)</value>
+    </labels>
+    <labels>
+        <fullName>dadadocs_settings</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>DaDaDocs_Settings</shortDescription>
+        <value>DaDaDocs Settings</value>
+    </labels>
+    <labels>
+        <fullName>dadadocs_shortcut_button</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>dadadocs_shortcut_button</shortDescription>
+        <value>DaDaDocs Shortcut Button</value>
+    </labels>
+    <labels>
+        <fullName>data_collection</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>data_collection</shortDescription>
+        <value>Enable Data Collection</value>
+    </labels>
+    <labels>
+        <fullName>data_collection_create_button</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>data_collection_create_button</shortDescription>
+        <value>Create New Record</value>
+    </labels>
+    <labels>
+        <fullName>data_collection_create_button_decr</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>data_collection_create_button_decr</shortDescription>
+        <value>Use data from a filled form to create a new record in the current Object</value>
+    </labels>
+    <labels>
+        <fullName>data_collection_link_desc</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>data_collection_link_desc</shortDescription>
+        <value>Shareable link to the Data Collection Form</value>
+    </labels>
+    <labels>
+        <fullName>data_collection_unsupported_message</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>data_collection_unsupported_message</shortDescription>
+        <value>Can&apos;t create Data Collection Forms for this type of object, as it has required Master-Detail relations that we currently don&apos;t support</value>
+    </labels>
+    <labels>
+        <fullName>data_collection_unsupported_title</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>data_collection_unsupported_title</shortDescription>
+        <value>Can&apos;t create Data Collection Form</value>
+    </labels>
+    <labels>
+        <fullName>data_collection_update_button</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>data_collection_update_button</shortDescription>
+        <value>Update Existing Record</value>
+    </labels>
+    <labels>
+        <fullName>data_collection_update_button_decr</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>data_collection_update_button_decr</shortDescription>
+        <value>Change fields in a record.</value>
+    </labels>
+    <labels>
+        <fullName>data_collection_update_button_decr_warning</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>data_collection_update_button_decr_warning</shortDescription>
+        <value>This will overwrite existing data!</value>
+    </labels>
+    <labels>
+        <fullName>default_error_message</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>default_error_message</shortDescription>
+        <value>Something went wrong. Please, try again.</value>
+    </labels>
+    <labels>
+        <fullName>default_error_message_later</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>default_error_message_later</shortDescription>
+        <value>Something went wrong. Please, try again later</value>
+    </labels>
+    <labels>
+        <fullName>delete_from_external_storage</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>delete_from_external_storages</shortDescription>
+        <value>Permanently delete documents in S3 removing them from DaDaDocs.</value>
+    </labels>
+    <labels>
+        <fullName>delete_selection</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>delete_selection</shortDescription>
+        <value>Delete Selection</value>
+    </labels>
+    <labels>
+        <fullName>delete_template</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>delete_template</shortDescription>
+        <value>Delete Template</value>
+    </labels>
+    <labels>
+        <fullName>dev_api</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>dev_api</shortDescription>
+        <value>Enable DEV API</value>
+    </labels>
+    <labels>
+        <fullName>disabled</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>disabled</shortDescription>
+        <value>Disabled</value>
+    </labels>
+    <labels>
+        <fullName>dml_readonly_exception</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>dml_readonly_exception</shortDescription>
+        <value>Insufficient priviliges to delete or modify read only record</value>
+    </labels>
+    <labels>
+        <fullName>doc_object</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>doc_object</shortDescription>
+        <value>Enable Document Object</value>
+    </labels>
+    <labels>
+        <fullName>document</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>document</shortDescription>
+        <value>Document</value>
+    </labels>
+    <labels>
+        <fullName>document_success_saved_message</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>document_success_saved_message</shortDescription>
+        <value>Document saved successfully!</value>
+    </labels>
+    <labels>
+        <fullName>docx_tempates_enabled</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>docx_tempates_enabled</shortDescription>
+        <value>DOCX templates enabled</value>
+    </labels>
+    <labels>
+        <fullName>docx_templates_feature</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>docx_templates_feature</shortDescription>
+        <value>Docx Templates enabled</value>
+    </labels>
+    <labels>
+        <fullName>down</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>down</shortDescription>
+        <value>Down</value>
+    </labels>
+    <labels>
+        <fullName>edit_feature</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>edit_feature</shortDescription>
+        <value>Edit Feature</value>
+    </labels>
+    <labels>
+        <fullName>edit_template</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>edit_template</shortDescription>
+        <value>Edit Template</value>
+    </labels>
+    <labels>
+        <fullName>email_invalid</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>email_invalid</shortDescription>
+        <value>Your email is incorrect.</value>
+    </labels>
+    <labels>
+        <fullName>email_limit_message</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>email_limit_message</shortDescription>
+        <value>Limit of emails is exceeded</value>
+    </labels>
+    <labels>
+        <fullName>email_send_success</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>email_send_success</shortDescription>
+        <value>Your message was sent</value>
+    </labels>
+    <labels>
+        <fullName>email_success</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>email_success</shortDescription>
+        <value>Email was sent.</value>
+    </labels>
+    <labels>
+        <fullName>enable_filling_doc_desc</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>enable_filling_doc_desc</shortDescription>
+        <value>Enable filling DOC files</value>
+    </labels>
+    <labels>
+        <fullName>enable_filling_doc_desc_full1</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>enable_filling_doc_desc_full1</shortDescription>
+        <value>Check this box to enable filling DOC files and saving it as PDF.</value>
+    </labels>
+    <labels>
+        <fullName>enable_filling_doc_desc_full2</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>enable_filling_doc_desc_full2</shortDescription>
+        <value>Uncheck this box to disable filling DOC files.</value>
+    </labels>
+    <labels>
+        <fullName>enable_full_screen_editor_desc</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>enable_full_screen_editor_desc</shortDescription>
+        <value>Enable full screen editor (only for Salesforce Classic)</value>
+    </labels>
+    <labels>
+        <fullName>enable_full_screen_editor_desc_full1</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>enable_full_screen_editor_desc_full1</shortDescription>
+        <value>Check this box to enable full screen editor without Salesforce interface.</value>
+    </labels>
+    <labels>
+        <fullName>enable_full_screen_editor_desc_full2</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>enable_full_screen_editor_desc_full2</shortDescription>
+        <value>Uncheck this box to disable full screen editor.</value>
+    </labels>
+    <labels>
+        <fullName>enter_amazon_s3_access_key_id</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>enter_amazon_s3_access_key_id</shortDescription>
+        <value>Enter Amazon S3 access key here</value>
+    </labels>
+    <labels>
+        <fullName>enter_amazon_s3_secret_key</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>enter_amazon_s3_secret_key</shortDescription>
+        <value>Enter Amazon S3 secret key here</value>
+    </labels>
+    <labels>
+        <fullName>enter_bucket_name_here</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>enter_bucket_name_here</shortDescription>
+        <value>Enter bucket name here</value>
+    </labels>
+    <labels>
+        <fullName>enter_bucket_path_here</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>enter_bucket_path_here</shortDescription>
+        <value>Enter bucket path here</value>
+    </labels>
+    <labels>
+        <fullName>enter_button_name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>enter_button_name</shortDescription>
+        <value>Enter Button Name</value>
+    </labels>
+    <labels>
+        <fullName>err_template_data_fail</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>err_template_data_fail</shortDescription>
+        <value>Processing failed:</value>
+    </labels>
+    <labels>
+        <fullName>err_template_render_fail</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>err_template_data_fail</shortDescription>
+        <value>cannot render template</value>
+    </labels>
+    <labels>
+        <fullName>execute_postinstall_script</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>execute_postinstall_script</shortDescription>
+        <value>Try to execute postinstall script</value>
+    </labels>
+    <labels>
+        <fullName>execute_postinstall_script_detail</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>execute_postinstall_script_detail</shortDescription>
+        <value>Postinstall script forced execution to fix application prerequisites</value>
+    </labels>
+    <labels>
+        <fullName>field_set_warning_descr_link</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>field_set_warning_descr_link</shortDescription>
+        <value>https://www.pdffiller.com/en/salesforce/documentation#fieldset</value>
+    </labels>
+    <labels>
+        <fullName>field_set_warning_descr_part1</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>field_set_warning_descr_part1</shortDescription>
+        <value>Please follow</value>
+    </labels>
+    <labels>
+        <fullName>field_set_warning_descr_part2</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>field_set_warning_descr_part2</shortDescription>
+        <value>this manual</value>
+    </labels>
+    <labels>
+        <fullName>field_set_warning_descr_part3</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>field_set_warning_descr_part3</shortDescription>
+        <value>or contact your organization\&apos;s administrator for more information regarding field sets</value>
+    </labels>
+    <labels>
+        <fullName>field_set_warning_title_part_1</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>field_set_warning_title_part_1</shortDescription>
+        <value>Field Set for</value>
+    </labels>
+    <labels>
+        <fullName>field_set_warning_title_part_2</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>field_set_warning_title_part_2</shortDescription>
+        <value>Object Not Found</value>
+    </labels>
+    <labels>
+        <fullName>file</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>file</shortDescription>
+        <value>File</value>
+    </labels>
+    <labels>
+        <fullName>file_upload_success</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>file_upload_success</shortDescription>
+        <value>File was uploaded successfully.</value>
+    </labels>
+    <labels>
+        <fullName>file_upload_success_with_unsupported_extension</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>file_upload_success_with_unsupported_extension</shortDescription>
+        <value>File was uploaded successfully to the object. However, because this file type is not supported, the file will not appear in the list.</value>
+    </labels>
+    <labels>
+        <fullName>file_upload_unsuccess</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>file_upload_unsuccess</shortDescription>
+        <value>An error occurred while uploading the file.</value>
+    </labels>
+    <labels>
+        <fullName>file_upload_unsuccess_0_bytes</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>file_upload_unsuccess</shortDescription>
+        <value>You can&apos;t upload folders of 0-bytes files.</value>
+    </labels>
+    <labels>
+        <fullName>file_upload_unsuccess_try_attachment</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>file_upload_unsuccess_try_attachment</shortDescription>
+        <value>Enable upload button for attachments in DaDaDocs Settings to fix it.</value>
+    </labels>
+    <labels>
+        <fullName>filename</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>filename</shortDescription>
+        <value>Filename</value>
+    </labels>
+    <labels>
+        <fullName>fill</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>fill</shortDescription>
+        <value>Edit</value>
+    </labels>
+    <labels>
+        <fullName>fill_auth_info</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>fill_auth_info</shortDescription>
+        <value>Fill Authorization Info</value>
+    </labels>
+    <labels>
+        <fullName>fill_template_button</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>fill_template_button</shortDescription>
+        <value>Fill Template</value>
+    </labels>
+    <labels>
+        <fullName>ga_event_category_attachment_upload</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>ga_event_category_attachment_upload</shortDescription>
+        <value>Attachment upload button</value>
+    </labels>
+    <labels>
+        <fullName>ga_event_category_chatter_upload_ie</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>ga_event_category_chatter_upload_ie</shortDescription>
+        <value>Chatter upload button ie</value>
+    </labels>
+    <labels>
+        <fullName>ga_event_category_chatter_upload_std</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>ga_event_category_chatter_upload_std</shortDescription>
+        <value>Chatter upload button std</value>
+    </labels>
+    <labels>
+        <fullName>ga_event_label_attachment_upload</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>ga_event_label_attachment_upload</shortDescription>
+        <value>upload by attachment upload button</value>
+    </labels>
+    <labels>
+        <fullName>ga_event_label_chatter_upload_ie</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>ga_event_category_chatter_upload_ie</shortDescription>
+        <value>upload by chatter ie upload button</value>
+    </labels>
+    <labels>
+        <fullName>ga_event_label_chatter_upload_std</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>ga_event_label_chatter_upload_std</shortDescription>
+        <value>upload by chatter std upload button</value>
+    </labels>
+    <labels>
+        <fullName>generate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>generate</shortDescription>
+        <value>Generate</value>
+    </labels>
+    <labels>
+        <fullName>generated_data_collection_link_desc</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>generated_data_collection_link_desc</shortDescription>
+        <value>Here is a link we generated for your Data Collection Form</value>
+    </labels>
+    <labels>
+        <fullName>generated_sharable_link_desc</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>reconnect</shortDescription>
+        <value>Here is a link we generated for your fillable document</value>
+    </labels>
+    <labels>
+        <fullName>generating_document</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>generating_document</shortDescription>
+        <value>Generating PDF document from template...</value>
+    </labels>
+    <labels>
+        <fullName>generating_shortcut_button</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>generate</shortDescription>
+        <value>Generating shortcut button</value>
+    </labels>
+    <labels>
+        <fullName>generic_exception_message</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>generic_exception_message</shortDescription>
+        <value>Oops! Looks like something went wrong. Give us a minute and try again</value>
+    </labels>
+    <labels>
+        <fullName>incomplete_message</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>incomplete_message</shortDescription>
+        <value>No response from server or client is offline.</value>
+    </labels>
+    <labels>
+        <fullName>install_all_templates</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>install_all_templates</shortDescription>
+        <value>Add &quot;All Templates&quot; tab</value>
+    </labels>
+    <labels>
+        <fullName>install_all_templates_detail</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>install_all_templates_detail</shortDescription>
+        <value>This action will add &quot;All Templates&quot; tab to &quot;DaDaDocs Settings&quot; tabset and set up additional permissions</value>
+    </labels>
+    <labels>
+        <fullName>install_all_templates_successful</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>install_all_templates_successful</shortDescription>
+        <value>All Templates tab has been successfully added</value>
+    </labels>
+    <labels>
+        <fullName>install_all_templates_unsuccessful</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>install_all_templates_unsuccessful</shortDescription>
+        <value>An error occurred while adding the &quot;All Templates&quot; tab.</value>
+    </labels>
+    <labels>
+        <fullName>install_user_integration</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>install_user_integration</shortDescription>
+        <value>Install organization-wide user access feature</value>
+    </labels>
+    <labels>
+        <fullName>install_user_integration_detail</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>install_user_integration_detail</shortDescription>
+        <value>This action will install organization-wide user access feature for DaDaDocs</value>
+    </labels>
+    <labels>
+        <fullName>install_user_integration_not_allowed</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>install_user_integration_not_allowed</shortDescription>
+        <value>You are not allowed to use this feature. Contact us to enable it.</value>
+    </labels>
+    <labels>
+        <fullName>install_user_integration_successful</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>install_user_integration_successful</shortDescription>
+        <value>Organization-wide user access feature has been successfully installed</value>
+    </labels>
+    <labels>
+        <fullName>install_user_integration_unsuccessful</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>install_user_integration_unsuccessful</shortDescription>
+        <value>An error occurred while installing Organization-wide user access feature.</value>
+    </labels>
+    <labels>
+        <fullName>insufficient_privelege_label</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>insufficient_privelege_label</shortDescription>
+        <value>You have insufficient privilege to see this page.</value>
+    </labels>
+    <labels>
+        <fullName>insufficient_priviliges</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>insufficient_priviliges</shortDescription>
+        <value>Insufficient priviliges</value>
+    </labels>
+    <labels>
+        <fullName>integration_block_label</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>integration_block_label</shortDescription>
+        <value>DaDaDocs</value>
+    </labels>
+    <labels>
+        <fullName>invalid_name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>invalid_name</shortDescription>
+        <value>Invalid name</value>
+    </labels>
+    <labels>
+        <fullName>is_empty</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>is_empty</shortDescription>
+        <value>Given ID is empty</value>
+    </labels>
+    <labels>
+        <fullName>js_editor</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>js_editor</shortDescription>
+        <value>Enable JS Editor</value>
+    </labels>
+    <labels>
+        <fullName>l2f_title</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>l2f_title</shortDescription>
+        <value>has shared the document(s) with you.</value>
+    </labels>
+    <labels>
+        <fullName>label_button_name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>label_button_name</shortDescription>
+        <value>Button name</value>
+    </labels>
+    <labels>
+        <fullName>last_modified</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>last_modified</shortDescription>
+        <value>Last Modified</value>
+    </labels>
+    <labels>
+        <fullName>layout_name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>layout_name</shortDescription>
+        <value>Layout name</value>
+    </labels>
+    <labels>
+        <fullName>layouts_altered_message</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>layouts_altered_message</shortDescription>
+        <value>Layouts have been updated successfully</value>
+    </labels>
+    <labels>
+        <fullName>layouts_altered_message_error</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>layouts_altered_message_error</shortDescription>
+        <value>An error occurred while updating</value>
+    </labels>
+    <labels>
+        <fullName>layouts_altered_message_loaded_error</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>layouts_altered_message_loaded_error</shortDescription>
+        <value>An error occurred while loading</value>
+    </labels>
+    <labels>
+        <fullName>license_soon_expire</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>license_soon_expire</shortDescription>
+        <value>DaDaDocs {2} expires in {0} days on {1}.</value>
+    </labels>
+    <labels>
+        <fullName>license_type_active</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>license_type_active</shortDescription>
+        <value>license</value>
+    </labels>
+    <labels>
+        <fullName>license_type_trial</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>license_type_trial</shortDescription>
+        <value>trial</value>
+    </labels>
+    <labels>
+        <fullName>link2fill</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>link2fill</shortDescription>
+        <value>LinkToFill</value>
+    </labels>
+    <labels>
+        <fullName>link2fill_feature</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>link2fill_feature</shortDescription>
+        <value>Enable Link2Fill</value>
+    </labels>
+    <labels>
+        <fullName>loader_classic_loading</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>loader_classic_loading</shortDescription>
+        <value>Loading...</value>
+    </labels>
+    <labels>
+        <fullName>merge</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>merge</shortDescription>
+        <value>Merge</value>
+    </labels>
+    <labels>
+        <fullName>merge_feature</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>merge_feature</shortDescription>
+        <value>Enable Merge Option</value>
+    </labels>
+    <labels>
+        <fullName>merge_pdfs</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>merge_pdfs</shortDescription>
+        <value>Merge PDFs</value>
+    </labels>
+    <labels>
+        <fullName>merge_success</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>merge_success</shortDescription>
+        <value>Selected documents were placed in the queue, the result will appear in the Chatter shortly</value>
+    </labels>
+    <labels>
+        <fullName>metadata_api_err</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>metadata_api_err</shortDescription>
+        <value>Unable to connect to the Salesforce Metadata API.</value>
+    </labels>
+    <labels>
+        <fullName>multiple_documents</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>multiple_documents</shortDescription>
+        <value>Document Packages</value>
+    </labels>
+    <labels>
+        <fullName>multiple_templates</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>multiple_templates</shortDescription>
+        <value>Template Packages</value>
+    </labels>
+    <labels>
+        <fullName>multitoken_filter_by_status</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>multitoken_filter_by_status</shortDescription>
+        <value>Filter by status</value>
+    </labels>
+    <labels>
+        <fullName>multitoken_search_by_name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>multitoken_search_by_name</shortDescription>
+        <value>Search by name</value>
+    </labels>
+    <labels>
+        <fullName>multitoken_status_active</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>multitoken_status_active</shortDescription>
+        <value>Active</value>
+    </labels>
+    <labels>
+        <fullName>multitoken_status_blocked</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>multitoken_status_blocked</shortDescription>
+        <value>Blocked</value>
+    </labels>
+    <labels>
+        <fullName>multitoken_status_none</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>multitoken_status_none</shortDescription>
+        <value>None</value>
+    </labels>
+    <labels>
+        <fullName>multitoken_user_blocked</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>multitoken_user_blocked</shortDescription>
+        <value>Your account is not activated for the organization-wide access. Please contact your organization&apos;s administrator.</value>
+    </labels>
+    <labels>
+        <fullName>next</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>next</shortDescription>
+        <value>Next</value>
+    </labels>
+    <labels>
+        <fullName>no_attachments</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>no_attachments</shortDescription>
+        <value>There are no attachments yet.</value>
+    </labels>
+    <labels>
+        <fullName>no_documents</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>no_documents</shortDescription>
+        <value>no documents</value>
+    </labels>
+    <labels>
+        <fullName>no_files</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>no_files</shortDescription>
+        <value>There are no files yet</value>
+    </labels>
+    <labels>
+        <fullName>no_forms</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>no_forms</shortDescription>
+        <value>no forms</value>
+    </labels>
+    <labels>
+        <fullName>no_id</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>no_id</shortDescription>
+        <value>Invalid Id</value>
+    </labels>
+    <labels>
+        <fullName>no_template_for_render</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>no_template_for_render</shortDescription>
+        <value>An error occurred during processing: no template for render</value>
+    </labels>
+    <labels>
+        <fullName>no_templates</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>no_templates</shortDescription>
+        <value>no templates</value>
+    </labels>
+    <labels>
+        <fullName>not_authorized</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>not_authorized</shortDescription>
+        <value>This Salesforce user has not been authorized with PDFfiller. Please authorize.</value>
+    </labels>
+    <labels>
+        <fullName>not_found</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>not_found</shortDescription>
+        <value>Given ID not found in Documents</value>
+    </labels>
+    <labels>
+        <fullName>nothing_to_update</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>nothing_to_update</shortDescription>
+        <value>Nothing to update</value>
+    </labels>
+    <labels>
+        <fullName>object</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>object</shortDescription>
+        <value>Object</value>
+    </labels>
+    <labels>
+        <fullName>options</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>options</shortDescription>
+        <value>Options</value>
+    </labels>
+    <labels>
+        <fullName>order_by_fields</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>order_by_fields</shortDescription>
+        <value>Order by</value>
+    </labels>
+    <labels>
+        <fullName>orgwide_options_encrypted_fields</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>orgwide_options_encrypted_fields</shortDescription>
+        <value>Enable Encrypted Fields</value>
+    </labels>
+    <labels>
+        <fullName>orgwide_options_header</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>orgwide_options_header</shortDescription>
+        <value>Feature-specific settings</value>
+    </labels>
+    <labels>
+        <fullName>orgwide_options_l2f_label</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>orgwide_options_l2f_label</shortDescription>
+        <value>Enable LinkToFill</value>
+    </labels>
+    <labels>
+        <fullName>orgwide_options_remove_files_after_edit_label</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>orgwide_options_remove_files_after_edit_label</shortDescription>
+        <value>Do not store document(s) in PDFfiller (only for Edit Documents action)</value>
+    </labels>
+    <labels>
+        <fullName>orgwide_options_s2s_label</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>orgwide_options_s2s_label</shortDescription>
+        <value>Enable SendToSign</value>
+    </labels>
+    <labels>
+        <fullName>orgwide_options_templates_label</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>orgwide_options_templates_label</shortDescription>
+        <value>Enable Templates</value>
+    </labels>
+    <labels>
+        <fullName>orgwide_options_update_button</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>orgwide_options_update_button</shortDescription>
+        <value>Save Changes</value>
+    </labels>
+    <labels>
+        <fullName>orgwide_options_updated_message</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>orgwide_options_updated_message</shortDescription>
+        <value>Feature-specific settings have been updated</value>
+    </labels>
+    <labels>
+        <fullName>pdffiller_file</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>pdffiller_file</shortDescription>
+        <value>PDFfiller File</value>
+    </labels>
+    <labels>
+        <fullName>pdffiller_files</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>pdffiller_files</shortDescription>
+        <value>Enable PDFfiller Files</value>
+    </labels>
+    <labels>
+        <fullName>pdffiller_response_message</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>pdffiller_response_message</shortDescription>
+        <value>PDFfiller response:</value>
+    </labels>
+    <labels>
+        <fullName>placeholder_new_name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>placeholder_new_name</shortDescription>
+        <value>Enter document name...</value>
+    </labels>
+    <labels>
+        <fullName>plus_add</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>plus_add</shortDescription>
+        <value>+ Add</value>
+    </labels>
+    <labels>
+        <fullName>plus_contacts</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>plus_contacts</shortDescription>
+        <value>+ Contacts</value>
+    </labels>
+    <labels>
+        <fullName>preview_template_button</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>preview_template_button</shortDescription>
+        <value>Preview Template</value>
+    </labels>
+    <labels>
+        <fullName>print_document</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>print_document</shortDescription>
+        <value>Print Document</value>
+    </labels>
+    <labels>
+        <fullName>print_template_button</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>print_template_button</shortDescription>
+        <value>Print Template</value>
+    </labels>
+    <labels>
+        <fullName>reconnect</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>reconnect</shortDescription>
+        <value>Reconnect</value>
+    </labels>
+    <labels>
+        <fullName>reconnect_desc</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>reconnect_desc</shortDescription>
+        <value>Reconnect with PDFfiller</value>
+    </labels>
+    <labels>
+        <fullName>remove_after_edit</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>remove_after_edit</shortDescription>
+        <value>Do not store document(s) in PDFfiller (only for Edit Documents action)</value>
+    </labels>
+    <labels>
+        <fullName>remove_after_fill_desc</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>remove_after_fill_desc</shortDescription>
+        <value>Refresh</value>
+    </labels>
+    <labels>
+        <fullName>remove_after_fill_desc_full1</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>remove_after_fill_desc_full1</shortDescription>
+        <value>Check this box to remove document out from PDFfiller after filling it.</value>
+    </labels>
+    <labels>
+        <fullName>remove_after_fill_desc_full2</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>remove_after_fill_desc_full2</shortDescription>
+        <value>Uncheck this box to get instant access to the document for second time. Also you could update previous changes.</value>
+    </labels>
+    <labels>
+        <fullName>required_field</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>required_field</shortDescription>
+        <value>Field is required!</value>
+    </labels>
+    <labels>
+        <fullName>rest_dml_exception</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>rest_dml_exception</shortDescription>
+        <value>Problem with a DML statement</value>
+    </labels>
+    <labels>
+        <fullName>rest_doc_linked_to_object</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>rest_doc_linked_to_object</shortDescription>
+        <value>Document has been linked to object</value>
+    </labels>
+    <labels>
+        <fullName>rest_invalid_id</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>rest_invalid_id</shortDescription>
+        <value>Invalid Id</value>
+    </labels>
+    <labels>
+        <fullName>rest_not_enough_permissions</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>rest_not_enough_permissions</shortDescription>
+        <value>Not enough permissions</value>
+    </labels>
+    <labels>
+        <fullName>rest_relation_created</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>rest_relation_created</shortDescription>
+        <value>Relation has been created</value>
+    </labels>
+    <labels>
+        <fullName>rss_created_message</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>rss_created_message</shortDescription>
+        <value>DaDaDocs button settings have been activated successfully</value>
+    </labels>
+    <labels>
+        <fullName>rss_for_metadata</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RSS_for_metadata</shortDescription>
+        <value>Activate &apos;Use DaDaDocs&apos; button for object layouts</value>
+    </labels>
+    <labels>
+        <fullName>rss_metadata_description_1</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>rss_metadata_description</shortDescription>
+        <value>Manage object layouts with a single click</value>
+    </labels>
+    <labels>
+        <fullName>run</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>run</shortDescription>
+        <value>Run</value>
+    </labels>
+    <labels>
+        <fullName>run_uninstall</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>run_uninstall</shortDescription>
+        <value>Run uninstall</value>
+    </labels>
+    <labels>
+        <fullName>s2s_default_message_subject</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>s2s_default_message_subject</shortDescription>
+        <value>Signature request via PDFfiller</value>
+    </labels>
+    <labels>
+        <fullName>s2s_default_message_text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>s2s_default_message_text</shortDescription>
+        <value>Please sign and submit the document with this link</value>
+    </labels>
+    <labels>
+        <fullName>s2s_email_body</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>s2s_email_body</shortDescription>
+        <value>Please sign and return the linked document with PDFfiller. If you have any questions, please contact me.</value>
+    </labels>
+    <labels>
+        <fullName>s2s_email_title</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>s2s_email_title</shortDescription>
+        <value>Digital signature request from {0} ({1})</value>
+    </labels>
+    <labels>
+        <fullName>s2s_shortcut_error</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>s2s_shortcut_error</shortDescription>
+        <value>An error occurred while send to sign</value>
+    </labels>
+    <labels>
+        <fullName>sava_as_modal</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>sava_as_modal</shortDescription>
+        <value>Enter your document name</value>
+    </labels>
+    <labels>
+        <fullName>save</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>save</shortDescription>
+        <value>Save</value>
+    </labels>
+    <labels>
+        <fullName>save_as</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>sava_as_modal</shortDescription>
+        <value>Save As...</value>
+    </labels>
+    <labels>
+        <fullName>save_connection</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>save_connection</shortDescription>
+        <value>Save Connection</value>
+    </labels>
+    <labels>
+        <fullName>save_settings</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>save_settings</shortDescription>
+        <value>Save Settings</value>
+    </labels>
+    <labels>
+        <fullName>save_with_suffix</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>sava_as_modal</shortDescription>
+        <value>Save With Suffix</value>
+    </labels>
+    <labels>
+        <fullName>search</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>search</shortDescription>
+        <value>Search</value>
+    </labels>
+    <labels>
+        <fullName>secret_key</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>secret_key</shortDescription>
+        <value>Secret Key</value>
+    </labels>
+    <labels>
+        <fullName>select_amazon_s3_bucket</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>select_amazon_s3_bucket</shortDescription>
+        <value>Select Amazon S3 Bucket</value>
+    </labels>
+    <labels>
+        <fullName>select_available_layout</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>select_available_layout</shortDescription>
+        <value>Select Available Layout</value>
+    </labels>
+    <labels>
+        <fullName>select_bucket</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>select_bucket</shortDescription>
+        <value>Select Bucket</value>
+    </labels>
+    <labels>
+        <fullName>select_bucket_and_fill_bucket_path</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>select_bucket_and_fill_bucket_path</shortDescription>
+        <value>Select Bucket and Fill Bucket Path</value>
+    </labels>
+    <labels>
+        <fullName>select_cloud_storage_provider</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>select_cloud_storage_provider</shortDescription>
+        <value>Select Cloud Storage Provider</value>
+    </labels>
+    <labels>
+        <fullName>select_region</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>select_region</shortDescription>
+        <value>Select Region</value>
+    </labels>
+    <labels>
+        <fullName>select_your_cloud_storage_provider</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>select_your_cloud_storage_provider</shortDescription>
+        <value>Select Your Cloud Storage Provider</value>
+    </labels>
+    <labels>
+        <fullName>selected_layouts</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>selected_security</shortDescription>
+        <value>Selected Layouts</value>
+    </labels>
+    <labels>
+        <fullName>selected_security</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>selected_security</shortDescription>
+        <value>Selected Security Settings</value>
+    </labels>
+    <labels>
+        <fullName>send</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>send</shortDescription>
+        <value>Send</value>
+    </labels>
+    <labels>
+        <fullName>send2sign</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>send2sign</shortDescription>
+        <value>SendToSign</value>
+    </labels>
+    <labels>
+        <fullName>send2sign_feature</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>send2sign_feature</shortDescription>
+        <value>Enable Send2Sign</value>
+    </labels>
+    <labels>
+        <fullName>sendByEmail</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>sendByEmail</shortDescription>
+        <value>Send by Email</value>
+    </labels>
+    <labels>
+        <fullName>send_by_email</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>send_by_email</shortDescription>
+        <value>Send by Email</value>
+    </labels>
+    <labels>
+        <fullName>send_by_email_default_message_subject</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>send_by_email_default_message_subject</shortDescription>
+        <value>You&apos;ve received a document via PDFfiller</value>
+    </labels>
+    <labels>
+        <fullName>send_by_email_default_message_text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>send_by_email_default_message_text</shortDescription>
+        <value>If you have any questions about this document, please feel free to contact me.</value>
+    </labels>
+    <labels>
+        <fullName>send_document_via_email</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>send_document_via_email</shortDescription>
+        <value>Send Document Via Email</value>
+    </labels>
+    <labels>
+        <fullName>set_security</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>set_security</shortDescription>
+        <value>Set Security</value>
+    </labels>
+    <labels>
+        <fullName>sharable_link_desc</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>sharable_link_desc</shortDescription>
+        <value>Shareable link to the fillable document</value>
+    </labels>
+    <labels>
+        <fullName>share</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>share_via_link</shortDescription>
+        <value>Share</value>
+    </labels>
+    <labels>
+        <fullName>share_via_link</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>share_via_link</shortDescription>
+        <value>Share via Link</value>
+    </labels>
+    <labels>
+        <fullName>share_via_link_default_message_subject</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>share_via_link_default_message_subject</shortDescription>
+        <value>I’ve shared documents with you via DaDaDocs</value>
+    </labels>
+    <labels>
+        <fullName>share_via_link_default_message_text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>share_via_link_default_message_text</shortDescription>
+        <value>You can now have access to the documents that have been shared with you. Changes made to these documents will be visible to everyone they are shared with.</value>
+    </labels>
+    <labels>
+        <fullName>shortcut_button</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>shortcut_button</shortDescription>
+        <value>Shortcut Button</value>
+    </labels>
+    <labels>
+        <fullName>show_more_actions</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>show_more_actions</shortDescription>
+        <value>Show more actions for this record</value>
+    </labels>
+    <labels>
+        <fullName>signWithSignNow</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>signWithSignNow</shortDescription>
+        <value>Sign with SignNow</value>
+    </labels>
+    <labels>
+        <fullName>standard_object_layout</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>standard_object_layout</shortDescription>
+        <value>(Standard)</value>
+    </labels>
+    <labels>
+        <fullName>storage_limit_exceeded</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>required_field</shortDescription>
+        <value>You have reached the file storage limit allocated for your organization. Please remove any unnecessary files or contact your organization&apos;s administrator</value>
+    </labels>
+    <labels>
+        <fullName>success</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>success</shortDescription>
+        <value>Success</value>
+    </labels>
+    <labels>
+        <fullName>success_action_message</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>success_action_message</shortDescription>
+        <value>Action completed</value>
+    </labels>
+    <labels>
+        <fullName>template_description_dcCreate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>template_description_nomap</shortDescription>
+        <value>Using this template, you can pre-fill it with data from Salesforce records, as well as update and/or create Salesforce records with data from a filled document.</value>
+    </labels>
+    <labels>
+        <fullName>template_description_dcUpdate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>template_description_nomap</shortDescription>
+        <value>Using this template, you can pre-fill it with data from Salesforce records, as well as update and/or create Salesforce records with data from a filled document.</value>
+    </labels>
+    <labels>
+        <fullName>template_description_nomap</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>template_description_nomap</shortDescription>
+        <value>A template containing fillable fields without any mapping to Salesforce data. Use this template to request signatures or create a fillable form and receive the filled file in the Salesforce record.</value>
+    </labels>
+    <labels>
+        <fullName>template_description_regular</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>template_description_regular</shortDescription>
+        <value>This template will be pre-filled with data from the Salesforce record.</value>
+    </labels>
+    <labels>
+        <fullName>template_name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>template_name</shortDescription>
+        <value>Template name</value>
+    </labels>
+    <labels>
+        <fullName>template_success</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>template_success</shortDescription>
+        <value>Template file rendered and attached to current object</value>
+    </labels>
+    <labels>
+        <fullName>template_to_chatter</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>template_to_chatter</shortDescription>
+        <value>Content generated from template</value>
+    </labels>
+    <labels>
+        <fullName>template_to_large_exception</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>template_to_large_exception</shortDescription>
+        <value>Your object structure is too large to be mapped. Please select less Relationships and Fields in the wizard.</value>
+    </labels>
+    <labels>
+        <fullName>templates_feature</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>templates_feature</shortDescription>
+        <value>Enable Templates</value>
+    </labels>
+    <labels>
+        <fullName>ui_clone_document</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>ui_clone_document</shortDescription>
+        <value>Import to Documents</value>
+    </labels>
+    <labels>
+        <fullName>ui_copied_to_clipboard</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>ui_copied_to_clipboard</shortDescription>
+        <value>Copied to clipboard!</value>
+    </labels>
+    <labels>
+        <fullName>ui_copy_form_link</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>ui_copy_form_link</shortDescription>
+        <value>Copy Form Link</value>
+    </labels>
+    <labels>
+        <fullName>ui_create_single_user_form</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>ui_create_single_user_form</shortDescription>
+        <value>Create Single User Form</value>
+    </labels>
+    <labels>
+        <fullName>ui_data_collection_form</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>ui_data_collection_form</shortDescription>
+        <value>Data Collection Form</value>
+    </labels>
+    <labels>
+        <fullName>ui_delete_action</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>ui_delete_action</shortDescription>
+        <value>Delete</value>
+    </labels>
+    <labels>
+        <fullName>ui_delete_form</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>ui_delete_form</shortDescription>
+        <value>Delete Form</value>
+    </labels>
+    <labels>
+        <fullName>ui_edit_document</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>ui_edit_document</shortDescription>
+        <value>Edit Document</value>
+    </labels>
+    <labels>
+        <fullName>ui_edit_form</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>ui_edit_form</shortDescription>
+        <value>Edit Form</value>
+    </labels>
+    <labels>
+        <fullName>ui_rename_action</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>ui_rename_action</shortDescription>
+        <value>Rename</value>
+    </labels>
+    <labels>
+        <fullName>ui_use_template</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>ui_use_template</shortDescription>
+        <value>Use Template</value>
+    </labels>
+    <labels>
+        <fullName>uninstall</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>uninstall</shortDescription>
+        <value>Uninstall</value>
+    </labels>
+    <labels>
+        <fullName>uninstall_descr</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>uninstall_descr</shortDescription>
+        <value>Removes all package settings in order to perform uninstall.</value>
+    </labels>
+    <labels>
+        <fullName>uninstall_user_integration</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>uninstall_user_integration</shortDescription>
+        <value>Uninstall organization-wide user access feature</value>
+    </labels>
+    <labels>
+        <fullName>uninstall_user_integration_detail</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>uninstall_user_integration_detail</shortDescription>
+        <value>This action will uninstall organization-wide user access feature from DaDaDocs</value>
+    </labels>
+    <labels>
+        <fullName>uninstall_user_integration_successful</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>uninstall_user_integration_successful</shortDescription>
+        <value>Organization-wide user access feature has been successfully uninstalled</value>
+    </labels>
+    <labels>
+        <fullName>uninstall_user_integration_unsuccessful</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>install_user_integration_unsuccessful</shortDescription>
+        <value>An error occurred while uninstalling organization-wide user access feature.</value>
+    </labels>
+    <labels>
+        <fullName>up</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>up</shortDescription>
+        <value>Up</value>
+    </labels>
+    <labels>
+        <fullName>update_attachment</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>update_attachment</shortDescription>
+        <value>Save filled document</value>
+    </labels>
+    <labels>
+        <fullName>update_layouts</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>update_layouts</shortDescription>
+        <value>Update Layouts</value>
+    </labels>
+    <labels>
+        <fullName>update_user_integration_delete_question</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>update_user_integration_delete_question</shortDescription>
+        <value>Are you sure you want to delete this user?</value>
+    </labels>
+    <labels>
+        <fullName>update_user_integration_error_no_permissions</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>update_user_integration_error_no_permissions</shortDescription>
+        <value>You don&apos;t have permissions to perform this action.</value>
+    </labels>
+    <labels>
+        <fullName>update_user_integration_error_nothing_to_update</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>update_user_integration_error_nothing_to_update</shortDescription>
+        <value>Nothing to update</value>
+    </labels>
+    <labels>
+        <fullName>update_user_integration_error_unexpected</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>update_user_integration_error_unexpected</shortDescription>
+        <value>There was an error during update.</value>
+    </labels>
+    <labels>
+        <fullName>update_user_integration_error_update_unconnected</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>update_user_integration_error_update_unconnected</shortDescription>
+        <value>Some user&apos;s statuses weren&apos;t updated, because this users weren&apos;t connected.</value>
+    </labels>
+    <labels>
+        <fullName>update_user_integration_go_back</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>update_user_integration_go_back</shortDescription>
+        <value>Go back</value>
+    </labels>
+    <labels>
+        <fullName>upload_button</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>upload_button</shortDescription>
+        <value>Upload Document</value>
+    </labels>
+    <labels>
+        <fullName>user_has_no_permission_to_access_page</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>user_has_no_permission_to_access_page</shortDescription>
+        <value>User isn&apos;t assigned to the permission set &apos;DaDaDocs Set&apos;. Please contact your organization&apos;s administrator.</value>
+    </labels>
+    <labels>
+        <fullName>waiting</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>waiting</shortDescription>
+        <value>Please wait...</value>
+    </labels>
+    <labels>
+        <fullName>who_can_use_template</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>who_can_use_template</shortDescription>
+        <value>Select who can access this template</value>
+    </labels>
+    <labels>
+        <fullName>wiz_add_new</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>wiz_add_new</shortDescription>
+        <value>Add New</value>
+    </labels>
+    <labels>
+        <fullName>wiz_btn_back</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>wiz_btn_back</shortDescription>
+        <value>Back</value>
+    </labels>
+    <labels>
+        <fullName>wiz_btn_cancel</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>wiz_btn_cancel</shortDescription>
+        <value>Cancel</value>
+    </labels>
+    <labels>
+        <fullName>wiz_btn_next</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>wiz_btn_next</shortDescription>
+        <value>Next</value>
+    </labels>
+    <labels>
+        <fullName>wiz_btn_save</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>wiz_btn_save</shortDescription>
+        <value>Save</value>
+    </labels>
+    <labels>
+        <fullName>wiz_btn_skip_wiz</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>wiz_btn_skip_wiz</shortDescription>
+        <value>Skip wizard</value>
+    </labels>
+    <labels>
+        <fullName>wiz_doc_pack_name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>wiz_doc_pack_name</shortDescription>
+        <value>Name Document Package</value>
+    </labels>
+    <labels>
+        <fullName>wiz_doc_pack_name_info</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>wiz_doc_pack_name_info</shortDescription>
+        <value>max 50 characters</value>
+    </labels>
+    <labels>
+        <fullName>wiz_doc_pack_starting_obj</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>wiz_doc_pack_starting_obj</shortDescription>
+        <value>Select Starting Object</value>
+    </labels>
+    <labels>
+        <fullName>wiz_err_cant_find_tmpl</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>wiz_err_cant_find_tmpl</shortDescription>
+        <value>Cannot find template with ID:</value>
+    </labels>
+    <labels>
+        <fullName>wiz_err_cant_load_tmpl</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>wiz_err_cant_load_tmpl</shortDescription>
+        <value>Cannot load template data:</value>
+    </labels>
+    <labels>
+        <fullName>wiz_err_no_childs</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>wiz_err_no_childs</shortDescription>
+        <value>Childs tree is empty</value>
+    </labels>
+    <labels>
+        <fullName>wiz_err_no_file</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>wiz_err_no_file</shortDescription>
+        <value>Upload file to use as template before saving</value>
+    </labels>
+    <labels>
+        <fullName>wiz_err_no_init_object</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>wiz_err_no_init_object</shortDescription>
+        <value>Initial object type must be specified</value>
+    </labels>
+    <labels>
+        <fullName>wiz_err_no_obj_name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>wiz_err_no_obj_name</shortDescription>
+        <value>No object name provided</value>
+    </labels>
+    <labels>
+        <fullName>wiz_err_no_parents</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>wiz_err_no_parents</shortDescription>
+        <value>Parents tree is empty</value>
+    </labels>
+    <labels>
+        <fullName>wiz_err_no_reference_name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>wiz_err_no_reference_name</shortDescription>
+        <value>No reference name provided</value>
+    </labels>
+    <labels>
+        <fullName>wiz_err_obj_name_invalid</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>wiz_err_obj_name_invalid</shortDescription>
+        <value>Invalid object name</value>
+    </labels>
+    <labels>
+        <fullName>wiz_err_tree_not_init</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>wiz_err_tree_not_init</shortDescription>
+        <value>Template structure is not initialized</value>
+    </labels>
+    <labels>
+        <fullName>wiz_err_wrong_direction</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>wiz_err_wrong_direction</shortDescription>
+        <value>Unspecified direction for relation build</value>
+    </labels>
+    <labels>
+        <fullName>wiz_field</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>wiz_field</shortDescription>
+        <value>Field</value>
+    </labels>
+    <labels>
+        <fullName>wiz_field_tags</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>wiz_field_tags</shortDescription>
+        <value>Field Tags</value>
+    </labels>
+    <labels>
+        <fullName>wiz_fifth_step</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>wiz_fifth_step</shortDescription>
+        <value>Add Template</value>
+    </labels>
+    <labels>
+        <fullName>wiz_fifth_step_descr</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>wiz_fifth_step_descr</shortDescription>
+        <value>Upload file</value>
+    </labels>
+    <labels>
+        <fullName>wiz_first_step</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>wiz_first_step</shortDescription>
+        <value>Create Document Package</value>
+    </labels>
+    <labels>
+        <fullName>wiz_first_step_descr</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>wiz_first_step_descr</shortDescription>
+        <value>Name your document package and select your starting object</value>
+    </labels>
+    <labels>
+        <fullName>wiz_fourth_step</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>wiz_fourth_step</shortDescription>
+        <value>Select Fields</value>
+    </labels>
+    <labels>
+        <fullName>wiz_fourth_step_descr</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>wiz_fourth_step_descr</shortDescription>
+        <value>Select the fields within your parallel and/or downward object relationships to be exported</value>
+    </labels>
+    <labels>
+        <fullName>wiz_fourth_step_descr_DC</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>wiz_fourth_step_descr_DC</shortDescription>
+        <value>Select the fields within the current object you would like to export.</value>
+    </labels>
+    <labels>
+        <fullName>wiz_object_fields</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>wiz_object_fields</shortDescription>
+        <value>Object Fields</value>
+    </labels>
+    <labels>
+        <fullName>wiz_rel_by</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>wiz_rel_by</shortDescription>
+        <value>Related to</value>
+    </labels>
+    <labels>
+        <fullName>wiz_relationsgips_down</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>wiz_relationsgips_down</shortDescription>
+        <value>Related Downward Objects</value>
+    </labels>
+    <labels>
+        <fullName>wiz_relationsgips_up</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>wiz_relationsgips_up</shortDescription>
+        <value>Upward Relationships</value>
+    </labels>
+    <labels>
+        <fullName>wiz_second_step</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>wiz_second_step</shortDescription>
+        <value>Add Related Objects (Up)</value>
+    </labels>
+    <labels>
+        <fullName>wiz_second_step_descr</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>wiz_second_step_descr</shortDescription>
+        <value>Define Object Relationships</value>
+    </labels>
+    <labels>
+        <fullName>wiz_select_file</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>wiz_select_file</shortDescription>
+        <value>Select from files</value>
+    </labels>
+    <labels>
+        <fullName>wiz_select_relationship</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>wiz_select_relationship</shortDescription>
+        <value>Select Relationship</value>
+    </labels>
+    <labels>
+        <fullName>wiz_selected_file</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>wiz_selected_file</shortDescription>
+        <value>Selected file:</value>
+    </labels>
+    <labels>
+        <fullName>wiz_tag</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>wiz_tag</shortDescription>
+        <value>Tag</value>
+    </labels>
+    <labels>
+        <fullName>wiz_third_step</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>wiz_third_step</shortDescription>
+        <value>Add Related Objects (Down)</value>
+    </labels>
+    <labels>
+        <fullName>wiz_third_step_descr</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>wiz_third_step_descr</shortDescription>
+        <value>Define the downward (parent to child) object relationship</value>
+    </labels>
+    <labels>
+        <fullName>wiz_tmpl_file</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>wiz_tmpl_file</shortDescription>
+        <value>Template file(s):</value>
+    </labels>
+    <labels>
+        <fullName>wiz_tmpl_file_upload_descr</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>wiz_tmpl_file_upload_descr</shortDescription>
+        <value>Upload From Desktop</value>
+    </labels>
+    <labels>
+        <fullName>wiz_type</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>wiz_type</shortDescription>
+        <value>Type</value>
+    </labels>
+    <labels>
+        <fullName>wiz_type_boolean</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>wiz_type_boolean</shortDescription>
+        <value>Boolean</value>
+    </labels>
+    <labels>
+        <fullName>wiz_type_number</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>wiz_type_number</shortDescription>
+        <value>Number</value>
+    </labels>
+    <labels>
+        <fullName>wiz_type_object</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>wiz_type_object</shortDescription>
+        <value>Object</value>
+    </labels>
+    <labels>
+        <fullName>wiz_type_string</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>wiz_type_string</shortDescription>
+        <value>String</value>
+    </labels>
+    <labels>
+        <fullName>wiz_upload_file</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>wiz_upload_file</shortDescription>
+        <value>upload file</value>
+    </labels>
+    <labels>
+        <fullName>wiz_upload_file_info</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>wiz_upload_file_info</shortDescription>
+        <value>Max size 5MB</value>
+    </labels>
+    <labels>
+        <fullName>wiz_upload_file_type</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>wiz_upload_file_type</shortDescription>
+        <value>Select any DOCX file</value>
+    </labels>
+    <labels>
+        <fullName>workflow_component_checkbox</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>workflow_component_checkbox</shortDescription>
+        <value>Use status changes</value>
+    </labels>
+    <labels>
+        <fullName>workflow_component_choose_field</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>workflow_component_choose_field</shortDescription>
+        <value>Current object field</value>
+    </labels>
+    <labels>
+        <fullName>workflow_component_field_value_on_accept</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>workflow_component_field_value_on_accept</shortDescription>
+        <value>Field Value On Accept</value>
+    </labels>
+    <labels>
+        <fullName>workflow_component_field_value_on_decline</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>workflow_component_field_value_on_decline</shortDescription>
+        <value>Field Value On Decline</value>
+    </labels>
+    <labels>
+        <fullName>workflow_component_field_value_on_send</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>workflow_component_field_value_on_send</shortDescription>
+        <value>Field Value On Send</value>
+    </labels>
+    <labels>
+        <fullName>workflow_component_title</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>workflow_component_title</shortDescription>
+        <value>Current Object Status Changes</value>
+    </labels>
+</CustomLabels>

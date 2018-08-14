@@ -1,0 +1,75 @@
+<aura:component controller="qburst_widgets.QPicks_OppInsightsController" implements="flexipage:availableForRecordHome,force:hasRecordId,force:hasSObjectName" access="global" >
+	<aura:dependency resource="markup://force:editRecord" type="EVENT" />
+
+    <aura:attribute name="sObjectName" type="String" /> 
+    <aura:attribute name="recordId" type="Id" />
+
+    <aura:attribute name="fiscalText" type="String" />
+    <aura:attribute name="age" type="Integer" default="0"/>
+    <aura:attribute name="closeDateCount" type="String" default="-"/>
+    <aura:attribute name="isDue" type="Boolean" default="false"/>
+    <aura:attribute name="percentText" type="String" />
+    <aura:attribute name="pushCount" type="Integer" default="0"/>  
+
+    <aura:handler event="force:refreshView" action="{!c.fetchOpportunityInsights}" />
+
+    <aura:handler name="init" value="{!this}" action="{!c.fetchOpportunityInsights}"/>
+    
+    <div class="slds-box mainContainer" aura:id="main">
+        
+        <div class="slds-grid slds-wrap itemTitle">
+            <div class="slds-size--1-of-1">
+                <header>            
+                    <h2 class="slds-text-heading--small slds-m-bottom--small">Quick Picks Insights</h2>            
+                </header>            
+            </div>
+        </div>
+        
+        <div class="slds-size--1-of-1 slds-grid slds-wrap content">
+            <div class="slds-size--1-of-1 slds-p-top--small">
+                <ui:outputText value="Fiscal: " class="indiceName"/>
+                <ui:outputText value="{!v.fiscalText}"/>       
+            </div>
+
+            <div class="slds-size--1-of-1 slds-p-top--small">
+                <ui:outputText value="Age: " class="indiceName"/>
+                <ui:outputText value="{!v.age + ' days'}"/>       
+            </div>
+
+            <div class="slds-size--1-of-1 slds-p-top--small">
+                <ui:outputText value="Close Date: " class="indiceName"/>
+                <aura:if isTrue="{!v.closeDateCount != 'Closed'}">
+                    <div class="{!v.isDue ? 'redText' : 'greenText'}">
+                        <aura:if isTrue="{!!v.isDue}">
+                            <ui:outputText value=" in "/>  
+                        </aura:if>
+                        <ui:outputText value="{!v.closeDateCount + ' days'}"/>  
+                        <aura:if isTrue="{!v.isDue}"> 
+                            <ui:outputText value=" due"/> 
+                        </aura:if>     
+                    </div>         
+                    <aura:set attribute="else">
+                        Closed                        
+                    </aura:set>
+                </aura:if> 
+            </div>  
+            
+            <div class="slds-size--1-of-1 slds-p-top--small">
+                <ui:outputText value="Owner Contribution: " class="indiceName"/> 
+                <ui:outputText value="{!v.percentText}"/>       
+            </div>  
+            
+            <div class="slds-size--1-of-1 slds-p-top--small">
+                <ui:outputText value="Push Count: " class="indiceName" /> 
+                <ui:outputText value="{!v.pushCount}"/>       
+            </div>                   
+        </div>
+
+        <div class="slds-spinner_container" aura:id="spinner">
+          <div class="slds-spinner--brand slds-spinner slds-spinner--medium" aria-hidden="false" role="alert">
+            <div class="slds-spinner__dot-a"></div>
+            <div class="slds-spinner__dot-b"></div>
+          </div>
+        </div>
+    </div>
+</aura:component>

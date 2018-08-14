@@ -1,0 +1,787 @@
+<apex:page id="TemplateWizard"
+           controller="pdffiller_sf.TemplateWizardController"
+           standardStylesheets="false"
+           docType="html-5.0"
+           extensions="pdffiller_sf.PageParameters">
+
+    <apex:form id="templateWizardForm">
+        <c:Loader />
+        <c:ApplicationUtils tokenRequiredOnload="true"/>
+        <apex:outputPanel rendered="{!!isLocalFrontEnv}">
+            <apex:stylesheet value="{!URLFOR($Resource.pdffiller_sf__v2) + '/salesforce.css'}"/>
+        </apex:outputPanel>
+        <apex:outputPanel rendered="{!isLocalFrontEnv}">
+            <apex:stylesheet value="https://localhost:8080/salesforce.css"/>
+        </apex:outputPanel>
+
+        <apex:outputpanel id="statusWrapper">
+            <apex:actionstatus id="status" onStop="initWizardForm()">
+                <apex:facet name="start">
+                    <div class="waitingSearchDiv" id="el_loading" style="background-color: #fbfbfb;
+                       height: 100%;opacity:0.65;width:100%;">
+                        <div class="waitingHolder" style="top: 74.2px; width: 91px;">
+                            <img class="waitingImage" src="/img/loading.gif" title="{!$Label.waiting}"/>
+                            <span class="waitingDescription">{!$Label.waiting}</span>
+                        </div>
+                    </div>
+                </apex:facet>
+            </apex:actionstatus>
+        </apex:outputpanel>
+
+        <apex:outputPanel id="wizard" layout="block">
+
+            <main class="dadadocs-wizard" data-templateTypeMainWrapper="{!IF(isFlatTemplate, 'PDFtemplates', 'DocxWizard')}">
+                <apex:outputPanel id="tabsFull" rendered="{!NOT(isFlatTemplate)}">
+                    <header>
+                        <ul class="dadadocs-step-list">
+                            <li class="dadadocs-step-list__item">
+                                <div class="dadadocs-step-list__item-inner">
+                                    <span>1.</span> {!$Label.pdffiller_sf__wiz_first_step}
+                                </div>
+                            </li>
+                            <li class="dadadocs-step-list__item">
+                                <div class="dadadocs-step-list__item-inner">
+                                    <span>2.</span> {!$Label.pdffiller_sf__set_security}
+                                </div>
+                            </li>
+                            <li class="dadadocs-step-list__item">
+                                <div class="dadadocs-step-list__item-inner">
+                                    <span>3.</span> {!$Label.pdffiller_sf__wiz_second_step}
+                                </div>
+                            </li>
+                            <li class="dadadocs-step-list__item">
+                                <div class="dadadocs-step-list__item-inner">
+                                    <span>4.</span> {!$Label.pdffiller_sf__wiz_third_step}
+                                </div>
+                            </li>
+                            <li class="dadadocs-step-list__item">
+                                <div class="dadadocs-step-list__item-inner">
+                                    <span>5.</span> {!$Label.pdffiller_sf__wiz_fourth_step}
+                                </div>
+                            </li>
+                            <li class="dadadocs-step-list__item">
+                                <div class="dadadocs-step-list__item-inner">
+                                    <span>6.</span> {!$Label.pdffiller_sf__wiz_fifth_step}
+                                </div>
+                            </li>
+                        </ul>
+                    </header>
+                </apex:outputPanel>
+                <apex:outputPanel id="tabsFlat" rendered="{!isFlatTemplate}">
+                    <header>
+                        <ul class="dadadocs-step-list">
+                            <li class="dadadocs-step-list__item">
+                                <div class="dadadocs-step-list__item-inner">
+                                    <span>1.</span> {!$Label.set_security}
+                                </div>
+                            </li>
+                            <li style="display: {!IF(dataCollectionType == 'DCcreate', 'none', 'block')}"  class="dadadocs-step-list__item">
+                                <div class="dadadocs-step-list__item-inner">
+                                    <span>2.</span> {!$Label.wiz_second_step}
+                                </div>
+                            </li>
+                            <li class="dadadocs-step-list__item">
+                                <div class="dadadocs-step-list__item-inner">
+                                    <span>{!IF(dataCollectionType == 'DCcreate', '2', '3')}.</span> {!$Label.wiz_fourth_step}
+                                </div>
+                            </li>
+                        </ul>
+                    </header>
+                </apex:outputPanel>
+
+                <!--first steps wizard-->
+                <div class="dadadocs-wizard-content">
+                    <div class="dadadocs-steps-content">
+                        <apex:outputPanel styleClass="dadadocs-step" rendered="{!NOT(isFlatTemplate)}" layout="block">
+                            <div class="dadadocs-step__header">
+                                <div>{!$Label.wiz_first_step_descr}</div>
+                            </div>
+                            <div class="dadadocs-step__content">
+                                <div class="dadadocs-step__row">
+                                    <div class="dadadocs-step__name-cell">
+                                            {!$Label.wiz_doc_pack_name}
+                                    </div>
+                                    <div class="dadadocs-step__content-cell">
+                                        <input type="text" id="templateName" class="dadadocs-input" oninput='this.value=removeSpecialChars(this.value)'  maxLength="50"/>
+                                        <span>
+                                                {!$Label.wiz_doc_pack_name_info}
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="dadadocs-step__row">
+                                    <div class="dadadocs-step__name-cell">
+                                            {!$Label.wiz_doc_pack_starting_obj}
+                                    </div>
+                                    <div class="dadadocs-step__content-cell">
+                                        <apex:selectList styleClass="dadadocs-input dadadocs-input_select"
+                                                         id="initialObjectSelector"
+                                                         value="{!initObjectType}"
+                                                         multiSelect="false"
+                                                         size="1"
+                                                         disabled="{!IF(fileTemplateId!=null, true, false)}">
+                                            <apex:selectOptions value="{!allObjectsTypes}"/>
+                                        </apex:selectList>
+                                    </div>
+                                </div>
+                            </div>
+                        </apex:outputPanel>
+                        <apex:outputPanel styleClass="dadadocs-step dadadocs-step--5" layout="block">
+                            <div class="dadadocs-step__header">
+                                <div>{!$Label.pdffiller_sf__who_can_use_template}</div>
+                            </div>
+                            <div class="dadadocs-step__content">
+                                <div class="dadadocs-step__row">
+                                    <div class="dadadocs-step__content-cell dadadocs-step__content-cell_full">
+                                        <c:RecordAccessControls record_id="{!IF(isFlatTemplate, pdffillerDocumentId, fileTemplateId)}"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </apex:outputPanel>
+                        <apex:outputPanel rendered="{! NOT(dataCollectionType == 'DCcreate')}" styleClass="dadadocs-step dadadocs-flat__first-step" layout="block">
+                            <div class="dadadocs-step__header">
+                                <div>{!$Label.wiz_second_step_descr}</div>
+                            </div>
+                            <ul class="dadadocs-step__header-description-list">
+                                <li class="dadadocs-step__header-description-item">Select the Relationship Type from the
+                                    Dropdown Menu
+                                </li>
+                                <li class="dadadocs-step__header-description-item">Add New Relationship</li>
+                            </ul>
+                            <div class="dadadocs-step__content">
+                                <div class="dadadocs-step__row">
+                                    <div class="dadadocs-step__name-cell">
+                                            {!$Label.wiz_relationsgips_up}
+                                    </div>
+                                    <div class="dadadocs-step__content-cell dadadocs-step__content-cell_full">
+                                        <ul class="dadadocs-relationships">
+                                            <li class="dadadocs-relationships__item dadadocs-relationships-up">
+                                                <div class="dadadocs-relationships-item-content dadadocs-relationships-item-content_main">
+                                                    <div class="dadadocs-relationships-item-content__title">
+                                                        <div class="dadadocs-relationships-item-content__title-name"></div>
+                                                        <span>
+                                                                {!$Label.wiz_rel_by}
+                                                        </span>
+                                                    </div>
+                                                    <button class="dadadocs-relationships-item-content__add-button"
+                                                            type="button">
+                                                            {!$Label.wiz_add_new}
+                                                    </button>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </apex:outputPanel>
+                        <apex:outputPanel styleClass="dadadocs-step" rendered="{!NOT(isFlatTemplate)}" layout="block">
+                            <div class="dadadocs-step__header">
+                                <div> {!$Label.wiz_third_step_descr}</div>
+                            </div>
+                            <div class="dadadocs-step__content">
+                                <div class="dadadocs-step__row">
+                                    <div class="dadadocs-step__name-cell">
+                                            {!$Label.wiz_relationsgips_down}
+                                    </div>
+                                    <div class="dadadocs-step__content-cell dadadocs-step__content-cell_full">
+                                        <ul class="dadadocs-relationships">
+                                            <li class="dadadocs-relationships__item dadadocs-relationships-down">
+                                                <div class="dadadocs-relationships-item-content dadadocs-relationships-item-content_main">
+                                                    <div class="dadadocs-relationships-item-content__title">
+                                                        <div class="dadadocs-relationships-item-content__title-name"></div>
+                                                        <span>
+                                                                {!$Label.wiz_rel_by}
+                                                        </span>
+                                                    </div>
+                                                    <button class="dadadocs-relationships-item-content__add-button"
+                                                            type="button">
+                                                            {!$Label.wiz_add_new}
+                                                    </button>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </apex:outputPanel>
+                        <apex:outputPanel styleClass="dadadocs-step" layout="block">
+                            <div class="dadadocs-step__header">
+                                <div>{! IF(dataCollectionType == 'DCcreate', $Label.wiz_fourth_step_descr_DC, $Label.wiz_fourth_step_descr)}</div>
+                            </div>
+                            <div class="dadadocs-step__content">
+                                <apex:outputPanel id="step4" layout="block">
+                                    <div class="dadadocs-step__row--wrapper">
+                                        <div class="dadadocs-step__row">
+                                            <div class="dadadocs-step__name-cell">
+                                                    {!$Label.wiz_object_fields}
+                                            </div>
+                                            <div class="dadadocs-step__content-cell">
+                                                <select id="objectTagsSelector"
+                                                        class="dadadocs-input dadadocs-input_select"
+                                                        size="1">
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div id="orderField"
+                                             class="dadadocs-step__row dadadocs-step__row--order-by-fields">
+                                            <div class="dadadocs-step__name-cell">
+                                                    {!$Label.order_by_fields}
+                                            </div>
+                                            <div class="dadadocs-step__content-cell">
+                                                <select class="dadadocs-input dadadocs-input_select"
+                                                        id="orderFieldNameSelector">
+                                                </select>
+                                                <select class="dadadocs-input dadadocs-input_select"
+                                                        id="orderByOptions">
+                                                    <option value="DESC">Descending</option>
+                                                    <option value="ASC">Ascending</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="dadadocs-step__row dadadocs-step__row_underline">
+                                        <div class="dadadocs-step__name-cell">
+                                                {!$Label.wiz_field_tags}
+                                        </div>
+                                        <div class="dadadocs-step__content-cell dadadocs-step__content-cell_full dadadocs-table dadadocs-table_tag">
+                                            <div class="dadadocs-table__row dadadocs-table__row_header">
+                                                <div class="dadadocs-table__cell dadadocs-table__cell_bold dadadocs-table__cell_selected">
+                                                    +
+                                                </div>
+                                                <div class="dadadocs-table__cell dadadocs-table__cell_bold dadadocs-table__cell_field">
+                                                        {!$Label.wiz_field}
+                                                </div>
+                                                <div class="dadadocs-table__cell dadadocs-table__cell_bold dadadocs-table__cell_type">
+                                                        {!$Label.wiz_type}
+                                                </div>
+                                                <apex:outputPanel rendered="{!NOT(isFlatTemplate)}">
+                                                    <div class="dadadocs-table__cell dadadocs-table__cell_bold dadadocs-table__cell_tag">
+                                                            {!$Label.pdffiller_sf__wiz_tag}
+                                                    </div>
+                                                </apex:outputPanel>
+                                            </div>
+                                            <div layout="block" id="fieldTags" class="dadadocs-table__fieldTags">
+                                                <!--field tags container-->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </apex:outputPanel>
+                            </div>
+                        </apex:outputPanel>
+                        <apex:outputPanel styleClass="dadadocs-step" rendered="{!NOT(isFlatTemplate)}" layout="block">
+                            <div class="dadadocs-step__header">
+                                <div>{!$Label.wiz_fifth_step_descr}</div>
+                            </div>
+                            <div class="dadadocs-step__content">
+                                <div style="margin-bottom: 20px;">
+                                    <div class="dadadocs-step__name-cell">
+                                            {!$Label.wiz_select_file}
+                                    </div>
+                                    <div class="dadadocs-step__content-cell dadadocs-step__content-cell_full"
+                                         style="padding-top: 10px; padding-bottom: 10px;">
+                                        <c:DocumentSelector />
+                                    </div>
+                                </div>
+                                <div class="dadadocs-step__row" id="fileUploadButtonContainer">
+                                    <div class="dadadocs-step__name-cell">
+                                            {!$Label.wiz_tmpl_file_upload_descr}
+                                    </div>
+                                    <div class="dadadocs-step__content-cell dadadocs-step__content-cell_full">
+                                        <div class="dadadocs-file-upload">
+                                            <div class="dadadocs-file-upload__inner">
+                                                <label class="dadadocs-button dadadocs-button_gray dadadocs-file-upload__button">
+                                                    <input type="file" class="dadadocs-file-upload__input"
+                                                           accept=".docx"/>
+                                                        {!$Label.wiz_upload_file}
+                                                </label>
+                                                <div class="dadadocs-file-upload__description">
+                                                    <p class="dadadocs-file-upload__description-type">
+                                                            {!$Label.wiz_upload_file_type}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="dadadocs-step__row">
+                                    <div class="dadadocs-step__name-cell">
+                                            {!$Label.wiz_selected_file}
+                                    </div>
+                                    <div class="dadadocs-step__content-cell dadadocs-step__content-cell_full">
+                                        <div class="dadadocs-file-upload">
+                                            <div class="dadadocs-uploaded-file">
+                                                <h2 class="dadadocs-file-upload_name" title="" id="">
+                                                    <a href="/sfc/servlet.shepherd/version/download/{!fileDocumentVersionId}"
+                                                       target="_document"
+                                                       id="templateFileDownloadLink">{!templateFileTitle}</a>
+                                                </h2>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </apex:outputPanel>
+                    </div>
+                    <div class="dadadocs-actions-wrapper"
+                         data-templateType="{!IF(isFlatTemplate, 'PDFtemplates', 'DocxWizard')}">
+                        <button
+                                id="cancelBtn"
+                                type="button"
+                                class="dadadocs-button dadadocs-button_gray dadadocs-button--wizard-cancel">
+                                {!$Label.wiz_btn_cancel}
+                        </button>
+                        <div class="dadadocs-actions">
+                            <button
+                                    id="backBtn"
+                                    type="button"
+                                    class="dadadocs-button dadadocs-button_gray dadadocs-button_margin-rigth dadadocs-actions_back dadadocs-button_not-active">
+                                    {!$Label.wiz_btn_back}
+                            </button>
+                            <button id="nextBtn" type="button"
+                                    class="dadadocs-button dadadocs-button_orange dadadocs-actions_next">
+                                    {!$Label.wiz_btn_next}
+                            </button>
+                            <button
+                                    id="saveBtn"
+                                    type="button"
+                                    class="dadadocs-button dadadocs-button_orange dadadocs-actions_save dadadocs-button_not-active">
+                                    {!$Label.wiz_btn_save}
+                            </button>
+                            <apex:outputPanel rendered="{!isFlatTemplate}" layout="block">
+                                <button type="button"
+                                        id="skipWizard"
+                                        class="dadadocs-button dadadocs-button_orange dadadocs-actions_skip">
+                                        {!$Label.wiz_btn_skip_wiz}
+                                </button>
+                            </apex:outputPanel>
+                        </div>
+                    </div>
+                </div>
+
+                <c:Alert />
+            </main>
+
+        </apex:outputPanel>
+        <apex:outputPanel id="systemFields">
+            <apex:inputHidden id="fileDocumentId" value="{!fileDocumentId}"/>
+            <apex:inputHidden id="initObjectType" value="{!initObjectType}"/>
+            <apex:inputHidden id="fileDocumentVersionId" value="{!fileDocumentVersionId}"/>
+            <apex:inputHidden id="parentId" value="{!parentId}"/>
+            <apex:inputHidden id="selectAll" value="{!selectAll}"/>
+            <apex:inputHidden id="renderOrderFields" value="{!renderOrderFields}"/>
+            <apex:inputHidden id="fileTemplateId" value="{!fileTemplateId}"/>
+            <apex:inputHidden id="templateStructure" value="{!templateStructureSerialized}"/>
+        </apex:outputPanel>
+
+        <apex:actionFunction name="refreshForm"
+                             reRender="wizard"
+                             onComplete="new SF.TemplateWizard().init(); new Steps().initStep(); if (!IS_FLAT_TEMPLATE) {toggleUploadFileBtn();}"
+                             status="status"/>
+        <apex:actionFunction name="saveTemplateFileLink"
+                             action="{!saveTemplate}"
+                             status="status"
+                             onComplete="saveAccessControls();"/>
+        <apex:actionFunction name="saveFlatTemplate"
+                             action="{!prepareForPdfEditor}"
+                             status="status"
+                             onComplete="saveAccessControls();"/>
+        <apex:actionFunction name="afterSaveAccessControls" rendered="{!isFlatTemplate}"
+                             action="{!toPdfEditor}"
+                             status="status"/>
+        <apex:actionFunction name="afterSaveAccessControls" rendered="{!NOT(isFlatTemplate)}"
+                             action="{!toClassicSelectTemplate}"
+                             status="status"
+                             onComplete="refreshForm();"/>
+    </apex:form>
+
+    <script type="text/html" data-template="dadadocs-relation-select">
+        <li class="dadadocs-relationships__item" data-name-tree="{{name-tree}}">
+            <div class="dadadocs-relationships-item-content dadadocs-relationships-item-content_select">
+                <select class="dadadocs-input dadadocs-input_select">
+                    <option selected disabled="disabled">{!$Label.wiz_select_relationship}</option>
+                    {{options}}
+                </select>
+                <button class="dadadocs-relationships-item-content__delete-button" type="button"></button>
+            </div>
+        </li>
+    </script>
+    <script type="text/html" data-template="dadadocs-relation-item-content">
+        <div class="dadadocs-relationships-item-content__title">
+            {{title}}
+        </div>
+        <button class="dadadocs-relationships-item-content__add-button" type="button">
+                {!$Label.wiz_add_new}
+        </button>
+        <button class="dadadocs-relationships-item-content__delete-button" type="button"></button>
+    </script>
+    <script type="text/html" data-template="dadadocs-tag-item-block">
+        <div layout="block" class="dadadocs-table__row dadadocs-table__row_tag" data-name="{{name}}">
+            <div class="dadadocs-table__cell dadadocs-table__cell_selected">
+                <input class="dadadocs-table__cell_tag_check" type="checkbox" {{selected}}
+                       {{disabled}}/>
+            </div>
+            <div class="dadadocs-table__cell dadadocs-table__cell_field">
+                {{label}}
+            </div>
+            <div class="dadadocs-table__cell dadadocs-table__cell_type">
+                {{type}}
+            </div>
+            <span layout="block" class="dadadocs-table__cell dadadocs-table__cell_tag no_flat">
+                &#123;&#123;{{name}}&#125;&#125;
+            </span>
+            <span layout="block" class="dadadocs-table__cell no_flat">
+                <button type="button" class="dadadocs-table__copy-button"></button>
+            </span>
+            <input type="text" value="{{value}}"
+                   class="dadadocs-table__cell dadadocs-table__cell_tag dadadocs-table__cell_tag_value no_flat"
+                   style="display: none;"
+                   onKeyPress="trimUnsupported.call(this);"/>
+        </div>
+    </script>
+    <li class="dadadocs-relationships__item dadadocs-relationships__item_template"
+        data-template="dadadocs-relation-item">
+        <div class="dadadocs-relationships-item-content">
+            <div class="dadadocs-relationships-item-content__title"></div>
+            <button class="dadadocs-relationships-item-content__add-button" type="button">
+                    {!$Label.wiz_add_new}
+            </button>
+            <button class="dadadocs-relationships-item-content__delete-button" type="button"></button>
+        </div>
+    </li>
+
+    <c:AbstractPopup />
+    <c:PopupLoading />
+
+    <apex:includeScript value="{!$Resource.pdffiller_sf__STOMPjs}"/>
+    <apex:includeScript value="{!$Resource.pdffiller_sf__SockJs}"/>
+
+    <apex:includeScript loadOnReady="true" value="{!$Resource.pdffiller_sf__DaDaDocsClassicScrollJs}"/>
+    <apex:includeScript loadOnReady="true" value="{!$Resource.pdffiller_sf__TemplateWizardJS}"/>
+    <script>
+
+        var templateData = null;
+        var fileTemplateId = '{!fileTemplateId}';
+        var dataCollectionType = '{!dataCollectionType}';
+        var socketConnURL = '{!ML_SERVICE_URL}/sfsock';
+        var socketConnectionParams = {
+            "Authorization": authSession.getAccessToken(),
+            "Instance": "{!sfInstance}",
+            "Namespace": "{!namespace}".slice(0, -1)
+        };
+
+        var socket;
+
+        function getAllObjects() {
+            socket.socketQueueCall('listAllObjects', {})
+        }
+
+        function getTemplate(id) {
+            socket.socketQueueCall('getTemplate', id, function (responce) {
+                try {
+                    templateData = JSON.parse(responce);
+                    populateEditedTemplateData();
+                } catch (e) {
+                    console.log(e);
+                }
+            });
+        }
+
+        function getTemplateStructureForObject(name, callback) {
+            socket.socketQueueCall('getTemplateStructure', name, function (responce) {
+                try {
+                    var updatedTemplateData = JSON.parse(responce);
+                    updatedTemplateData.templateName = templateData.templateName; //reset name
+                    templateData = updatedTemplateData;
+                    callback();
+                } catch (e) {
+                    console.log(e);
+                }
+            });
+        }
+
+        function getChildNode(request, callback) {
+            socket.socketQueueCall("getTreeNode", request, function (responce) {
+                try {
+                    callback(JSON.parse(responce));
+                } catch (e) {
+                    console.log(e);
+                }
+            });
+        }
+
+        function refreshTemplateStructure(request, callback) {
+            socket.socketQueueCall("refreshTemplateStructure", request, function (responce, sub) {
+                try {
+                    templateData = JSON.parse(responce);
+                    callback(templateData, sub);
+                } catch (e) {
+                    console.log(e);
+                }
+            });
+        }
+
+        function getFullFlatStructureForObject(name, callback) {
+            socket.socketQueueCall("getFullFlatTemplateForObject", name, function (responce) {
+                try {
+                    var templateData = JSON.parse(responce);
+                    callback(templateData);
+                } catch (e) {
+                    console.log(e);
+                }
+            });
+        }
+
+        function getFlatTemplateExportStructure(template, callback) {
+            socket.socketQueueCall("getFlatTemplateExportStructure", template, function (responce) {
+                try {
+                    callback(responce);
+                } catch (e) {
+                    console.log(e);
+                }
+            });
+        }
+
+        function saveTemplate(request, callback) {
+            socket.socketQueueCall("saveTemplate", request, function (responce) {
+                try {
+                    templateData = JSON.parse(responce);
+                    document.getElementById('TemplateWizard:templateWizardForm:fileTemplateId').value = templateData.templateId;
+                    saveTemplateFileLink();
+                } catch (e) {
+                    console.log(e);
+                }
+            });
+        }
+
+        function getObject(name) {
+            socket.socketQueueCall('getObject', name, function (responce) {
+                try {
+                    templateData = JSON.parse(responce);
+                } catch (e) {
+                    console.log(e);
+                }
+            });
+        }
+
+        function getFlatTemplate(flatTemplateData, callback) {
+            socket.socketQueueCall('getFlatTemplate', flatTemplateData, function (responce) {
+                try {
+                    templateData = JSON.parse(responce);
+                    callback();
+                } catch (e) {
+                    console.log(e);
+                }
+            });
+        }
+
+        function populateEditedTemplateData() {
+            document.getElementById('templateName').value = templateData.templateName ? templateData.templateName : '';
+            document.getElementById('TemplateWizard:templateWizardForm:initObjectType').value = templateData.initialObjectType;
+            document.getElementById('TemplateWizard:templateWizardForm:initialObjectSelector').value = templateData.initialObjectType;
+            document.getElementById('TemplateWizard:templateWizardForm:status.start').style.display = 'none';
+        }
+
+        var IS_FLAT_TEMPLATE = {!isFlatTemplate};
+        var parentId = document.getElementById('TemplateWizard:templateWizardForm:parentId').value;
+
+        document.getElementById('TemplateWizard:templateWizardForm:status.start').style.display = 'block';
+
+        function toggleUploadFileBtn() {
+            j$(document).ready(function () {
+                if (!detectIE()) {
+                    uploadFile();
+                } else {
+                    j$("#fileUploadButtonContainer").hide();
+                }
+            });
+        }
+
+        if (!IS_FLAT_TEMPLATE) {
+            window.onload = function () {
+                socket = new SFMLSocketConnector(socketConnURL, socketConnectionParams);
+                if (fileTemplateId.length) {
+                    socket.socketConnect(function () {
+                        getTemplate(fileTemplateId);
+                    });
+                } else {
+                    socket.socketConnect();
+                    templateData = {};
+                    document.getElementById('TemplateWizard:templateWizardForm:status.start').style.display = 'none';
+                }
+            };
+
+            toggleUploadFileBtn();
+
+            function uploadFile() {
+                j$(document).on('FormValidate:successFileValidate', function (event, formData, inputFile) {
+                    j$.ajax({
+                        url: '/services/data/v41.0/connect/files/users/me',
+                        data: formData,
+                        type: 'POST',
+                        processData: false,
+                        contentType: false,
+                        headers: {'Authorization': 'Bearer {!$Api.Session_ID}', 'X-PrettyPrint': '1'},
+                        success: function (response) {
+                            var id = response.id;
+
+                            document.getElementById('{!$Component.templateWizardForm.fileDocumentId}').value = response.id;
+                            j$('#templateFileDownloadLink')
+                                    .attr('href', response.downloadUrl)
+                                    .text(inputFile.name);
+                            j$('.dadadocs-file-upload_name')
+                                    .attr('title', inputFile.name)
+                                    .attr('id', id);
+                            j$(document).trigger('UploadFile:successUpload');
+                        },
+                        error: function (response) {
+                            var errorMessage = (response && response.responseText && JSON.parse(response.responseText)[0] && JSON.parse(response.responseText)[0].message) ?
+                                    ' ' + JSON.parse(response.responseText)[0].message : '';
+                            new SF.AddAlert('error', 'Error', errorMessage);
+                        }
+                    });
+                });
+            }
+
+            function trimUnsupported() {
+                this.value = this.value.replace(/\s/g, "");
+            }
+
+            // Replace selected file in template
+            function replaceDocument(documentNode) {
+                if (documentNode) {
+                    document.getElementById('{!$Component.templateWizardForm.fileDocumentId}').value = documentNode.getAttribute('data-id');
+
+                    j$('#templateFileDownloadLink')
+                            .attr('href', '/sfc/servlet.shepherd/version/download/' + documentNode.getAttribute('data-versionId'))
+                            .text(documentNode.getAttribute('data-name'));
+                    j$('.dadadocs-file-upload_name')
+                            .attr('title', documentNode.getAttribute('data-name'))
+                            .attr('id', documentNode.getAttribute('data-id'));
+                } else {
+                    j$('.dadadocs-file-upload__button').click();
+
+                    var currentFileName = j$('#templateFileDownloadLink').text();
+                    var uploadedFileName;
+
+                    if (j$('.dadadocs-file-upload__input')[0].files[0] === undefined) {
+                        uploadedFileName = 'name';
+                    } else {
+                        uploadedFileName = j$('.dadadocs-file-upload__input')[0].files[0].name;
+                    }
+
+                    if (uploadedFileName !== undefined && currentFileName === uploadedFileName) {
+                        return false;
+                    }
+                }
+            }
+        } else {
+           var prepareForSkippingWizard = function () {
+                socket = new SFMLSocketConnector(socketConnURL, socketConnectionParams);
+                socket.socketConnect(function () {
+                    var loader = new SF.Loader();
+                    var flatTemplateData = {};
+                    flatTemplateData.flatFields = JSON.parse('{!flatFieldsSerialized}');
+                    flatTemplateData.initialObjectType = document.getElementById('TemplateWizard:templateWizardForm:initObjectType').value;
+                    getFlatTemplate(
+                            JSON.stringify(flatTemplateData),
+                            function () {
+                                step.initTrees();
+                                document.getElementById('TemplateWizard:templateWizardForm:status.start').style.display = 'none';
+                                new SF.PopupTemplateWizardSuccessStructure();
+                                document.querySelector('.popup__go-to-editor').addEventListener('click', function () {
+                                    skipWizard();
+                                    document.querySelector('.popup--success-template-structure').remove();
+                                    loader.show('.g-wrap-loading_global');
+                                });
+                                loader.hide('.g-wrap-loading_global');
+
+                                if (dataCollectionType === 'DCcreate') {
+                                    var key = templateData.initialObjectType,
+                                        obj = {};
+                                    obj[key] = templateData.selectedObjects[templateData.initialObjectType];
+
+                                    templateData.selectedObjects = obj;
+                                    step.addTagObjectsOptions(obj);
+                                    tagTable.populateTagsData();
+                                    document.getElementById('objectTagsSelector').onchange = function (ev) {
+                                        tagTable.collectTagsData();
+                                        tagTable.populateTagsData()
+                                    };
+                                }
+                            });
+                });
+            };
+
+            function skipWizard() {
+                document.getElementById('TemplateWizard:templateWizardForm:status.start').style.display = 'block';
+                getFullFlatStructureForObject(
+                    document.getElementById('TemplateWizard:templateWizardForm:initObjectType').value,
+                    function (templateData) {
+                        getFlatTemplateExportStructure(
+                                JSON.stringify(templateData),
+                                function (flatTemplate) {
+                                    document.getElementById('TemplateWizard:templateWizardForm:templateStructure').value = flatTemplate;
+                                    saveFlatTemplate();
+                                }
+                        );
+                    }
+                );
+                if (!!window['ga']) {
+                    ga('send', {
+                        hitType: 'event',
+                        eventCategory: document.querySelector('.dadadocs-actions-wrapper').getAttribute('data-templateType'),
+                        eventAction: 'click',
+                        eventLabel: 'skipWizard'
+                    });
+                }
+            }
+
+            document.getElementById('skipWizard').onclick = skipWizard;
+        }
+
+        // TODO: add backend logic for changing structure
+        function showErrorOnErrorStructure() {
+            var exceptionMessage = '{!$CurrentPage.parameters.fePoupupErrorMessage}';
+            if (exceptionMessage) {
+                document.querySelector('.popup--loading').style.display = 'none';
+                //document.querySelector('#skipWizard').style.display = 'block';
+                new SF.PopupTemplateWizardErrorStructure();
+            }
+        }
+
+        showErrorOnErrorStructure();
+
+        function checkAndSave(skip, successCallback, failCallback) {
+            if (IS_FLAT_TEMPLATE) {
+                tagTable.collectTagsData();
+                if (successCallback) successCallback();
+                refreshTemplateStructure(
+                        JSON.stringify(templateData),
+                        function (templateData) {
+                            getFlatTemplateExportStructure(JSON.stringify(templateData.template), function (flatTemplate) {
+                                document.getElementById('TemplateWizard:templateWizardForm:templateStructure').value = flatTemplate;
+                                saveFlatTemplate();
+                            });
+                        }
+                );
+
+                return;
+            }
+
+            var fileName = j$('.dadadocs-file-upload_name').text().trim();
+
+            if (fileName) {
+                if (successCallback) successCallback();
+                saveTemplate(JSON.stringify(templateData));
+            } else {
+                if (failCallback) failCallback();
+                new SF.AddAlert('warning', 'Warning', 'Template must contain a file.');
+            }
+        }
+        function removeSpecialChars (str) {
+            return str.replace(/[^\w ()-]/g, '')
+        }
+    </script>
+    <apex:panelGroup rendered="{!isGoogleAnalytics}">
+        <apex:includeScript loadOnReady="true" value="{!$Resource.pdffiller_sf__GoogleAnalytics}"/>
+    </apex:panelGroup>
+</apex:page>

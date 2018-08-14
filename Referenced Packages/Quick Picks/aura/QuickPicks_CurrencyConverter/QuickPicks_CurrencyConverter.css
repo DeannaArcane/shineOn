@@ -1,0 +1,20 @@
+.THIS {
+    position: relative;
+    overflow: hidden;
+}
+.THIS h2{
+	font-weight: inherit;
+}
+.THIS.mainContainer{
+	background-color: white;
+}
+.THIS .itemTitle{
+	border-bottom: 1px solid #E6EAF0;
+}
+.THIS .convertedAmountWrap{
+	height: 45px;    
+}
+.THIS .convertedAmount{
+	font-weight: bold;  
+    font-size: 22px;
+}

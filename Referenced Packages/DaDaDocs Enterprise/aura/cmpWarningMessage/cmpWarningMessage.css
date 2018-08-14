@@ -1,0 +1,11 @@
+.THIS.wrap {
+    position: relative;
+    min-height: 100px;
+}
+
+.THIS .warning-message {
+    padding: 20px;
+    font-size: 18px;
+    text-align: center;
+    color: #888;
+}

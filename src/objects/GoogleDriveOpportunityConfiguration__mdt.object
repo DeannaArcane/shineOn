@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>This custom metadata type stores the settings used by the Google Drive/Opportunity integration.</description>
+    <fields>
+        <fullName>Active__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>This value stores the current state of the Google Drive Opportunity integration. When this field is set to true, the Google Drive operations will be executed.</description>
+        <externalId>false</externalId>
+        <fieldManageability>SubscriberControlled</fieldManageability>
+        <inlineHelpText>This value stores the current state of the Google Drive Opportunity integration. When this field is set to true, the Google Drive operations will be executed.</inlineHelpText>
+        <label>Active</label>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>DefaultBillingStateCount__c</fullName>
+        <defaultValue>11000</defaultValue>
+        <description>This value contains a default value used in determining the Google Drive folder name for an opportunity.</description>
+        <externalId>false</externalId>
+        <fieldManageability>SubscriberControlled</fieldManageability>
+        <inlineHelpText>This value contains a default value used in determining the Google Drive folder name for an opportunity.</inlineHelpText>
+        <label>Default Billing State Count</label>
+        <precision>18</precision>
+        <required>true</required>
+        <scale>0</scale>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>EmailAlert__c</fullName>
+        <description>This field stores an email address that will be notified if a significant error occurs within the Google Drive integration. Examples: 1) Google Drive Connector needs to be re-authenticated 2) OAuth 2.0 credentials have been reset within Google Cloud Platform 3) the root folder does not exist.</description>
+        <externalId>false</externalId>
+        <fieldManageability>SubscriberControlled</fieldManageability>
+        <inlineHelpText>Stores an email address that will be notified if a significant error occurs within the Google Drive integration. Examples: Google Drive Connector requires re-authentication, OAuth credentials have been reset within GCP, root folder does not exist.</inlineHelpText>
+        <label>Email Alert</label>
+        <required>false</required>
+        <type>Email</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>GoogleDriveConnectorTypeName__c</fullName>
+        <description>Provides a link between a custom metadata record and a Google Drive Connector Type. This value must point to a Google Drive Connector Type record via a matching Name.</description>
+        <externalId>false</externalId>
+        <fieldManageability>SubscriberControlled</fieldManageability>
+        <inlineHelpText>Provides a link between a custom metadata record and a Google Drive Connector Type. This value must point to a Google Drive Connector Type record via a matching Name.</inlineHelpText>
+        <label>Google Drive Connector Type Name</label>
+        <length>80</length>
+        <required>true</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>RootFolder__c</fullName>
+        <description>The field stores the Google Drive folder name where the opportunity folders will be created. The folder must be uniquely named and must exist.</description>
+        <externalId>false</externalId>
+        <fieldManageability>SubscriberControlled</fieldManageability>
+        <inlineHelpText>The field stores the Google Drive folder name where the opportunity folders will be created. The folder must be uniquely named and must exist.</inlineHelpText>
+        <label>Root Folder</label>
+        <length>255</length>
+        <required>true</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <label>Google Drive Opportunity Configuration</label>
+    <pluralLabel>Google Drive Opportunity Configuration</pluralLabel>
+    <visibility>Public</visibility>
+    <webLinks>
+        <fullName>Fill_with_PDFfiller</fullName>
+        <availability>online</availability>
+        <displayType>button</displayType>
+        <linkType>page</linkType>
+        <masterLabel>Use DaDaDocs</masterLabel>
+        <openType>replace</openType>
+        <page>pdffiller_sf__ClassicSelectAttachment</page>
+        <protected>false</protected>
+    </webLinks>
+</CustomObject>

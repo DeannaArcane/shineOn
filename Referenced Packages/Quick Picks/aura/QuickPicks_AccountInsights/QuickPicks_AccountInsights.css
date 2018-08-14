@@ -1,0 +1,19 @@
+.THIS {
+    position: relative;
+    overflow: hidden;
+}
+.THIS h2{
+	font-weight: inherit;
+}
+.THIS .accountInsightsDetails{
+	font-weight: bold;   
+    display: inline;
+    float: left;
+    padding-right: 3px;
+}
+.THIS .accountInsightsDetailsList{
+    display:inline-block;
+}
+.THIS .itemTitle{
+	border-bottom: 1px solid #E6EAF0;
+}

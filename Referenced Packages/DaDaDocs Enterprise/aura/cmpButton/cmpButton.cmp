@@ -1,0 +1,9 @@
+<aura:component >
+    <aura:attribute name="label" type="String" required="true" />
+
+    <aura:registerEvent name="onClick" type="pdffiller_sf:evtClick" />
+
+    <button class="dadadocs_button" onclick="{!c.handleOnClick}">
+        {!v.label}
+    </button>
+</aura:component>

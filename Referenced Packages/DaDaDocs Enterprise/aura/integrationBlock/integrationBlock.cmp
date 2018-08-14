@@ -1,0 +1,87 @@
+<aura:component access="global"
+                description="DaDaDocs"
+                controller="pdffiller_sf.LightningSelectAttachmentController"
+                implements="force:appHostable,flexipage:availableForAllPageTypes,force:hasRecordId">
+
+    <!--<aura:attribute name="daDaDocsOptions" type="List"/>-->
+
+
+    <!--<aura:attribute name="isAuthAndPermissionsChecked" type="Boolean" default="false"/>-->
+    <!--<aura:attribute name="isAuthChecked" type="Boolean" default="false"/>-->
+    <!--<aura:attribute name="isLoggedIn" type="Boolean" default="false"/>-->
+    <!--<aura:attribute name="isTemplatesPermitted" type="Boolean" default="false"/>-->
+    <!--<aura:attribute name="isTemplatesPermittedAndLoggedIn" type="Boolean" default="false"/>-->
+
+    <!--<aura:attribute name="alertIcon" type="String" default="none"/>&lt;!&ndash; none, success, fail &ndash;&gt;-->
+    <!--<aura:attribute name="alertHeading" type="String" default=""/>-->
+    <!--<aura:attribute name="alertText" type="String" default=""/>-->
+    <!--<aura:attribute name="isAlertShown" type="Boolean" default="false"/>-->
+
+    <!--<aura:attribute name="documentActionOptions" type="List" default="['Edit']"/>-->
+
+    <!--&lt;!&ndash;<aura:attribute name="iframeOverlaySrc" type="String" default=""/>&ndash;&gt;-->
+    <!--&lt;!&ndash;<aura:attribute name="isIframeOverlayShown" type="Boolean" default="false"/>&ndash;&gt;-->
+
+    <aura:attribute name="recordId" type="String"/>
+    <!--<aura:attribute name="namespaceUnderscored" type="String" default=""/>-->
+
+    <!--<aura:attribute name="activeTab" type="String" default="edit-document"/>-->
+    <!--<aura:attribute name="daDaDocsUrl" type="String" default=""/>-->
+    <!--<aura:attribute name="isLoading" type="Boolean" default="false"/>-->
+
+    <!--&lt;!&ndash; Edit Document tab &ndash;&gt;-->
+    <!--<aura:attribute name="edit-document-tab-inited" type="Boolean" default="false" />-->
+    <!--<aura:attribute name="documents" type="List" />-->
+    <!--<aura:attribute name="edDocumentValue" type="String" default=""/>-->
+    <!--<aura:attribute name="edDocumentActionValue" type="String" default="Edit"/>-->
+
+    <!--&lt;!&ndash; Use Template tab &ndash;&gt;-->
+    <!--<aura:attribute name="use-template-tab-inited" type="Boolean" default="false" />-->
+    <!--<aura:attribute name="templates" type="List" />-->
+    <!--<aura:attribute name="utTemplateValue" type="String" default=""/>-->
+    <!--<aura:attribute name="utDeliveryOptionValue" type="String" default="Save To Attachments"/>-->
+    <!--<aura:attribute name="utDocumentActionValue" type="String" default="Edit"/>-->
+
+    <!--<aura:registerEvent name="evtDropdownIsClosed" type="c:evtDropdownIsClosed"/>-->
+
+    <!--<aura:handler name="init" value="{!this}" action="{!c.onInit}"/>-->
+    <!--<aura:handler event="c:evtTabClick" action="{!c.onEvtTabClick}"/>-->
+    <!--<aura:handler name="evtRadioButtonChange" event="c:evtRadioButtonChange" action="{!c.onEvtRadioButtonChange}"/>-->
+    <!--<aura:handler event="c:evtRefreshClick" action="{!c.onEvtRefreshClick}"/>-->
+    <!--<aura:handler name="evtSubmitButtonClick" event="c:evtSubmitButtonClick" action="{!c.onEvtSubmitButtonClick}"/>-->
+
+    <!--<c:cmpHeader daDaDocsUrl="{!v.daDaDocsUrl}" />-->
+    <!--<aura:if isTrue="{!v.isAuthChecked}">-->
+        <!--<aura:if isTrue="{!v.isLoggedIn}">-->
+            <!--<c:cmpTabsContainer-->
+                    <!--daDaDocsOptions="{!v.daDaDocsOptions}"-->
+                    <!--isAuthAndPermissionsChecked="{!v.isAuthAndPermissionsChecked}"-->
+                    <!--isTemplatesPermitted="{!v.isTemplatesPermitted}"-->
+                    <!--isTemplatesPermittedAndLoggedIn="{!v.isTemplatesPermittedAndLoggedIn}"-->
+                    <!--documentActionOptions="{!v.documentActionOptions}"-->
+                    <!--isLoading="{!v.isLoading}"-->
+                    <!--activeTab="{!v.activeTab}"-->
+                    <!--documents="{!v.documents}"-->
+                    <!--templates="{!v.templates}"-->
+                    <!--edDocumentValue="{!v.edDocumentValue}"-->
+                    <!--edDocumentActionValue="{!v.edDocumentActionValue}"-->
+                    <!--utTemplateValue="{!v.utTemplateValue}"-->
+                    <!--utDeliveryOptionValue="{!v.utDeliveryOptionValue}"-->
+                    <!--utDocumentActionValue="{!v.utDocumentActionValue}"-->
+            <!--/>-->
+            <!--<aura:set attribute="else">-->
+                <!--<c:cmpWarningMessage itemName="" isPermitted="true" isLoggedIn="{!v.isLoggedIn}"/>-->
+            <!--</aura:set>-->
+        <!--</aura:if>-->
+        <!--<aura:set attribute="else">-->
+            <!--<div class="wrap">-->
+                <!--<c:cmpLoadingOverlay isLoading="true"/>-->
+            <!--</div>-->
+        <!--</aura:set>-->
+    <!--</aura:if>-->
+    <!--<c:cmpAlert alertHeading="{!v.alertHeading}"-->
+                <!--alertText="{!v.alertText}"-->
+                <!--isShown="{!v.isAlertShown}"-->
+                <!--icon="{!v.alertIcon}" />-->
+    <!--&lt;!&ndash;<c:cmpIframeOverlay iframeSrc="{!v.iframeOverlaySrc}" isShown="{!v.isIframeOverlayShown}"/>&ndash;&gt;-->
+</aura:component>

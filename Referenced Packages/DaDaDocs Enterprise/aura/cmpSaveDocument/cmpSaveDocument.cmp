@@ -1,0 +1,33 @@
+<aura:component controller="pdffiller_sf.LightningFillDocumentController" access="global">
+    <aura:attribute name="defaultName" type="String" default="" />
+
+    <aura:attribute access="private"
+        name="labelRequiredField"
+        type="String"
+        default="{!$Label.pdffiller_sf.required_field}"
+    />
+
+    <aura:registerEvent name="onSave" type="pdffiller_sf:evtSaveDocument" />
+
+    <div>
+        <h1 class="slds-page-header__title">{!$Label.pdffiller_sf.update_attachment}</h1>
+        <div class="slds-form--inline">
+            <div class="slds-form-element">
+                <div class="slds-form-element__control">
+                    <ui:inputText aura:id="name"
+                        class="slds-input"
+                        required="true"
+                        placeholder="{!$Label.pdffiller_sf.placeholder_new_name}"
+                        value="{!v.defaultName}"
+                    />
+                </div>
+            </div>
+            <div class="slds-form-element">
+                <lightning:button variant="brand"
+                    label="{!$Label.pdffiller_sf.save}"
+                    onclick="{!c.handleSave}"
+                />
+            </div>
+        </div>
+    </div>
+</aura:component>

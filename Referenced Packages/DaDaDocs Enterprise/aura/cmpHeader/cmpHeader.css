@@ -1,0 +1,43 @@
+.THIS.dadadocs-header {
+    color: #888;
+    background-color: #fafafa;
+    padding: 15px 20px;
+    position: relative;
+}
+
+.THIS .dadadocs-header__title {
+    display: block;
+    text-decoration: none;
+}
+
+.THIS .dadadocs-header__image,
+.THIS .dadadocs-header__title-text {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.THIS .dadadocs-header__image {
+    width: 35px;
+    height: 35px;
+}
+
+.THIS .dadadocs-header__title-text {
+    font-size: 18px;
+    line-height: 18px;
+    margin-left: 8px;
+    color: #888;
+    border-bottom: 1px solid transparent;
+    transition: border-color .15s ease-out;
+}
+
+.THIS .dadadocs-header__title {
+    cursor: default;
+}
+
+.THIS .dadadocs-header__title.enabled {
+    cursor: pointer;
+}
+
+.THIS .dadadocs-header__title.enabled:hover .dadadocs-header__title-text {
+    border-color: #888;
+}

@@ -1,0 +1,6 @@
+<apex:page controller="cuda_signnow.SignNowTemplatesController">
+<style>
+    iframe {border-style:none;}
+</style>
+    <apex:canvasApp developerName="signnow_docstatus"  border="0px" id="canvas" parameters="{sntoken : '{!sntoken}', sessionId: '{!$Api.Session_ID}', email: '{!contact.Email}'}" />
+</apex:page>

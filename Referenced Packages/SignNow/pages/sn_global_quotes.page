@@ -1,0 +1,24 @@
+<apex:page controller="cuda_signnow.SignNowTemplatesController">
+<!--<style>
+    iframe {border-style:none;}
+</style>
+<a href="/{!id}">Back to SalesForce Record</a> 
+         <apex:pageBlock title="Send Quote '{!quote.name}' to CudaSign">
+        <apex:form >
+            
+
+                    
+            <apex:selectList value="{!selectedQuote}" style="width:40%;">
+                <apex:selectOptions value="{!item}"/>
+            </apex:selectList>
+            <br/><br/>
+            <apex:commandButton value="Send to CudaSign" action="{!send}"/><br /><br /> {!status}
+                 
+        </apex:form>
+    </apex:pageBlock>-->
+    <br /><br />
+    CudaSign quotes feature has been moved into an extension package. Please contact your admin and request to install <a href="https://login.salesforce.com/packaging/installPackage.apexp?p0=04t15000000ouzM">CudaSign Quotes Extension</a>. <br /> 
+    If you already have the quotes extension installed, please ask your admin to modify your Quote Button to point to the correct page that's referenced in the guide.<br /><br />
+    
+    Please refer to quick start guide <a href="https://university.cudasign.com/integrations/salesforce/">here</a> for the new quote button code.<br />
+</apex:page>

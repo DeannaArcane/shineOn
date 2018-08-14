@@ -1,0 +1,29 @@
+.THIS.dadadocs_button {
+    display: block;
+    width: 88%;
+    height: 42px;
+    box-sizing: border-box;
+    margin: 30px auto;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    border-radius: 3px;
+    text-transform: capitalize;
+    cursor: pointer;
+    border: 1px solid #ff8615;
+    background: #ff9000 linear-gradient(#ffa300 0%, #f70 100%);
+}
+
+.THIS.dadadocs_button:hover {
+    background: #ff9e21;
+}
+
+.THIS.dadadocs_button:focus {
+    border-color: #ff7700;
+    box-shadow: 0 0 5px 1px rgba(255, 119, 0, 0.51);
+    outline: none;
+}
+
+.THIS.dadadocs_button:active {
+    background: #ff9000 linear-gradient(0deg, #ffa300 0%, #f70 100%);
+}

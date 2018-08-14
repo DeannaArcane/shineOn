@@ -1,0 +1,30 @@
+<apex:page tabstyle="Dropbox__tab" showHeader="true" sidebar="true" controller="Dropbox_for_SF.DropboxAccessController" action="{!checkAdmin}">
+
+    <apex:sectionHeader title="{!$Label.dropbox_for_sf__Access_Settings_Header}" subtitle="{!$Label.dropbox_for_sf__Access_Settings_Subtitle}" help="http://dropbox.com/support"/>
+
+    <div style="height:auto;margin-top:3px;margin-bottom:13px;">
+        &nbsp;&#171;&nbsp;
+        <apex:outputLink style="color: #015ba7;text-decoration: none;font-family:'Verdana','Geneva',sans-serif;font-size: 91.3%;" value="{!$Page.Dropbox_for_SF__Options}">
+            {!$Label.dropbox_for_sf__Access_Settings_Return}
+        </apex:outputLink>
+    </div>
+
+    <apex:form rendered="{!isAdmin}">
+
+        <apex:pageBlock id="settings" title="{!$Label.dropbox_for_sf__Access_Section_Header}">
+            <apex:pageBlockButtons >
+                <apex:commandButton value="{!$Label.dropbox_for_sf__Access_Settings_Edit_Button}" action="{!editSettings}" rendered="{!NOT(editingSettings)}" reRender="settings"/>
+                <apex:commandButton value="{!$Label.dropbox_for_sf__Access_Settings_Save_Button}" action="{!saveSettings}" rendered="{!editingSettings}" reRender="settings"/>
+                <apex:commandButton value="{!$Label.dropbox_for_sf__Access_Settings_Cancel_Button}" action="{!cancelSettings}" rendered="{!editingSettings}" reRender="settings"/>
+            </apex:pageBlockButtons>
+
+            <apex:pageBlockSection title="{!$Label.dropbox_for_sf__Access_Section_Header}" collapsible="true">
+                <apex:outputField rendered="{!NOT(editingSettings)}" value="{!settings.Dropbox_for_SF__Team_Members_Only__c}"/>
+                <apex:inputField rendered="{!editingSettings}" value="{!settings.Dropbox_for_SF__Team_Members_Only__c}"/>
+            </apex:pageBlockSection>
+
+        </apex:pageBlock>
+
+    </apex:form>
+
+</apex:page>

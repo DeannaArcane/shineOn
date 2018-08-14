@@ -1,0 +1,3 @@
+<aura:event type="APPLICATION" description="evtTabClick">
+    <aura:attribute name="clickedTab" type="String" required="true" />
+</aura:event>

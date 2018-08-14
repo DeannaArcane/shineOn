@@ -1,0 +1,5 @@
+<apex:page standardController="Account" docType="html-5.0">
+    
+    <c:Dropbox AllDropbox="true"/>
+	
+</apex:page>

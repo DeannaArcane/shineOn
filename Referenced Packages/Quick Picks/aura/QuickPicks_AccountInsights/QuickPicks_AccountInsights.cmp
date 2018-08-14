@@ -1,0 +1,59 @@
+<aura:component controller="qburst_widgets.QPicks_AccountInsightsController" implements="flexipage:availableForRecordHome,force:hasRecordId,force:hasSObjectName" access="global" >
+    <aura:dependency resource="markup://force:editRecord" type="EVENT" />
+
+    <aura:attribute name="sObjectName" type="String" /> 
+    <aura:attribute name="recordId" type="Id" />	
+
+    <aura:attribute name="ageText" type="String" default="0"/>
+    <aura:attribute name="openCount" type="String" default="-"/>
+    <aura:attribute name="wonCount" type="String" default="-"/>
+    <aura:attribute name="lostCount" type="String" default="-"/>
+    <aura:attribute name="openAmount" type="String" default="-"/>
+    <aura:attribute name="wonAmount" type="String" default="-"/>
+    <aura:attribute name="lostAmount" type="String" default="-"/>
+
+    <aura:handler event="force:refreshView" action="{!c.fetchAccountInsights}" />
+
+    <aura:handler name="init" value="{!this}" action="{!c.fetchAccountInsights}"/>
+
+    <div class="slds-box mainContainer" aura:id="main">
+        
+        <div class="slds-grid slds-wrap itemTitle">
+            <div class="slds-size--1-of-1">
+                <header>            
+                    <h2 class="slds-text-heading--small slds-m-bottom--small">Quick Picks Insights</h2>            
+                </header>            
+            </div>
+        </div>
+        
+        <div class="slds-size--1-of-1 slds-grid slds-wrap content">            
+
+            <div class="slds-size--1-of-1 slds-p-top--small">
+                <ui:outputText value="Age: " class="accountInsightsDetails"/>
+                <ui:outputText value="{!v.ageText}"/>       
+            </div>   
+            
+            <div class="slds-size--1-of-1 slds-p-top--small">
+                <ui:outputText value="Opportunities: " class="accountInsightsDetails"/>
+                <ui:outputText value="{!'Open (' + v.openCount + ')'}"/>     
+                <ui:outputText value="{!' Won (' + v.wonCount + ')'}"/>   
+                <ui:outputText value="{!' Lost (' + v.lostCount + ')'}"/>         
+            </div> 
+            
+            <div class="slds-size--1-of-1 slds-p-top--small">
+                <div class="accountInsightsDetails"><ui:outputText value="Amount: " class="accountInsightsDetails"/></div>
+                <div class="accountInsightsDetailsList"><ui:outputText value="{!' Open (' + v.openAmount + ')'}"/>    <br/> 
+                <ui:outputText value="{!' Won (' + v.wonAmount + ')'}"/>   <br/> 
+                <ui:outputText value="{!' Lost (' + v.lostAmount + ')'}"/></div>         
+            </div>            
+                                
+        </div>
+
+        <div class="slds-spinner_container" aura:id="spinner">
+          <div class="slds-spinner--brand slds-spinner slds-spinner--medium" aria-hidden="false" role="alert">
+            <div class="slds-spinner__dot-a"></div>
+            <div class="slds-spinner__dot-b"></div>
+          </div>
+        </div>
+    </div>
+</aura:component>

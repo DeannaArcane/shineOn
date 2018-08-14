@@ -1,0 +1,418 @@
+<!--*******************************************************************
+* File Name : QuickPicksHome
+* Description : Home page of the QuickPicks App to be displayed in Home Page Components.
+* Copyright : Qburst Technologies Ltd 2013
+* Author : Pintu Francis
+* Modification Log
+* ===============================================================
+* Ver Date Author Modification
+* ---------------------------------------------------------------
+* 1.0 19-May-13 Pintu Francis Created
+* 1.1 07-Nov-13 Pintu Francis Updated dynamic Frame height
+* 1.2 17-Jul-14 Pintu Francis Added error handling for Script errors
+* 1.3 05-Jul-15 Pintu Francis Modification for Visualforce Home Page component
+******************************************************************** -->
+
+<apex:page showHeader="false" controller="qburst_widgets.QuickPicksController">
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>   
+<script> (function(a){if(!a.omr){a.omr=new Object()}a.omr.totemticker=function(c,b){var d=this;d.el=c;d.$el=a(c);d.$el.data("omr.totemticker",d);d.init=function(){d.options=a.extend({},a.omr.totemticker.defaultOptions,b);d.ticker;d.format_ticker();d.setup_nav();d.start_interval()};d.start_interval=function(){clearInterval(d.ticker);d.ticker=setInterval(function(){d.$el.find("li:first").animate({marginTop:"-"+d.options.row_height,},d.options.speed,function(){a(this).detach().css("marginTop","0").appendTo(d.$el)})},d.options.interval)};d.reset_interval=function(){clearInterval(d.ticker);d.start_interval()};d.stop_interval=function(){clearInterval(d.ticker)};d.format_ticker=function(){if(typeof(d.options.max_items)!="undefined"&&d.options.max_items!=null){var f=d.options.row_height.replace(/px/i,"");var e=f*d.options.max_items;d.$el.css({height:e+"px",overflow:"hidden",})}else{d.$el.css({overflow:"hidden",})}};d.setup_nav=function(){if(typeof(d.options.stop)!="undefined"&&d.options.stop!=null){a(d.options.stop).click(function(){d.stop_interval();return false})}if(typeof(d.options.start)!="undefined"&&d.options.start!=null){a(d.options.start).click(function(){d.start_interval();return false})}if(typeof(d.options.previous)!="undefined"&&d.options.previous!=null){a(d.options.previous).click(function(){d.$el.find("li:last").detach().prependTo(d.$el).css("marginTop","-"+d.options.row_height);d.$el.find("li:first").animate({marginTop:"0px",},d.options.speed,function(){d.reset_interval()});return false})}if(typeof(d.options.next)!="undefined"&&d.options.next!=null){a(d.options.next).click(function(){d.$el.find("li:first").animate({marginTop:"-"+d.options.row_height,},d.options.speed,function(){a(this).detach().css("marginTop","0px").appendTo(d.$el);d.reset_interval()});return false})}if(typeof(d.options.mousestop)!="undefined"&&d.options.mousestop===true){d.$el.mouseenter(function(){d.stop_interval()}).mouseleave(function(){d.start_interval()})}};d.debug_info=function(){console.log(d.options)};d.init()};a.omr.totemticker.defaultOptions={message:"Ticker Loaded",next:null,previous:null,stop:null,start:null,row_height:"100px",speed:800,interval:4000,max_items:null,};a.fn.totemticker=function(b){return this.each(function(){(new a.omr.totemticker(this,b))})}})(jQuery); </script>
+<script>
+    Visualforce.remoting.timeout = 120000; // Set timeout for remote action at page level
+    jsonDom = document.createElement('div');
+    var weatherLocation;
+    
+    var pacificTime; 
+    var mountainTime;
+    var centralTime;
+    var easternTime;
+    try {
+        var jsonNewsObj = jQuery.parseJSON('{!JSENCODE(newsData)}');
+    } catch(err) {
+        var jsonNewsObj = '';
+    }
+    
+    
+    $(document).ready(function() {
+        console.log($(document).parent('iframe').attr('height','500'));
+       RefreshWidgetBar();
+       try {
+           loadWeather();
+           setInterval(function() { 
+               loadWeather();
+           }, 900000);
+        } catch(err) {
+            
+        }
+        
+       try {
+           formatStockData();
+       } catch(err) {
+            
+       }
+       
+       try {
+           loadUsTime();
+       } catch(err) {
+            
+       }       
+       
+       setInterval(function() { 
+           pacificTime.setUTCSeconds(pacificTime.getUTCSeconds() + 1);
+           $('#pacific_time').html( format(pacificTime.getUTCHours()) + ':' + format(pacificTime.getUTCMinutes()) );
+           $('#time_seconds').html( format(pacificTime.getUTCSeconds()) );
+           
+           mountainTime.setUTCSeconds(mountainTime.getUTCSeconds() + 1);
+           $('#mountain_time').html( format(mountainTime.getUTCHours()) + ':' + format(mountainTime.getUTCMinutes()) );
+           
+           centralTime.setUTCSeconds(centralTime.getUTCSeconds() + 1);
+           $('#central_time').html( format(centralTime.getUTCHours()) + ':' + format(centralTime.getUTCMinutes()) );
+           
+           easternTime.setUTCSeconds(easternTime.getUTCSeconds() + 1);
+           $('#eastern_time').html( format(easternTime.getUTCHours()) + ':' + format(easternTime.getUTCMinutes()) );
+       }, 1000);
+       
+       try {
+           loadDailyNews(jsonNewsObj);
+       } catch(err) {
+            
+       }
+       
+    
+       $("[id$='widgetbar_settings_btn']").click(function() {               
+           $('.widgets').show();
+           $('.checkbox').fadeIn(300);
+           $('#location_input_box').fadeIn(300);
+           $("[id$='widgetbar_settings_ok']").show();              
+       });
+       $("[id$='widgetbar_settings_ok']").click(function() {
+           RefreshWidgetBar();
+           $('.checkbox').hide();
+           $("[id$='widgetbar_settings_ok']").hide();
+           $('#location_input_box').hide();  
+           try {
+               loadWeather();  
+           } catch(err) {
+                
+           }
+                       
+       });
+       
+       $("[id$='tracking_id']").attr('placeholder',' Tracking Number');
+       $("[id$='currency_amount']").attr('placeholder',' Amount');
+    });
+    
+    function loadWeather() {
+        if(localStorage.location == null) {
+            weatherLocation = 'Washington US';
+        } else {
+           weatherLocation = localStorage.location;
+        }
+        refreshWeather();
+        $('#location_input').val(weatherLocation);
+    }
+    
+    function refreshWeather() {
+        // This remoting call will use the page's timeout value
+        Visualforce.remoting.Manager.invokeAction(
+            '{!$RemoteAction.QuickPicksController.updateWeatherData}',
+            weatherLocation, 
+            handleResult
+        );
+    }
+
+    function handleResult(result, event) {
+        if(event.status) {
+            result = formatJson(result); 
+            try {
+                var weatherData = jQuery.parseJSON(result);
+            } catch(err) {
+                var weatherData = '';
+            }
+            
+            if(weatherData != null && weatherData.query != null && weatherData.query.results != null) {
+                var currentDate = new Date();
+                var sunRise, sunSet, location;
+                var timeOfDay = 'd';
+                $.each(weatherData.query.results, function(i, weather) {
+                    if(weather.constructor.toString().indexOf("Array") != -1) {
+                        weather = weather[0];
+                    }
+                    if(weather.astronomy != null && weather.location != null && weather.item != null && weather.units != null) {
+                        sunRise = new Date(currentDate.toDateString()+' '+weather.astronomy.sunrise);
+                        sunSet = new Date(currentDate.toDateString()+' '+weather.astronomy.sunset);
+                        if(currentDate > sunRise && currentDate < sunSet) {
+                            timeOfDay = 'd';
+                        } else {
+                            timeOfDay = 'n';
+                        }
+                    
+                        location = weather.location.city;
+                        if(weather.location.region){
+                            location += ', '+weather.location.region;
+                        } else {
+                            location += ', '+weather.location.country;
+                        }
+                        $("#weather_location").html(location);
+                        $("#weather_image").attr("src","http://l.yimg.com/a/i/us/nws/weather/gr/"+ weather.item.condition.code + timeOfDay +".png");
+                        $("#weather_details").html('<h2>'+ weather.item.condition.temp +'&deg; '+ weather.units.temperature +'</h2><br/>'+ weather.item.condition.text);
+                        
+                        localStorage['location'] = weatherLocation;
+                    }
+                });
+            } else {
+                $("#weather_location").html('');
+                $("#weather_image").attr("src","http://l.yimg.com/a/i/us/nws/weather/gr/20n.png");
+                $("#weather_details").html('No data available');
+            }
+        }
+    }
+    
+    function formatJson (resultJson) {
+        jsonDom.innerHTML = resultJson;
+        return jsonDom.innerHTML;
+    }
+    
+    function updateWeatherLocation() {
+        weatherLocation = $('#location_input').val();
+        refreshWeather();
+    }
+    
+    function formatStockData() {
+        if($('#DOW_change').text().indexOf('-') != -1 ){
+            $('#DOW_change').css('color','red');
+        } else {
+            $('#DOW_change').css('color','green');
+        }
+        
+        if($('#NASDAQ_change').text().indexOf('-') != -1 ){
+            $('#NASDAQ_change').css('color','red');
+        } else {
+            $('#NASDAQ_change').css('color','green');
+        }
+        
+        if($('#GSPC_change').text().indexOf('-') != -1 ){
+            $('#GSPC_change').css('color','red');
+        } else {
+            $('#GSPC_change').css('color','green');
+        }
+    }
+    
+    function loadUsTime() {
+        var serverTime = '{!JSENCODE(UsTimeData['pacific'])}';
+        pacificTime = new Date();
+        pacificTime.setUTCHours(parseInt(serverTime.substring(0,2)));
+        pacificTime.setUTCMinutes(parseInt(serverTime.substring(3)));
+        $('#pacific_time').html(pacificTime.getUTCHours() + ':' + pacificTime.getUTCMinutes());
+        $('#time_seconds').html(format(pacificTime.getUTCSeconds()));
+        
+        serverTime = '{!JSENCODE(UsTimeData['mountain'])}';
+        mountainTime = new Date();
+        mountainTime.setUTCHours(parseInt(serverTime.substring(0,2)));
+        mountainTime.setUTCMinutes(parseInt(serverTime.substring(3)));
+        $('#mountain_time').html(mountainTime.getUTCHours() + ':' + mountainTime.getUTCMinutes());
+        
+        serverTime = '{!JSENCODE(UsTimeData['central'])}';
+        centralTime = new Date();
+        centralTime.setUTCHours(parseInt(serverTime.substring(0,2)));
+        centralTime.setUTCMinutes(parseInt(serverTime.substring(3)));
+        $('#central_time').html(centralTime.getUTCHours() + ':' + centralTime.getUTCMinutes());
+        
+        serverTime = '{!JSENCODE(UsTimeData['eastern'])}';
+        easternTime = new Date();
+        easternTime.setUTCHours(parseInt(serverTime.substring(0,2)));
+        easternTime.setUTCMinutes(parseInt(serverTime.substring(3)));
+        $('#eastern_time').html(easternTime.getUTCHours() + ':' + easternTime.getUTCMinutes());
+    }
+    
+    function format(num) {
+        if(num >= 10) {
+            return num;
+        } else {
+            return '0'+num;
+        }
+    }
+    
+    function showCourierWindow() {
+        var tracking_id = $("[id$='tracking_id']").val();
+        var courier_url = $("[id$='courier_tracking_list']").val();
+        if( ($.trim(tracking_id) != '')  ) {
+           new_window = window.open(courier_url+tracking_id, "mywindow", "status=0, toolbar=0, location=0, menubar=0, directories=0, resizable=0, scrollbars=1, height=600, width=1035");
+           new_window.moveTo(100,0);
+        }
+        else {
+           alert('Please enter Tracking Number');
+           $("[id$='tracking_id']").focus();
+        }   
+    }
+    
+    function validateAmount() {
+        var amount = $("[id$='currency_amount']").val();
+        if( ($.trim(amount) != '') && $.isNumeric(amount) ) { 
+            $("[id$='converted_value']").css({'font-weight':'normal', 'font-size':'12px'}).html('Converting.'); 
+        } else { 
+            $("[id$='converted_value']").html(' ');
+            alert('Please Enter Amount'); 
+            $("[id$='currency_amount']").focus();
+        }
+    }
+    
+    function loadDailyNews(newsData) {
+        if(newsData != null && newsData.query.results != null && newsData.query.results.item != null){
+            var news_data = '';
+            $.each(newsData.query.results.item, function(i,news) {
+                    news_data += "<li style='height:126px;'><span style='background: #CFEEF8;'><b><a href='"+news.link+"' target='_blank'>" + news.title + "</a></b></span><br/>" +
+                    news.description +"</li>";
+            });
+            $(news_data).appendTo("#news_ticker");
+            $('#news_ticker li p a').attr('target','_blank');
+            ScrollNews();
+        }
+    }
+    
+    function ScrollNews() {
+        $(function(){
+            $('#news_ticker').totemticker({
+                row_height:'126px',
+                mousestop:true,
+            });
+        });
+    }
+        
+    function checkboxStatus(elem) {
+        var obj = 'widget_'+( elem.id.slice(9) );
+        localStorage[obj] = elem.checked;
+    }
+        
+    function RefreshWidgetBar() {         
+        if(localStorage.widget_weather == "false") {
+            $('#widget_weather').hide(1);
+            $("[id$='checkbox_weather']").removeAttr('checked');            
+        }
+        if(localStorage.widget_stock == "false") {
+            $('#widget_stock').hide(1);
+            $("[id$='checkbox_stock']").removeAttr('checked');          
+        }
+        if(localStorage.widget_clock == "false") {
+            $('#widget_clock').hide(1);
+            $("[id$='checkbox_clock']").removeAttr('checked');          
+        }
+        if(localStorage.widget_courier == "false") {
+            $('#widget_courier').hide(1);
+            $("[id$='checkbox_courier']").removeAttr('checked');            
+        }
+        if(localStorage.widget_currency == "false") {
+            $('#widget_currency').hide(1);
+            $("[id$='checkbox_currency']").removeAttr('checked');           
+        }
+        if(localStorage.widget_news == "false") {
+            $('#widget_news').hide(1);
+            $("[id$='checkbox_news']").removeAttr('checked');        
+        }               
+    }
+</script> 
+
+<style>
+    .widgetbar_container {
+        background: #EDEDED;
+        background: -webkit-gradient(linear, left top, left bottom, from(#FFFFFF), to(#EDEDED) );
+        background: -moz-linear-gradient(top, #FFFFFF, #EDEDED);
+        width: 175px;
+        height: 140px;
+        overflow: hidden;
+        border: 1px solid #DCDCDC;
+        border-radius: 10px;
+        margin: auto;
+        padding: 2px;
+        position: relative !important;
+        box-shadow: 2px 2px 2px;
+        -webkit-box-shadow: 2px 2px 2px;
+    }
+    
+    .widget_title {
+        font-weight: bold;
+        font-size: 14px;
+        color: #FFFFFF !important;
+        text-align: center;
+        border-radius: 11px;
+        -webkit-border-radius: 11px;
+        padding: 5px;
+        background-color: #1797C0;
+    }
+    
+    #widget_courier select,#widget_currency select {
+        background-color: transparent;
+        border: 1px solid #9B9B9B;
+        border-radius: 3px
+    }
+    
+    #widget_courier input,#widget_currency input,#widget_weather input {
+        background-color: transparent;
+        border: 1px solid #9B9B9B;
+        border-radius: 3px;
+    }
+    
+    #weather_details h2 {
+        font-size: 16px;
+    }
+    
+    .checkbox {
+        position: absolute;
+        display: none;
+        left: 153px;
+    }
+</style>
+
+<div class="bPageBlock" style="border-top: 3px solid #1797C0;">
+    <div class="pbHeader">
+        <table cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+                <tr>
+                    <td class="pbTitle">
+                    <h3>Quick Picks</h3>
+                    </td>
+                    <td class="pbButton"></td>
+                    <td class="pbHelp">
+                        <span title="Help (New Window)" class="help">
+                            <a class="linkCol" href="javascript:openPopupFocusEscapePounds(%27https://login.salesforce.com/services/auth/sso/00D30000000XsfGEAS/HTAuthProvider?startURL=%252Fapex%252Fhtdoor%253Floc%253Dhelp%2526target%253Dcreating_home_page_components.htm%2526section%253DCustomizing%2526language%253Den_US%2526release%253D182.11.1%2526instance%253DAP1&site=https%3A%2F%2Fhelp.salesforce.com%27,%20%27Help%27,%201024,%20768,%20%27width=1024,height=768,resizable=yes,toolbar=yes,status=yes,scrollbars=yes,menubar=yes,directories=no,location=yes,dependant=no%27,%20false,%20false);">
+                               <span class="linkSpan">Help</span> 
+                               <img title="Help (New Window)" class="helpIcon" alt="Help (New Window)" src="/s.gif" /> 
+                            </a> 
+                        </span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="pbBody">
+        <table width="100%" cellpadding="0" cellspacing="0" align="center" border="0">
+            <tr>
+                <td width="50"></td>
+                <td style="padding-bottom: 3px;">
+                    <c:QuickPicksWidgets handler="{!QuickPicksHandler}"/>
+                </td>
+                <td width="50" align="right" valign="top">
+                    <div>
+                        <table align="right" cellpadding="0" cellspacing="0">
+                            <tr>
+                                <td align="right" style="padding-top: 3px; padding-right: 3px;">
+                                    <a href="quickpicks/settings" onClick="return false;"> 
+                                        <img id="widgetbar_settings_btn" title="Settings" width="18px" src="/img/ple/hp_wrench.png" /> 
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="right">
+                                    <button class="btn" id="widgetbar_settings_ok" style="display: none;"> Save </button>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="pbFooter">
+        <div class="bg"></div>
+    </div>
+</div>
+</apex:page>

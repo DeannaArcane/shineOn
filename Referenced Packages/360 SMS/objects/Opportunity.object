@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <webLinks>
+        <fullName>Send_SMS</fullName>
+        <availability>online</availability>
+        <displayType>button</displayType>
+        <linkType>javascript</linkType>
+        <masterLabel>Send SMS</masterLabel>
+        <openType>onClickJavaScript</openType>
+        <protected>false</protected>
+        <url>{!REQUIRESCRIPT(&quot;/soap/ajax/31.0/connection.js&quot;)}
+{!REQUIRESCRIPT(&quot;/js/functions.js&quot;)}
+{!REQUIRESCRIPT(&quot;/resource/tdc_tsw__jQueryForPopup/jQuery/jquery-1.8.2.min.js&quot;)}
+{!REQUIRESCRIPT(&quot;/resource/tdc_tsw__jQueryForPopup/jQuery/ui/jquery-ui-1.9.1.custom.min.js&quot;)}
+{!REQUIRESCRIPT(&quot;/resource/tdc_tsw__jQueryForPopup/jQuery/postmessage/jquery.ba-postmessage.js&quot;)}
+{!REQUIRESCRIPT(&quot;/resource/tdc_tsw__jQueryForPopup/jQuery/bbq/jquery.ba-bbq.min.js&quot;)}
+requireCssFile(&quot;/resource/tdc_tsw__jQueryForPopup/jQuery/ui/css/ui-lightness/jquery-ui-1.9.1.custom.min.css&quot;);
+function requireCssFile(filename){
+var fileref = document.createElement(&apos;link&apos;);
+fileref.setAttribute(&apos;rel&apos;, &apos;stylesheet&apos;);
+fileref.setAttribute(&apos;type&apos;, &apos;text/css&apos;);
+fileref.setAttribute(&apos;href&apos;, filename);
+document.getElementsByTagName(&apos;head&apos;)[0].appendChild(fileref);
+}
+var j$ = jQuery.noConflict();
+var recordid=&quot;{!Opportunity.Id}&quot;;
+var iframe_url = &apos;{!URLFOR(&quot;/apex/tdc_tsw__SendSMS?id=&quot;)}&apos;+recordid+&apos;&amp;retURL=&apos;+window.location.href;
+var child_domain = iframe_url.substring(0, iframe_url.indexOf(&apos;/&apos;, 9));
+var parent_domain = window.location.protocol + &apos;//&apos; + window.location.host;
+var j$modalDialog = j$(&apos;&lt;div id=&quot;opppopup&quot;&gt;&lt;/div&gt;&apos;).html(&apos;&lt;iframe id=&quot;iframeContentId&quot; src=&quot;&apos; + iframe_url + &apos;&quot; frameborder=&quot;0&quot; height=&quot;100%&quot; width=&quot;100%&quot; marginheight=&quot;0&quot; marginwidth=&quot;0&quot; /&gt;&apos;).dialog({autoOpen: false, resizable: true, width: 800, height: 525, autoResize: true, modal: true, draggable: true, margin:0, padding:0});
+j$modalDialog.dialog(&apos;open&apos;);</url>
+    </webLinks>
+    <webLinks>
+        <fullName>Send_SMS_List</fullName>
+        <availability>online</availability>
+        <displayType>massActionButton</displayType>
+        <linkType>javascript</linkType>
+        <masterLabel>Send SMS</masterLabel>
+        <openType>onClickJavaScript</openType>
+        <protected>false</protected>
+        <requireRowSelection>true</requireRowSelection>
+        <url>{!REQUIRESCRIPT(&quot;/soap/ajax/31.0/connection.js&quot;)}
+{!REQUIRESCRIPT(&quot;/js/functions.js&quot;)}
+{!REQUIRESCRIPT(&quot;/resource/tdc_tsw__jQueryForPopup/jQuery/jquery-1.8.2.min.js&quot;)}
+{!REQUIRESCRIPT(&quot;/resource/tdc_tsw__jQueryForPopup/jQuery/ui/jquery-ui-1.9.1.custom.min.js&quot;)}
+{!REQUIRESCRIPT(&quot;/resource/tdc_tsw__jQueryForPopup/jQuery/postmessage/jquery.ba-postmessage.js&quot;)}
+{!REQUIRESCRIPT(&quot;/resource/tdc_tsw__jQueryForPopup/jQuery/bbq/jquery.ba-bbq.min.js&quot;)}
+requireCssFile(&quot;/resource/tdc_tsw__jQueryForPopup/jQuery/ui/css/ui-lightness/jquery-ui-1.9.1.custom.min.css&quot;);
+function requireCssFile(filename){
+var fileref = document.createElement(&apos;link&apos;);
+fileref.setAttribute(&apos;rel&apos;, &apos;stylesheet&apos;);
+fileref.setAttribute(&apos;type&apos;, &apos;text/css&apos;);
+fileref.setAttribute(&apos;href&apos;, filename);
+document.getElementsByTagName(&apos;head&apos;)[0].appendChild(fileref);
+}
+var j$ = jQuery.noConflict();
+var records = {!GETRECORDIDS($ObjectType.Opportunity)};
+var strIDs=&apos;&apos;;
+if (records[0] == null){
+alert(&apos;Please Select At least One Contact to Send the SMS&apos;);
+}else{
+for (var n=0; n&lt;records.length; n++){
+if(strIDs == &apos;&apos;)
+strIDs = records[n];
+else
+strIDs = strIDs + &quot;,&quot; + records[n];
+}
+var iframe_url = &apos;{!URLFOR(&quot;/apex/tdc_tsw__SendBulkSMS?ids=&quot;)}&apos;+ strIDs + &apos;&amp;retURL=&apos;+window.location.href;
+var child_domain = iframe_url.substring(0, iframe_url.indexOf(&apos;/&apos;, 9));
+var parent_domain = window.location.protocol + &apos;//&apos; + window.location.host;
+var j$modalDialog = j$(&apos;&lt;div id=&quot;opppopup&quot;&gt;&lt;/div&gt;&apos;).html(&apos;&lt;iframe id=&quot;iframeContentId&quot; src=&quot;&apos; + iframe_url + &apos;&quot; frameborder=&quot;0&quot; height=&quot;100%&quot; width=&quot;100%&quot; marginheight=&quot;0&quot; marginwidth=&quot;0&quot; /&gt;&apos;).dialog({autoOpen: false, resizable: true, width: 800, height: 525, autoResize: true, modal: true, draggable: true, margin:0, padding:0});
+j$modalDialog.dialog(&apos;open&apos;);
+}</url>
+    </webLinks>
+    <webLinks>
+        <fullName>Send_SMS_SF1</fullName>
+        <availability>online</availability>
+        <displayType>button</displayType>
+        <encodingKey>UTF-8</encodingKey>
+        <hasMenubar>false</hasMenubar>
+        <hasScrollbars>true</hasScrollbars>
+        <hasToolbar>false</hasToolbar>
+        <height>600</height>
+        <isResizable>true</isResizable>
+        <linkType>url</linkType>
+        <masterLabel>Send SMS</masterLabel>
+        <openType>newWindow</openType>
+        <position>none</position>
+        <protected>false</protected>
+        <showsLocation>false</showsLocation>
+        <showsStatus>false</showsStatus>
+        <url>/apex/tdc_tsw__SendSMS_SLDS?id={!Opportunity.Id}</url>
+    </webLinks>
+</CustomObject>

@@ -1,0 +1,911 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
+    <labels>
+        <fullName>Access_Section_Header</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Access Section Header</shortDescription>
+        <value>Dropbox for Business Access</value>
+    </labels>
+    <labels>
+        <fullName>Access_Settings_Cancel_Button</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Access Settings Cancel Button</shortDescription>
+        <value>Cancel</value>
+    </labels>
+    <labels>
+        <fullName>Access_Settings_Edit_Button</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Access Settings Edit Button</shortDescription>
+        <value>Edit</value>
+    </labels>
+    <labels>
+        <fullName>Access_Settings_Header</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Access Settings Header</shortDescription>
+        <value>Dropbox for Salesforce Settings</value>
+    </labels>
+    <labels>
+        <fullName>Access_Settings_Return</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Access Settings Return</shortDescription>
+        <value>Back to Settings</value>
+    </labels>
+    <labels>
+        <fullName>Access_Settings_Save_Button</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Access Settings Save Button</shortDescription>
+        <value>Save</value>
+    </labels>
+    <labels>
+        <fullName>Access_Settings_Subtitle</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Access Settings Subtitle</shortDescription>
+        <value>Access Control</value>
+    </labels>
+    <labels>
+        <fullName>Add_Files_Button</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Add Files Button</shortDescription>
+        <value>Add Files</value>
+    </labels>
+    <labels>
+        <fullName>Add_Image_Button</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Add Image Button</shortDescription>
+        <value>Add Image</value>
+    </labels>
+    <labels>
+        <fullName>Chatter_Placeholder</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Chatter Placeholder</shortDescription>
+        <value>Say something about this link...</value>
+    </labels>
+    <labels>
+        <fullName>Component_Connect</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Component Connect</shortDescription>
+        <value>Log in with Dropbox</value>
+    </labels>
+    <labels>
+        <fullName>Connect_Continue</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Connect Continue</shortDescription>
+        <value>Continue</value>
+    </labels>
+    <labels>
+        <fullName>Connect_DfB_Continue</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Connect DfB Continue</shortDescription>
+        <value>Yes, link my teams’ accounts</value>
+    </labels>
+    <labels>
+        <fullName>Connect_DfB_No</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Connect DfB No</shortDescription>
+        <value>No, not right now</value>
+    </labels>
+    <labels>
+        <fullName>Connect_DfB_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Connect DfB Text</shortDescription>
+        <value>Thank you for being a Dropbox for Business customer! We can automatically link Dropbox to Salesforce for everyone on your team.</value>
+    </labels>
+    <labels>
+        <fullName>Connect_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Connect Text</shortDescription>
+        <value>&lt;p&gt;&lt;strong&gt;Hey there&lt;/strong&gt; - thank you for trying Dropbox for Salesforce! We wanted to give you some information before you get started:&lt;/p&gt;
+			
+			&lt;ol&gt;
+				&lt;li&gt;Files in the Dropbox for Salesforce folder within your Dropbox are shared according to permissions set by your Salesforce admin. Learn more &lt;a href=&quot;https://www.dropbox.com/help/6864&quot;&gt;here&lt;/a&gt;.&lt;/li&gt;
+				&lt;li&gt;For additional functionality, such as linking to custom objects, unlimited space, and other features, tell your admin to &lt;a href=&quot;http://www.dropbox.com/business/try&quot; target=&quot;__blank&quot;&gt;try&lt;/a&gt; &lt;a href=&quot;http://www.dropbox.com/business/try&quot; target=&quot;__blank&quot;&gt;Dropbox for Business&lt;/a&gt;.&lt;/li&gt;
+			&lt;/ol&gt;</value>
+    </labels>
+    <labels>
+        <fullName>Context_Menu_Delete</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Context Menu Delete</shortDescription>
+        <value>Delete...</value>
+    </labels>
+    <labels>
+        <fullName>Context_Menu_Download</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Context Menu Download</shortDescription>
+        <value>Download</value>
+    </labels>
+    <labels>
+        <fullName>Context_Menu_Rename</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Context Menu Rename</shortDescription>
+        <value>Rename</value>
+    </labels>
+    <labels>
+        <fullName>Context_Menu_Restore</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Context Menu Restore</shortDescription>
+        <value>Restore...</value>
+    </labels>
+    <labels>
+        <fullName>Context_Menu_Share</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Context Menu Share</shortDescription>
+        <value>Share link...</value>
+    </labels>
+    <labels>
+        <fullName>Context_Menu_Share_Chatter</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Context Menu Share Chatter</shortDescription>
+        <value>Share to Chatter...</value>
+    </labels>
+    <labels>
+        <fullName>Copied_to_Clipboard</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Copied to Clipboard</shortDescription>
+        <value>Link copied to Clipboard</value>
+    </labels>
+    <labels>
+        <fullName>Creating_Folder</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Creating Folder</shortDescription>
+        <value>Creating Folder...</value>
+    </labels>
+    <labels>
+        <fullName>Delete_Cancel</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Delete Cancel</shortDescription>
+        <value>Cancel</value>
+    </labels>
+    <labels>
+        <fullName>Delete_Confirm</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Delete Confirm</shortDescription>
+        <value>Are you sure you want to delete &lt;strong&gt;{{deleteItem.name}}&lt;/strong&gt; from your Dropbox?</value>
+    </labels>
+    <labels>
+        <fullName>Delete_Delete</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Delete Delete</shortDescription>
+        <value>Delete</value>
+    </labels>
+    <labels>
+        <fullName>Delete_Prompt</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Delete Prompt</shortDescription>
+        <value>Delete file?</value>
+    </labels>
+    <labels>
+        <fullName>Deleting</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Deleting</shortDescription>
+        <value>Deleting...</value>
+    </labels>
+    <labels>
+        <fullName>Disconnected_Mobile_User</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Disconnected Mobile User</shortDescription>
+        <value>Log into Salesforce on the web to link Dropbox to Salesforce</value>
+    </labels>
+    <labels>
+        <fullName>Disconnected_Owner</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Disconnected Owner</shortDescription>
+        <value>The owner of this record needs to link Dropbox to Salesforce to share files with you</value>
+    </labels>
+    <labels>
+        <fullName>Disconnected_User</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Disconnected User</shortDescription>
+        <value>Link Dropbox to Salesforce to share files with your colleagues</value>
+    </labels>
+    <labels>
+        <fullName>Disconnected_User_From_Team</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Disconnected User From Team</shortDescription>
+        <value>We have been unable to automatically find a matching Dropbox Team Member for your account.&lt;br/&gt;&lt;br/&gt;Click here to connect to Dropbox manually.</value>
+    </labels>
+    <labels>
+        <fullName>Empty_Folder_Header</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Empty Folder Header</shortDescription>
+        <value>This folder is empty</value>
+    </labels>
+    <labels>
+        <fullName>Empty_Folder_Header_Root</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Empty Folder Header Root</shortDescription>
+        <value>There are no files associated with this</value>
+    </labels>
+    <labels>
+        <fullName>Empty_Folder_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Empty Folder Text</shortDescription>
+        <value>Drag and drop files onto this window to upload</value>
+    </labels>
+    <labels>
+        <fullName>Header_Modified</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Header Modified</shortDescription>
+        <value>Modified</value>
+    </labels>
+    <labels>
+        <fullName>Header_Name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Header Name</shortDescription>
+        <value>Name</value>
+    </labels>
+    <labels>
+        <fullName>Header_Path</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Header Path</shortDescription>
+        <value>Path</value>
+    </labels>
+    <labels>
+        <fullName>Header_Size</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Header Size</shortDescription>
+        <value>Size</value>
+    </labels>
+    <labels>
+        <fullName>Hide_Show_Deleted_Button</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Hide/Show Deleted Button</shortDescription>
+        <value>{{deleted ? &apos;Hide&apos; : &apos;Show&apos;}} Deleted</value>
+    </labels>
+    <labels>
+        <fullName>Invalid_Characters</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Invalid Characters</shortDescription>
+        <value>The following characters are not allowed: \ / : ? * &lt; &gt; &quot; |</value>
+    </labels>
+    <labels>
+        <fullName>Invalid_Email_Recipient</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Invalid Email Recipient</shortDescription>
+        <value>One or more names or email addresses you entered are invalid</value>
+    </labels>
+    <labels>
+        <fullName>Loading</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Loading</shortDescription>
+        <value>Loading...</value>
+    </labels>
+    <labels>
+        <fullName>Navigate_to_Parent</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Navigate to Parent</shortDescription>
+        <value>Up to parent folder</value>
+    </labels>
+    <labels>
+        <fullName>New_Folder_Button</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>New Folder Button</shortDescription>
+        <value>New Folder</value>
+    </labels>
+    <labels>
+        <fullName>No_Dots</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>No Dots</shortDescription>
+        <value>The filenames dot (.) and dot dot (..) are not allowed.</value>
+    </labels>
+    <labels>
+        <fullName>No_Permission_Exception</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>No Permission Exception</shortDescription>
+        <value>You do not have sufficient permission to carry out this action.</value>
+    </labels>
+    <labels>
+        <fullName>No_Results_Header</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>No Results Header</shortDescription>
+        <value>No results found</value>
+    </labels>
+    <labels>
+        <fullName>No_Results_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>No Results Text</shortDescription>
+        <value>Return to the home directory</value>
+    </labels>
+    <labels>
+        <fullName>No_Shared_Root</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>No Shared Root</shortDescription>
+        <value>You need to be invited to the &apos;Salesforce Documents&apos; shared folder.</value>
+    </labels>
+    <labels>
+        <fullName>No_Shared_Root_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>No Shared Root Text</shortDescription>
+        <value>Please contact your system administrator to get access to content already linked to this record.</value>
+    </labels>
+    <labels>
+        <fullName>One_Email_Recipient</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>One Email Recipient</shortDescription>
+        <value>Add at least one recipient</value>
+    </labels>
+    <labels>
+        <fullName>Option_DfS_Options</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Option DfS Options</shortDescription>
+        <value>Dropbox for Salesforce Options</value>
+    </labels>
+    <labels>
+        <fullName>Option_Section_Subtitle</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Option Section Subtitle</shortDescription>
+        <value>Settings</value>
+    </labels>
+    <labels>
+        <fullName>Option_Users_Connected</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Option Users Connected</shortDescription>
+        <value>Users connected</value>
+    </labels>
+    <labels>
+        <fullName>Options_Cancel</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Options Cancel</shortDescription>
+        <value>Cancel</value>
+    </labels>
+    <labels>
+        <fullName>Options_Chatter_Files_Help</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Options Chatter Files Help</shortDescription>
+        <value>Number of files shared on Chatter via Dropbox.</value>
+    </labels>
+    <labels>
+        <fullName>Options_Chatter_files</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Options Chatter files</shortDescription>
+        <value>Chatter files</value>
+    </labels>
+    <labels>
+        <fullName>Options_Connect_Help</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Options Connect Help</shortDescription>
+        <value>Securely connect to Dropbox.</value>
+    </labels>
+    <labels>
+        <fullName>Options_Connect_to_Dropbox</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Options Connect to Dropbox</shortDescription>
+        <value>Connect to Dropbox</value>
+    </labels>
+    <labels>
+        <fullName>Options_Connected_As</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Options Connected As</shortDescription>
+        <value>Connected As</value>
+    </labels>
+    <labels>
+        <fullName>Options_Connected_As_Help</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Options Connected As Help</shortDescription>
+        <value>The user that you are connected to Dropbox with.</value>
+    </labels>
+    <labels>
+        <fullName>Options_Connection_Settings</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Options Connection Settings</shortDescription>
+        <value>Dropbox Connection Settings</value>
+    </labels>
+    <labels>
+        <fullName>Options_Custom_Objects</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Options Custom Objects</shortDescription>
+        <value>Custom Object Settings</value>
+    </labels>
+    <labels>
+        <fullName>Options_DfB</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Options DfB</shortDescription>
+        <value>Dropbox for Business</value>
+    </labels>
+    <labels>
+        <fullName>Options_DfB_Options</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Options DfB Options</shortDescription>
+        <value>Dropbox for Business Options</value>
+    </labels>
+    <labels>
+        <fullName>Options_Disconnect_Button</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Options Disconnect Button</shortDescription>
+        <value>Disconnect</value>
+    </labels>
+    <labels>
+        <fullName>Options_Dropbox_Usage</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Options Dropbox Usage</shortDescription>
+        <value>Dropbox Usage</value>
+    </labels>
+    <labels>
+        <fullName>Options_Edit</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Options Edit</shortDescription>
+        <value>Edit</value>
+    </labels>
+    <labels>
+        <fullName>Options_Enable_Templates</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Options Enable Templates</shortDescription>
+        <value>Enable Templates</value>
+    </labels>
+    <labels>
+        <fullName>Options_Follow_Salesforce_Sharing</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Options Follow Salesforce Sharing</shortDescription>
+        <value>Follow Salesforce Sharing</value>
+    </labels>
+    <labels>
+        <fullName>Options_Object</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Options Object</shortDescription>
+        <value>Object</value>
+    </labels>
+    <labels>
+        <fullName>Options_Rename</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Options Rename</shortDescription>
+        <value>Rename</value>
+    </labels>
+    <labels>
+        <fullName>Options_Reset</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Options Reset</shortDescription>
+        <value>Reset Dropbox for Salesforce</value>
+    </labels>
+    <labels>
+        <fullName>Options_Reset_Confirm</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Options Reset Confirm</shortDescription>
+        <value>Are you sure?</value>
+    </labels>
+    <labels>
+        <fullName>Options_Restrict</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Options Restrict</shortDescription>
+        <value>Restrict login to Business accounts</value>
+    </labels>
+    <labels>
+        <fullName>Options_Salesforce_Records</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Options Salesforce Records</shortDescription>
+        <value>Dropbox for Salesforce records</value>
+    </labels>
+    <labels>
+        <fullName>Options_Salesforce_Records_Help</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Options Salesforce Records Help</shortDescription>
+        <value>Number of Salesforce records with Dropbox files linked to them.</value>
+    </labels>
+    <labels>
+        <fullName>Options_Save</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Options Save</shortDescription>
+        <value>Save</value>
+    </labels>
+    <labels>
+        <fullName>Options_Section_Header</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Options Section Header</shortDescription>
+        <value>Dropbox for Salesforce</value>
+    </labels>
+    <labels>
+        <fullName>Options_Std_Objects</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Options Std Objects</shortDescription>
+        <value>Standard Object Settings</value>
+    </labels>
+    <labels>
+        <fullName>Options_Team_Name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Options Team Name</shortDescription>
+        <value>Team Name</value>
+    </labels>
+    <labels>
+        <fullName>Options_Team_Name_Help</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Options Team Name Help</shortDescription>
+        <value>The Dropbox Team that this user is a member of.</value>
+    </labels>
+    <labels>
+        <fullName>Options_Template_Folder</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Options Template Folder</shortDescription>
+        <value>Template Folder</value>
+    </labels>
+    <labels>
+        <fullName>Options_Total_Space</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Options Total Space</shortDescription>
+        <value>Total space used</value>
+    </labels>
+    <labels>
+        <fullName>Options_Total_Space_Help</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Options Total Space Help</shortDescription>
+        <value>Total storage used by your Salesforce records in Dropbox.</value>
+    </labels>
+    <labels>
+        <fullName>Options_Try</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Options Try</shortDescription>
+        <value>Try it free</value>
+    </labels>
+    <labels>
+        <fullName>Options_Upsell</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Options Upsell</shortDescription>
+        <value>&lt;p&gt;Upgrade to Dropbox for Business to:&lt;/p&gt;&lt;ul&gt;&lt;li&gt;Take ownership of your Salesforce data&lt;/li&gt;&lt;li&gt;Link files to custom Salesforce objects&lt;/li&gt;&lt;li&gt;Get unlimited storage space&lt;/li&gt;&lt;li&gt;Improve security and collaboration&lt;/li&gt;&lt;/ul&gt;</value>
+    </labels>
+    <labels>
+        <fullName>Options_Upsell_Link</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Options Upsell Link</shortDescription>
+        <value>Use Dropbox for Business to secure your team</value>
+    </labels>
+    <labels>
+        <fullName>Options_User_Connected_Help</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Options User Connected Help</shortDescription>
+        <value>Number of users who&apos;ve connected Dropbox to Salesforce.</value>
+    </labels>
+    <labels>
+        <fullName>Post_to_Chatter_Prompt</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Post to Chatter Prompt</shortDescription>
+        <value>Post &apos;{{sharelink.item.name}}&apos; to Chatter</value>
+    </labels>
+    <labels>
+        <fullName>Posting_to_Chatter</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Posting to Chatter</shortDescription>
+        <value>Posting to Chatter...</value>
+    </labels>
+    <labels>
+        <fullName>Renaming</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Renaming</shortDescription>
+        <value>Renaming...</value>
+    </labels>
+    <labels>
+        <fullName>Restore_Cancel</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Restore Cancel</shortDescription>
+        <value>Cancel</value>
+    </labels>
+    <labels>
+        <fullName>Restore_Confirm</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Restore Confirm</shortDescription>
+        <value>The most recent version of &lt;strong&gt;{{restoreItem.name}}&lt;/strong&gt; will be restored.</value>
+    </labels>
+    <labels>
+        <fullName>Restore_Prompt</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Restore Prompt</shortDescription>
+        <value>Restore file?</value>
+    </labels>
+    <labels>
+        <fullName>Restore_Restore</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Restore Restore</shortDescription>
+        <value>Restore</value>
+    </labels>
+    <labels>
+        <fullName>Restoring</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Restoring</shortDescription>
+        <value>Restoring</value>
+    </labels>
+    <labels>
+        <fullName>SF1_Share_Cancel</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>SF1 Share Cancel</shortDescription>
+        <value>Cancel</value>
+    </labels>
+    <labels>
+        <fullName>SF1_Share_Share</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>SF1 Share Share</shortDescription>
+        <value>Share</value>
+    </labels>
+    <labels>
+        <fullName>Search_Placeholder</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Search Placeholder</shortDescription>
+        <value>Search</value>
+    </labels>
+    <labels>
+        <fullName>Search_Result_Location</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Search Result Location</shortDescription>
+        <value>in</value>
+    </labels>
+    <labels>
+        <fullName>Search_Results_Title</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Search Results Title</shortDescription>
+        <value>Search Results</value>
+    </labels>
+    <labels>
+        <fullName>Searching</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Searching</shortDescription>
+        <value>Searching...</value>
+    </labels>
+    <labels>
+        <fullName>Sending_Email</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Sending Email</shortDescription>
+        <value>Sending Email...</value>
+    </labels>
+    <labels>
+        <fullName>Share_Get_Link</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Share Get Link</shortDescription>
+        <value>Get link</value>
+    </labels>
+    <labels>
+        <fullName>Share_Link</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Share Link</shortDescription>
+        <value>Share link</value>
+    </labels>
+    <labels>
+        <fullName>Share_Link_Name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Share Link Name</shortDescription>
+        <value>Link Name:</value>
+    </labels>
+    <labels>
+        <fullName>Share_Link_URL</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Share Link URL</shortDescription>
+        <value>Link URL:</value>
+    </labels>
+    <labels>
+        <fullName>Share_Message</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Share Message</shortDescription>
+        <value>Message</value>
+    </labels>
+    <labels>
+        <fullName>Share_Post</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Share Post</shortDescription>
+        <value>Post</value>
+    </labels>
+    <labels>
+        <fullName>Share_Prompt</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Share Prompt</shortDescription>
+        <value>Share &apos;{{sharelink.item.name}}&apos;</value>
+    </labels>
+    <labels>
+        <fullName>Share_Send</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Share Send</shortDescription>
+        <value>Send</value>
+    </labels>
+    <labels>
+        <fullName>Share_by_Email_Recipients</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Share by Email Recipients</shortDescription>
+        <value>Add Contacts, Leads or Users</value>
+    </labels>
+    <labels>
+        <fullName>Show_Deleted_Button</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Show Deleted Button</shortDescription>
+        <value>Show Deleted</value>
+    </labels>
+    <labels>
+        <fullName>Unable_to_upload</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Unable to upload</shortDescription>
+        <value>It is not possible to upload a directory.</value>
+    </labels>
+    <labels>
+        <fullName>Upload_Add</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Upload Add</shortDescription>
+        <value>Add more files</value>
+    </labels>
+    <labels>
+        <fullName>Upload_Add_More_Files</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Upload Add More Files</shortDescription>
+        <value>Add more files</value>
+    </labels>
+    <labels>
+        <fullName>Upload_Choose</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Upload Choose</shortDescription>
+        <value>Choose files</value>
+    </labels>
+    <labels>
+        <fullName>Upload_Done</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Upload Done</shortDescription>
+        <value>Done</value>
+    </labels>
+    <labels>
+        <fullName>Upload_Hide</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Upload Hide</shortDescription>
+        <value>Hide</value>
+    </labels>
+    <labels>
+        <fullName>Upload_Progress_File</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Upload Progress File</shortDescription>
+        <value>file</value>
+    </labels>
+    <labels>
+        <fullName>Upload_Progress_Files</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Upload Progress Files</shortDescription>
+        <value>files</value>
+    </labels>
+    <labels>
+        <fullName>Upload_Progress_Remaining</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Upload Progress Remaining</shortDescription>
+        <value>remaining</value>
+    </labels>
+    <labels>
+        <fullName>Upload_Progress_Uploaded</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Upload Progress Uploaded</shortDescription>
+        <value>Uploaded</value>
+    </labels>
+    <labels>
+        <fullName>Upload_Progress_Uploading</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Upload Progress Uploading</shortDescription>
+        <value>Uploading</value>
+    </labels>
+    <labels>
+        <fullName>Upload_Title</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Upload Title</shortDescription>
+        <value>Upload to &apos;{{navigation.pathParts[0].name}}&apos;</value>
+    </labels>
+    <labels>
+        <fullName>Upload_prompt</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Upload prompt</shortDescription>
+        <value>Choose files to upload to the folder. You can select more than one file at a time.</value>
+    </labels>
+</CustomLabels>

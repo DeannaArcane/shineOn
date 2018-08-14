@@ -1,0 +1,92 @@
+.THIS.iframe-container {
+    position: fixed;
+    top: 90px;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.36);
+    z-index: 10000;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    transition: visibility 0s .15s, opacity .15s .15s ease-out;
+}
+
+.THIS.cmpIframe {
+    margin: 0;
+    padding: 20px;
+}
+
+.THIS .iframe-container__window {
+    width: calc(100% - 48px);
+    height: calc(100% - 48px);
+    margin: 0 auto;
+    background: #fff;
+    border-radius: 3px;
+    box-shadow: 0 2px 16px 0 rgba(0, 0, 0, 0.16);
+    position: relative;
+}
+
+.THIS .iframe-container__header {
+    font-size: 16px;
+    color: #444;
+    padding: 15px 20px;
+    border-bottom: 2px solid #e8e8e8;
+    background: #f7f9fa;
+    text-transform: capitalize;
+    border-radius: 3px 3px 0 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1;
+}
+
+.THIS .iframe-container__body {
+    position: relative;
+    padding: 56px 0 0;
+    width: 100%;
+    height: 100%;
+}
+
+.THIS .iframe-container__body iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+.THIS .iframe-container__close {
+    display: block;
+    width: 17px;
+    height: 17px;
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    cursor: pointer;
+}
+
+.THIS .iframe-container__close:before,
+.THIS .iframe-container__close:after {
+    content: '';
+    display: block;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    margin-top: -1px;
+    border-top: 2px solid #ccc;
+    transition: border-color .15s ease-out;
+}
+
+.THIS .iframe-container__close:before {
+    transform: rotate(45deg);
+}
+
+.THIS .iframe-container__close:after {
+    transform: rotate(-45deg);
+}
+
+.THIS .iframe-container__close:hover:before,
+.THIS .iframe-container__close:hover:after {
+    border-color: #444;
+}

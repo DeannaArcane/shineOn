@@ -1,0 +1,10 @@
+<aura:component description="cmpSubmitButton">
+    <aura:attribute name="title" type="String" required="true"/>
+    <aura:attribute name="isDisabled" type="Boolean" required="true"/>
+
+    <aura:registerEvent name="evtSubmitButtonClick" type="pdffiller_sf:evtSubmitButtonClick"/>
+
+    <div class="button-wrap">
+        <button class="{!v.isDisabled ? 'disabledBtn' : ''}" onclick="{!c.onButtonClick}"><span>{!v.title}</span></button>
+    </div>
+</aura:component>

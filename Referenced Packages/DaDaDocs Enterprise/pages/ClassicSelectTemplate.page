@@ -1,0 +1,324 @@
+<apex:page controller="pdffiller_sf.ClassicSelectTemplateController" extensions="pdffiller_sf.PageParameters">
+    <apex:outputPanel rendered="{!!isLocalFrontEnv}">
+        <apex:stylesheet value="{!URLFOR($Resource.pdffiller_sf__v2) + '/salesforce.css'}"/>
+    </apex:outputPanel>
+    <apex:outputPanel rendered="{!isLocalFrontEnv}">
+        <apex:stylesheet value="https://localhost:8080/salesforce.css"/>
+    </apex:outputPanel>
+
+    <script src="/soap/ajax/41.0/connection.js" type="text/javascript"></script>
+    <script src="/soap/ajax/41.0/apex.js" type="text/javascript"></script>
+    <apex:pageMessages />
+
+    <apex:form >
+        <c:ApplicationUtils tokenRequiredOnload="true"/>
+        <apex:actionFunction name="callProcessAction" action="{!processAction}" rerender="no">
+            <apex:param name="{!ITEM_ID}" value="" />
+            <apex:param name="{!ITEM_TYPE}" value="" />
+            <apex:param name="{!ITEM_NAME}" value="" />
+            <apex:param name="{!ACTION_NAME}" value="" />
+            <apex:param name="{!OPTION}" value="" />
+            <apex:param name="{!AFTER_ACTION}" value="" />
+            <apex:param name="{!NEW_NAME}" value="" />
+            <apex:param name="{!OBJECT_PREFIX}" value="" />
+        </apex:actionFunction>
+        <apex:actionFunction name="createFileTemplate" action="{!createFileTemplate}" />
+        <apex:actionFunction name="editFileTemplate" action="{!editFileTemplate}" reRender="">
+            <apex:param name="{!FILE_TEMPLATE_ID}" value="" />
+        </apex:actionFunction>
+        <apex:actionFunction name="deleteFileTemplate"
+                             action="{!deleteFileTemplate}"
+                             reRender="fileTemplateItems"
+                             status="status"
+                             oncomplete="onSuccessfullyRemoveDocxTemplate()">
+            <apex:param name="{!FILE_TEMPLATE_ID}" value="" />
+        </apex:actionFunction>
+    </apex:form>
+
+    <script type="text/html" data-template="universalTemplates">
+        <div class="dadadocs_document__row dadadocs_document__row_default" data-id="{doc-id}" data-objectType="{doc-objectType}" data-name="{doc-name}" data-owner="{doc-owner}" data-timestamp="{doc-updated}">
+            <p class="dadadocs_document__name dadadocs_document__name_template cut-text">{doc-name}</p>
+            <p class="dadadocs_document__object cut-text" data-prefix="{doc-objectPrefix}">{doc-objectName}</p>
+            <time class="dadadocs_document__date cut-text">{doc-updatedDate}</time>
+        </div>
+    </script>
+
+    <main class="dadadocs_template dadadocs_all_templates" id="content">
+        <div class="dadadocs_template-header">
+            <ul class="dadadocs_header-tabs">
+                <li class="dadadocs_header-tabs__item dadadocs_header-tabs__item--templates" data-tab-type="use" style="display:{!templatesFeature};">
+                    <a href="#tab=use" class="dadadocs_header-tabs__link dadadocs_header-tabs__link_use">PDF templates</a>
+                </li>
+                <apex:outputPanel id="fileTemplatesTabHeader" rendered="{!AND(docxTemplatesFeature,hasAdminRights)}">
+                    <li class="dadadocs_header-tabs__item dadadocs_header-tabs__item--templates" data-tab-type="fileTemplates">
+                        <a href="#tab=fileTemplates" class="dadadocs_header-tabs__link dadadocs_header-tabs__link_use">DOCX templates</a>
+                    </li>
+                </apex:outputPanel>
+            </ul>
+        </div>
+        <div class="dadadocs_template-content">
+            <div class="dadadocs_tab dadadocs_tab--pdf-templates">
+                <div class="dadadocs_tab__documents_wrapper dadadocs_tab--templates">
+                    <div class="dadadocs_documents-header">
+                        <h3 class="dadadocs_documents-header__title">
+                            choose template
+                        </h3>
+                        <input type="text" class="dadadocs__search_field" placeholder="Search by name"/>
+                    </div>
+                    <div class="dadadocs_tab__documents">
+                        <div class="dadadocs_documents__header">
+                            <div class="dadadocs_documents__header-name">{!$Label.template_name}</div>
+                            <div class="dadadocs_documents__header-object">{!$Label.object}</div>
+                            <div class="dadadocs_documents__header-date">{!$Label.last_modified}</div>
+                        </div>
+                        <div class="dadadocs_documents__content">
+                            <div class="dadadocs_documents-items"></div>
+                            <div class="dadadocs_documents__no-templates">{!$Label.no_templates}</div>
+                        </div>
+                    </div>
+                </div>
+                <aside class="dadadocs_tab__aside">
+                    <div class="dadadocs_aside__use-options-container">
+                        <button class="dadadocs_button dadadocs_aside__use-option dadadocs_aside__use-option_edit" onclick="DaDaDocsAction('editTemplate');">
+                            {!$Label.edit_template}
+                        </button>
+                        <button class="dadadocs_button dadadocs_aside__use-option dadadocs_aside__use-option--delete" id="deletePdfTemplateBtn">
+                            {!$Label.delete_template}
+                        </button>
+                        <button class="dadadocs_button dadadocs_aside__use-option dadadocs_aside__use-option--custom-button pdf_templates">
+                                {!$Label.shortcut_button}
+                        </button>
+                    </div>
+
+                </aside>
+            </div>
+            <apex:outputPanel id="fileTemplatesTab" rendered="{!AND(docxTemplatesFeature,hasAdminRights)}">
+                <div class="dadadocs_tab dadadocs_tab--docx-templates-admin">
+                    <div class="dadadocs_tab__documents_wrapper">
+                        <div class="dadadocs_documents-header">
+                            <h3 class="dadadocs_documents-header__title">
+                                choose template
+                            </h3>
+                            <input type="text" class="dadadocs__search_field" placeholder="Search by name"/>
+                        </div>
+                        <div class="dadadocs_tab__documents">
+                            <div class="dadadocs_documents__header">
+                                <div class="dadadocs_documents__header-name w-30">{!$Label.template_name}</div>
+                                <div class="dadadocs_documents__header-object w-30">Initial object</div>
+                                <div class="dadadocs_documents__header-custom-button w-20">Shortcut</div>
+                                <div class="dadadocs_documents__header-file-name w-20">File name</div>
+                            </div>
+                            <div class="dadadocs_documents__content">
+                                <apex:outputPanel id="fileTemplateItems"
+                                                  rendered="{!hasFileTemplates}"
+                                                  styleClass="dadadocs_documents-items">
+                                    <apex:repeat value="{!availiableFileTemplates}" var="fileTemplate">
+                                        <div class="dadadocs_document__row dadadocs_document__row_default dadadocs_document__row--docx" data-id="{!fileTemplate.Id}">
+                                            <p class="dadadocs_document__name w-30 cut-text" title="{!fileTemplate.name}">{!fileTemplate.name}</p>
+                                            <p class="dadadocs_document__object w-30 cut-text" title="{!fileTemplate.initObjectType}" data-prefix="hgfddfghfdghdfghdfgh">
+                                                {!fileTemplate.initObjectType}
+                                            </p>
+                                            <p class="dadadocs_document__custom-button w-20 cut-text" title="{!fileTemplate.customButtonName}">
+                                                <apex:outputLabel rendered="{!NOT(ISNULL(fileTemplate.customButtonName)) }">
+                                                {!fileTemplate.customButtonName}
+                                                </apex:outputLabel>
+                                                <apex:outputLabel rendered="{!ISNULL(fileTemplate.customButtonName)}">
+                                                    {!$Label.pdffiller_sf__disabled}
+                                                </apex:outputLabel>
+                                            </p>
+                                            <p class="dadadocs_document__file-name w-20 cut-text" title="{!fileTemplate.filename}">
+                                                {!fileTemplate.filename}
+                                            </p>
+                                        </div>
+                                    </apex:repeat>
+                                </apex:outputPanel>
+                                <div class="dadadocs_documents__no-templates">{!$Label.pdffiller_sf__no_templates}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <aside class="dadadocs_tab__aside">
+                        <div class="dadadocs_aside__use-options-container">
+                            <button class="dadadocs_button dadadocs_aside__use-option dadadocs_aside__use-option_create" onclick="createFileTemplate()">
+                                Create new
+                            </button>
+                            <button class="dadadocs_button dadadocs_aside__use-option dadadocs_aside__use-option_edit" onclick="editFileTemplate(currentDocumentId);">
+                                {!$Label.pdffiller_sf__edit_template}
+                            </button>
+                            <button class="dadadocs_button dadadocs_aside__use-option dadadocs_aside__use-option--delete" id="deleteDocxTemplateBtn">
+                                {!$Label.pdffiller_sf__delete_template}
+                            </button>
+                            <button class="dadadocs_button dadadocs_aside__use-option dadadocs_aside__use-option--custom-button docx_templates">
+                                {!$Label.pdffiller_sf__shortcut_button}
+                            </button>
+                        </div>
+                    </aside>
+                </div>
+            </apex:outputPanel>
+            <div class="g-wrap-loading g-wrap-loading_tab">
+                <div class="g-loader">
+                    <div class="g-loader__wrapper">
+                        <div class="g-loader__layer">
+                            <div class="g-loader__circle-clipper g-loader__circle-clipper--left">
+                                <div class="g-loader__circle"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="g-loader__label"> {!$Label.loader_classic_loading}</div>
+                </div>
+            </div>
+        </div>
+        <div class="g-wrap-loading g-wrap-loading_global">
+            <div class="g-loader">
+                <div class="g-loader__wrapper">
+                    <div class="g-loader__layer">
+                        <div class="g-loader__circle-clipper g-loader__circle-clipper--left">
+                            <div class="g-loader__circle"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="g-loader__label">Loading...</div>
+            </div>
+        </div>
+
+        <c:Alert />
+
+        <div class="dadadocs_tooltip">
+            <div class="dadadocs_tooltip-wrapper">
+                <h6 class="dadadocs_tooltip__title">
+                        {!$Label.pdffiller_sf__create_template_hint_header}
+                </h6>
+                <p class="dadadocs_tooltip__description">
+                        {!$Label.pdffiller_sf__create_template_hint_text}
+                </p>
+            </div>
+        </div>
+
+        <c:AbstractPopup />
+    </main>
+
+    <apex:includeScript loadOnReady="true" value="{!$Resource.pdffiller_sf__DaDaDocsClassicScrollJs}" />
+    <apex:includeScript loadOnReady="true" value="{!$Resource.pdffiller_sf__DaDaDocsClassicJs}" />
+    <apex:includeScript loadOnReady="true" value="{!$Resource.pdffiller_sf__adminTemplatesJs}"/>
+
+    <script type="text/javascript" >
+    var j$ = jQuery.noConflict();
+
+    var NAMESPACE = "{!JSENCODE(namespace)}";
+    var CONFIRM_MESSAGE = "{!$Label.confirm_message}";
+    var popupLabels = {
+        confirmMessages: {
+            deleteTemplate: '{!$Label.confirm_delete_template}',
+            deleteDocxTemplate: '{!$Label.confirm_delete_docx_template}'
+        }
+    }
+
+    // Disable buttons if there are no templates
+    // ---
+    function disableTemplatesActionButtonsIfNoTemplates (tab) {
+        var tabs = j$('.dadadocs_template'),
+            currentTab = tabs.find(tab),
+            pdfTemplate = currentTab.find('.dadadocs_document__row'),
+            pdfActionPanel = currentTab.find('.dadadocs_tab__aside'),
+            btnEdit = currentTab.find('.dadadocs_aside__use-option_edit'),
+            btnDelete = currentTab.find('.dadadocs_aside__use-option--delete');
+            btnShortcutButton = currentTab.find('.dadadocs_aside__use-option--custom-button');
+
+        if (pdfTemplate.length === 0) {
+            btnEdit.prop('disabled', true);
+            btnDelete.prop('disabled', true);
+            btnShortcutButton.prop('disabled', true);
+        }
+    };
+
+    disableTemplatesActionButtonsIfNoTemplates('.dadadocs_tab--docx-templates-admin');
+    
+    function onSuccessfullyRemoveDocxTemplate() {
+        removeTabLoader(currentTab);
+        disableTemplatesActionButtonsIfNoTemplates('.dadadocs_tab--docx-templates-admin');
+        resetCurrentDocumentInfo();
+        chooseCurrentDocument();
+    };
+
+    document.querySelector('.dadadocs_aside__use-option--custom-button.docx_templates').onclick = function (event) {
+        window.location = '/apex/CustomButtonsCreate?{!TEMPLATE_ID}=' + currentDocumentId + '&itemType={!DOCX_TEMPLATE_ITEM_TYPE}';
+    };
+
+    document.querySelector('.dadadocs_aside__use-option--custom-button.pdf_templates').onclick = function (event) {
+        let initialObjectName = currentDocumentNode[currentTab].getAttribute('data-objecttype');
+        window.location = '/apex/CustomButtonsCreate?{!TEMPLATE_ID}=' + currentDocumentId + '&{!ITEM_TYPE}={!PDF_TEMPLATE_ITEM_TYPE}' + '&{!INITIAL_OBJECT_NAME}=' + initialObjectName;
+    };
+
+    sforce.connection.sessionId = "{!$Api.Session_ID}";
+
+    function getTemplates() {
+        var TEMPLATES = 'templates';
+
+        addTabLoader();
+        useTemplatesRequest = true;
+
+        var onSuccessAction = function(result) {
+
+            refreshList(result, TEMPLATES, 0);
+            disableTemplatesActionButtonsIfNoTemplates('.dadadocs_tab--pdf-templates');
+        }
+        var onErrorAction = function(error) { handleError(TEMPLATES); }
+
+        callService(
+                "GET",
+                "/documents/template",
+                {},
+                onSuccessAction,
+                onErrorAction
+        );
+
+        setTimeout(function () {
+            handleError(TEMPLATES);
+        }, 5000);
+    }
+
+    function deleteSelectedTemplate() {
+        addTabLoader();
+
+        var onSuccessAction = function(result) { getTemplates(); }
+        var onErrorAction = function(error) { getTemplates(); }
+
+        callService(
+                "DELETE",
+                "/documents/template",
+                {
+                    urlParams: {
+                        templateId:currentDocumentId
+                    }
+                },
+                onSuccessAction,
+                onErrorAction
+        );
+    }
+
+    function DaDaDocsAction(action) {
+        if(currentDocumentId == null) {
+            return;
+        }
+
+        toggleLoader();
+
+        callProcessAction(
+            currentDocumentId,
+            currentDocumentTypePrefix,
+            currentDocumentName,
+            action
+        );
+
+        return;
+    }
+
+    var dataCollectionDeliveryTypes = {
+        linkToFill: "{!DATA_COLLECTION_DELIVERY_TYPE_L2F}",
+        sendToSign: "{!DATA_COLLECTION_DELIVERY_TYPE_S2S}"
+    }
+
+    </script>
+    <apex:panelGroup rendered="{!isGoogleAnalytics}">
+        <apex:includeScript loadOnReady="true" value="{!$Resource.pdffiller_sf__GoogleAnalytics}" />
+    </apex:panelGroup>
+</apex:page>

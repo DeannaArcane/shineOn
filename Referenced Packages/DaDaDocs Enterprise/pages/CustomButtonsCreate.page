@@ -1,0 +1,86 @@
+<apex:page id="CustomButtonDocX" controller="pdffiller_sf.CustomButtonsCreateController" docType="html-5.0">
+    <div class="l-main-wrapper custom-buttons">
+        <apex:form id="CustomButtonDocXForm">
+            <apex:actionFunction name="recreateButtonMetadata" action="{!recreateButtonMetadata}" rerender="no"
+                                 onComplete="generateButtonOnSuccess()"/>
+            <c:ApplicationUtils tokenRequiredOnload="true"/>
+            <apex:outputPanel rendered="{!!isLocalFrontEnv}">
+                <apex:stylesheet value="{!URLFOR($Resource.pdffiller_sf__v2) + '/salesforce.css'}"/>
+            </apex:outputPanel>
+            <apex:outputPanel rendered="{!isLocalFrontEnv}">
+                <apex:stylesheet value="https://localhost:8080/salesforce.css"/>
+            </apex:outputPanel>
+            <ol type="1">
+                <div class="c-h2">{!$Label.pdffiller_sf__create_shortcut_button}</div>
+                <apex:outputPanel styleClass="button-name c-step__row" layout="block">
+                    <span class="c-h4">{!$Label.pdffiller_sf__enter_button_name}</span>
+                    <apex:inputText maxlength="239" styleClass="button-name__input c-input" value="{!buttonName}"
+                                    required="true" label="{!$Label.pdffiller_sf__label_button_name}"/>
+                </apex:outputPanel>
+
+                <apex:outputPanel styleClass="c-apex-radiobutton c-step__row" layout="block"
+                                  id="dadadocs-delivery_option">
+                    <span class="c-h4">{!$Label.pdffiller_sf__choose_delivery_option}</span>
+                    <apex:selectRadio value="{!deliveryOption}">
+                        <apex:selectOptions value="{!deliveryOptions}"/>
+                        <apex:actionSupport event="onclick" reRender="dadadocs-workflow_options" onComplete="initComponent();"/>
+                    </apex:selectRadio>
+                </apex:outputPanel>
+
+                <apex:outputPanel styleClass="dadadocs-workflow" layout="block" id="dadadocs-workflow_options">
+                    <apex:outputPanel rendered="{!IF(deliveryOption=='sendToSign',true,false)}">
+                        <span class="c-h4">{!$Label.pdffiller_sf__workflow_component_title}</span>
+                        <c:WorkflowSettings object_name="{!initialObjectName}" parent_id="{!customButtonId}"/>
+                    </apex:outputPanel>
+                </apex:outputPanel>
+
+                <apex:outputPanel styleClass="dadadocs-multiselect" layout="block" id="dadadocs-layout-multiselect">
+                    <div class="c-h4">{!$Label.pdffiller_sf__select_available_layout}</div>
+                    <c:MultiselectPicklist showUpDownButtons="false"
+                                           leftLabel="{!$Label.pdffiller_sf__available_layouts}"
+                                           leftOption="{!availableOptions}"
+                                           rightLabel="{!$Label.pdffiller_sf__selected_layouts}"
+                                           rightOption="{!selectedOptions}"
+                                           size="14"
+                                           width="100%"/>
+                </apex:outputPanel>
+                <div class="l-footer l-footer--right">
+                    <button
+                            class="dadadocs-button dadadocs-button_orange dadadocs-actions_next"
+                            type="button">{!$Label.generate}</button>
+                    <apex:commandButton value="save" style="display:none" id="upsertButton"
+                                        reRender="dadadocs-workflow_options" action="{!upsertButton}"
+                                        onComplete="saveWorkflow(); recreateButtonMetadata();"/>
+                </div>
+            </ol>
+        </apex:form>
+
+        <c:Loader />
+        <c:Alert />
+    </div>
+
+    <script type="text/javascript">
+        var j$ = jQuery.noConflict();
+        var loader;
+
+        function generateButtonOnSuccess() {
+            loader.hide('.g-wrap-loading');
+            new SF.AddAlert('success', '{!$Label.pdffiller_sf__success}', '{!$Label.pdffiller_sf__button_was_generated}');
+            setTimeout(function () {
+                window.history.back();
+            }, 3000);
+        }
+
+        document.querySelector('.dadadocs-actions_next').onclick = function () {
+            if (document.querySelector('.button-name__input').checkValidity()) {
+                loader = new SF.Loader;
+                loader.show('.g-wrap-loading', '{!$Label.pdffiller_sf__generating_shortcut_button}');
+            }
+
+            document.getElementById('CustomButtonDocX:CustomButtonDocXForm:upsertButton').click();
+        }
+    </script>
+
+    <apex:includeScript loadOnReady="true" value="{!$Resource.pdffiller_sf__DaDaDocsClassicScrollJs}"/>
+    <apex:includeScript loadOnReady="true" value="{!$Resource.pdffiller_sf__CustomButtonDocXJs}"/>
+</apex:page>

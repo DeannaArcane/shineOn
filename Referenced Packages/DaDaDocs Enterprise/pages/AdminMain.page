@@ -1,0 +1,597 @@
+<apex:page id="AdminMain" controller="pdffiller_sf.AdminMainController" standardStylesheets="false" docType="html-5.0" action="{!renderAdminPage}">
+
+    <script src="/soap/ajax/{!apiVersion}/connection.js" type="text/javascript"></script>
+    <script src="/soap/ajax/{!apiVersion}/apex.js" type="text/javascript"></script>
+    <script>
+        var META_READY = false;
+        function createRemoteSite(uri, name, onSuccess) {
+            // Calls the Metdata API from JavaScript to create the Remote Site Setting to permit Apex callouts
+            var binding = new XMLHttpRequest();
+            var request =
+                    '<?xml version="1.0" encoding="utf-8"?>' +
+                    '<env:Envelope xmlns:env="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">' +
+                    '<env:Header>' +
+                    '<urn:SessionHeader xmlns:urn="http://soap.sforce.com/2006/04/metadata">' +
+                    '<urn:sessionId>'+authSession.getAccessToken()+'</urn:sessionId>' +
+                    '</urn:SessionHeader>' +
+                    '</env:Header>' +
+                    '<env:Body>' +
+                    '<createMetadata xmlns="http://soap.sforce.com/2006/04/metadata">' +
+                    '<metadata xsi:type="RemoteSiteSetting">' +
+                    '<fullName>'+name+'</fullName>' +
+                    '<description></description>' +
+                    '<disableProtocolSecurity>false</disableProtocolSecurity>' +
+                    '<isActive>true</isActive>' +
+                    '<url>'+uri+'</url>' +
+                    '</metadata>' +
+                    '</createMetadata>' +
+                    '</env:Body>' +
+                    '</env:Envelope>';
+            binding.open('POST', '{!Host}');
+            binding.setRequestHeader('SOAPAction', '""');
+            binding.setRequestHeader('Content-Type', 'text/xml');
+            binding.onreadystatechange =
+                    function () {
+                        if (binding.readyState == 4) {
+                            var reloadNeed = true;
+                            var parser = new DOMParser();
+                            var doc = parser.parseFromString(binding.response, 'application/xml');
+                            var errors = doc.getElementsByTagName('errors');
+                            var messageText = '';
+                            for (var errorIdx = 0; errorIdx < errors.length; errorIdx++)
+                                messageText += errors.item(errorIdx).getElementsByTagName('message').item(0).innerHTML + '\n';
+                            if (messageText.length == 0) {
+                                if (onSuccess) {
+                                    onSuccess();
+                                    return;
+                                }
+                                displayMetadataResponse(messageText);
+                            }
+                        }
+                    }
+            binding.send(request);
+            setTimeout(function(){location.reload()}, 3000);
+        }
+        function checkAndRecreateRSS(uri, name, onSuccess) {
+            // Calls the Metdata API from JavaScript to create the Remote Site Setting to permit Apex callouts
+            var binding = new XMLHttpRequest();
+            var request =
+                    '<?xml version="1.0" encoding="utf-8"?>' +
+                    '<env:Envelope xmlns:env="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">' +
+                    '<env:Header>' +
+                    '<urn:SessionHeader xmlns:urn="http://soap.sforce.com/2006/04/metadata">' +
+                    '<urn:sessionId>'+authSession.getAccessToken()+'</urn:sessionId>' +
+                    '</urn:SessionHeader>' +
+                    '</env:Header>' +
+                    '<env:Body>' +
+                    '<deleteMetadata xmlns="http://soap.sforce.com/2006/04/metadata">' +
+                    '<type>RemoteSiteSetting</type>' +
+                    '<fullNames>'+name+'</fullNames>' +
+                    '</deleteMetadata>' +
+                    '</env:Body>' +
+                    '</env:Envelope>';
+            binding.open('POST', '{!Host}');
+            binding.setRequestHeader('SOAPAction', '""');
+            binding.setRequestHeader('Content-Type', 'text/xml');
+
+            binding.onreadystatechange =
+                    function () {
+                        if (binding.readyState == 4) {
+                            var parser = new DOMParser();
+                            var doc = parser.parseFromString(binding.response, 'application/xml');
+                            var errors = doc.getElementsByTagName('errors');
+                            var messageText = '';
+                            if ((doc.getElementsByTagName('faultcode').item(0) &&
+                                            doc.getElementsByTagName('faultcode').item(0).innerHTML == "sf:API_DISABLED_FOR_ORG")) {
+                                authSession.isProfOrg = true;
+                                authSession.startAuth();
+                                return;
+                            }
+                            for (var errorIdx = 0; errorIdx < errors.length; errorIdx++) {
+                                if ('INVALID_CROSS_REFERENCE_KEY' != errors.item(errorIdx).getElementsByTagName('statusCode').item(0).innerHTML) {
+                                    messageText += errors.item(errorIdx).getElementsByTagName('message').item(0).innerHTML + '\n';
+                                }
+                            }
+                            if (messageText.length == 0) {
+                                createRemoteSite(uri, name, onSuccess);
+                            } else {
+                                displayMetadataResponse(messageText);
+                            }
+                        }
+                    }
+            binding.send(request);
+        }
+    </script>
+    <apex:outputPanel rendered="{!!isLocalFrontEnv}">
+        <apex:stylesheet value="{!URLFOR($Resource.pdffiller_sf__v2) + '/salesforce.css'}"/>
+    </apex:outputPanel>
+    <apex:outputPanel rendered="{!isLocalFrontEnv}">
+        <apex:stylesheet value="https://localhost:8080/salesforce.css"/>
+    </apex:outputPanel>
+    <apex:form id="adminForm" styleClass="adminForm">
+        <apex:actionFunction name="showMessage" action="{!showMessage}" rerender="showmsg">
+            <apex:param name="messageName" assignTo="{!messageName}" value="" />
+            <apex:param name="errorLevel" assignTo="{!errorLevel}" value="INFO" />
+        </apex:actionFunction>
+        <apex:outputpanel >
+            <apex:actionstatus id="status">
+                <apex:facet name="start">
+                    <div class="waitingSearchDiv" id="el_loading" style="background-color: #fbfbfb;
+                       height: 100%;opacity:0.65;width:100%;">
+                        <div class="waitingHolder" style="top: 74.2px; width: 91px;">
+                            <img class="waitingImage" src="/img/loading.gif" title="{!$Label.waiting}"/>
+                            <span class="waitingDescription">{!$Label.waiting}</span>
+                        </div>
+                    </div>
+                </apex:facet>
+            </apex:actionstatus>
+        </apex:outputpanel>
+
+        <c:ApplicationUtils tokenRequiredOnload="false"/>
+
+        <apex:outputPanel id="settings" layout="block">
+
+            <apex:actionFunction name="displayMetadataResponse" action="{!displayMetadataResponse}" reRender="adminForm" status="status">
+                <apex:param name="metadataResponse" assignTo="{!jsRssResponse}" value="{!jsRssResponse}"/>
+            </apex:actionFunction>
+
+            <header class="dadadocs-header">
+                <h1 class="dadadocs-header__title">{!$Label.pdffiller_sf__dadadocs_settings}</h1>
+            </header>
+            <apex:outputPanel layout="block" rendered="{!AND(NOT(metadataReady),isAdmin)}">
+                <main class="dadadocs-settings">
+                    <section class="dadadocs-settings__item">
+                        <div class="dadadocs-settings__item-info">
+                            <h3 class="dadadocs-settings__item-name">
+                                    {!$Label.rss_for_metadata}
+                            </h3>
+                            <p class="dadadocs-settings__item-description">
+                                    {!$Label.rss_metadata_description_1}
+                            </p>
+                        </div>
+                        <button type="button"
+                                class="dadadocs_button c-btn c-btn--primary"
+                                onclick="document.getElementById('AdminMain:adminForm:setupRSS').click()">
+                                {!$Label.activate}
+                        </button>
+                        <apex:commandButton id="setupRSS"
+                                            onClick="checkAndRecreateRSS(uriSF,
+                                                    '{!RSSwithNS}_backend',
+                                                    function(){
+                                                    checkAndRecreateRSS(uriVisualforce,'{!RSSwithNS}');
+                                                    }
+                                                    );"
+                                            reRender="adminForm"
+                                            style="display:none !important;"
+                                            status="status"
+                        />
+                    </section>
+                </main>
+            </apex:outputPanel>
+            <apex:outputPanel layout="block" rendered="{!AND(metadataReady,isAdmin)}" id="layoutsTable">
+                <script>
+                    META_READY = true;
+                </script>
+                <div class="dadadocs-content-wrapper">
+                    <header class="dadadocs-header">
+                        <div class="dadadocs-settings__item-info">
+                            <h3 class="dadadocs-settings__item-name">
+                                    {!$Label.admin_use_dadadocs_button_header}
+                            </h3>
+                            <p class="dadadocs-settings__item-description">
+                                    {!$Label.admin_use_dadadocs_button_text}
+                            </p>
+                        </div>
+
+                    </header>
+
+                    <main class="dadadocs-layouts">
+                        <h2 class="dadadocs-layouts__title">
+                            <a  href="" class="dadadocs-layouts__title dadadocs-layouts__title_order">
+                            {!$Label.layout_name}&nbsp;&uarr;
+                            </a>
+                        </h2>
+                        <div class="dadadocs-option__item dadadocs-option__item_template {{layout-hasButton}}"
+                             name="{{layout-name}}">
+                            {{layout-label}}
+                        </div>
+
+                        <div class="dadadocs-layouts__options">
+
+                        </div>
+
+                        <li class="dadadocs_pagination__item dadadocs_pagination__item_template {{pagination-additionalProperties}}" page="{{pagination-pageNum}}">
+                            {{pagination-pageNum}}
+                        </li>
+                        <div class="dadadocs-layouts__footer">
+                            <ul class="dadadocs_pagination">
+                            </ul>
+
+                            <button type="button"
+                                    class="dadadocs_button c-btn c-btn--primary"
+                                    onclick="updateLayouts();">
+                                    {!$Label.update_layouts}
+                            </button>
+                        </div>
+                    </main>
+                    <c:Loader />
+                </div>
+                <script>
+                    var maxLayouts = {!layoutsNum};
+                    var layoutsPerRequest = {!LAYOUTS_PER_REQUEST};
+                    var layoutsPerPage = {!LAYOUTS_PER_PAGE};
+                    var apiSessionId="{!$Api.Session_ID}";
+                    var namespace="{!namespace}";
+                    var messagesText = {'nothing_to_update':'{!$Label.pdffiller_sf__nothing_to_update}',
+                        'updated_success':'{!$Label.pdffiller_sf__layouts_altered_message}',
+                        'updated_error':'{!$Label.pdffiller_sf__layouts_altered_message_error}',
+                        'loaded_error':'{!$Label.pdffiller_sf__layouts_altered_message_loaded_error}',
+                    }
+                    var customObjectLayout = "{!$Label.pdffiller_sf__custom_object_layout}";
+                    var standardObjectLayout = "{!$Label.pdffiller_sf__standard_object_layout}";
+
+                </script>
+            </apex:outputPanel>
+            <apex:outputPanel layout="block" rendered="{!AND(metadataReady,isAdmin)}">
+                <header class="dadadocs-header">
+                    <h1 class="dadadocs-header__title" style="text-transform: none;">
+                            {!$Label.pdffiller_sf__orgwide_options_header}
+                    </h1>
+                    <apex:commandButton action="{!updateOrgWideOptions}"
+                                        reRender="adminForm"
+                                        id="updateOrgWideOptionsBtn"
+                                        style="display:none !important;"
+                                        status="status"
+                                        onComplete="initLayoutsComponent();"
+                    />
+                </header>
+                <div class="dadadocs-settings__feature">
+                    <div class="dadadocs-settings__feature-inner-wrapper">
+                        <apex:inputCheckbox styleClass="dadadocs-settings__feature-input" value="{!dadadocsOptions.pdffiller_sf__RemoveAfterEdit__c}" id="removeafteredit"/>
+                        <label class="dadadocs-settings__feature-label" for="AdminMain:adminForm:removeafteredit">{!$Label.pdffiller_sf__remove_after_edit}</label>
+                    </div>
+                    <div class="dadadocs-settings__feature-inner-wrapper">
+                        <apex:inputCheckbox styleClass="dadadocs-settings__feature-input" value="{!dadadocsOptions.pdffiller_sf__Send2SignFeature__c}" id="s2sfeature"/>
+                        <label class="dadadocs-settings__feature-label" for="AdminMain:adminForm:s2sfeature">{!$ObjectType.pdffiller_sf__DaDaDocs_Feature_Options__c.fields.pdffiller_sf__Send2SignFeature__c.Label}</label>
+                    </div>
+                    <div class="dadadocs-settings__feature-inner-wrapper" style="display : {!IF(isSignNowInstalled,"","none")}">
+                        <apex:inputCheckbox styleClass="dadadocs-settings__feature-input" value="{!dadadocsOptions.pdffiller_sf__GetDocumentSignedWithSignNowFeature__c}" id="signnowfeaturenable"/>
+                        <label class="dadadocs-settings__feature-label" for="AdminMain:adminForm:signnowfeaturenable">{!$ObjectType.pdffiller_sf__DaDaDocs_Feature_Options__c.fields.pdffiller_sf__GetDocumentSignedWithSignNowFeature__c.Label}</label>
+                    </div>
+                    <div class="dadadocs-settings__feature-inner-wrapper" style="display : {!IF(isSignNowInstalled,"none","")}">
+                        <apex:inputCheckbox styleClass="dadadocs-settings__feature-input" id="signnowfeaturedisable"/>
+                        <label class="dadadocs-settings__feature-label" for="AdminMain:adminForm:signnowfeaturedisable">{!$ObjectType.pdffiller_sf__DaDaDocs_Feature_Options__c.fields.pdffiller_sf__GetDocumentSignedWithSignNowFeature__c.Label}</label>
+                    </div>
+                    <div class="dadadocs-settings__feature-inner-wrapper">
+                        <apex:inputCheckbox styleClass="dadadocs-settings__feature-input" value="{!dadadocsOptions.pdffiller_sf__Link2FillFeature__c}" id="l2ffeature"/>
+                        <label class="dadadocs-settings__feature-label" for="AdminMain:adminForm:l2ffeature">{!$ObjectType.pdffiller_sf__DaDaDocs_Feature_Options__c.fields.pdffiller_sf__Link2FillFeature__c.Label}</label>
+                    </div>
+                    <div class="dadadocs-settings__feature-inner-wrapper">
+                        <apex:inputCheckbox styleClass="dadadocs-settings__feature-input" value="{!dadadocsOptions.pdffiller_sf__TemplatesFeature__c}" id="templatefeature"/>
+                        <label class="dadadocs-settings__feature-label" for="AdminMain:adminForm:templatefeature">{!$ObjectType.pdffiller_sf__DaDaDocs_Feature_Options__c.fields.pdffiller_sf__TemplatesFeature__c.Label}</label>
+                    </div>
+                    <div class="dadadocs-settings__feature-inner-wrapper">
+                        <apex:inputCheckbox styleClass="dadadocs-settings__feature-input" value="{!dadadocsOptions.pdffiller_sf__DocxTemplatesFeature__c}" id="docxfeature"/>
+                        <label class="dadadocs-settings__feature-label" for="AdminMain:adminForm:docxfeature">{!$ObjectType.pdffiller_sf__DaDaDocs_Feature_Options__c.fields.pdffiller_sf__DocxTemplatesFeature__c.Label}</label>
+                    </div>
+                    <div class="dadadocs-settings__feature-inner-wrapper">
+                        <apex:inputCheckbox styleClass="dadadocs-settings__feature-input" value="{!dadadocsOptions.pdffiller_sf__PDFfillerFiles__c}" id="pdffillerfiles"/>
+                        <label class="dadadocs-settings__feature-label" for="AdminMain:adminForm:pdffillerfiles">{!$ObjectType.pdffiller_sf__DaDaDocs_Feature_Options__c.fields.pdffiller_sf__PDFfillerFiles__c.Label}</label>
+                    </div>
+                    <div class="dadadocs-settings__feature-inner-wrapper">
+                        <apex:inputCheckbox styleClass="dadadocs-settings__feature-input" value="{!dadadocsOptions.pdffiller_sf__Merge__c}" id="mergeoption"/>
+                        <label class="dadadocs-settings__feature-label" for="AdminMain:adminForm:mergeoption">{!$ObjectType.pdffiller_sf__DaDaDocs_Feature_Options__c.fields.pdffiller_sf__Merge__c.Label}</label>
+                    </div>
+                    <div class="dadadocs-settings__feature-inner-wrapper">
+                        <apex:inputCheckbox styleClass="dadadocs-settings__feature-input" value="{!dadadocsOptions.pdffiller_sf__AccessEncryptedFields__c}" id="encrypted"/>
+                        <label class="dadadocs-settings__feature-label" for="AdminMain:adminForm:encrypted">{!$ObjectType.pdffiller_sf__DaDaDocs_Feature_Options__c.fields.pdffiller_sf__AccessEncryptedFields__c.Label}</label>
+                    </div>
+                    <div class="dadadocs-settings__feature-inner-wrapper">
+                        <apex:inputCheckbox styleClass="dadadocs-settings__feature-input" value="{!dadadocsOptions.pdffiller_sf__DocObject__c}" id="docobject"/>
+                        <label class="dadadocs-settings__feature-label" for="AdminMain:adminForm:docobject">{!$ObjectType.pdffiller_sf__DaDaDocs_Feature_Options__c.fields.pdffiller_sf__DocObject__c.Label}</label>
+                    </div>
+                    <div class="dadadocs-settings__feature-inner-wrapper">
+                        <apex:inputCheckbox styleClass="dadadocs-settings__feature-input" value="{!dadadocsOptions.pdffiller_sf__JSEditor__c}" id="jseditor"/>
+                        <label class="dadadocs-settings__feature-label" for="AdminMain:adminForm:jseditor">{!$Label.pdffiller_sf__js_editor}</label>
+                    </div>
+                    <div class="dadadocs-settings__feature-inner-wrapper">
+                        <apex:inputCheckbox styleClass="dadadocs-settings__feature-input" value="{!dadadocsOptions.pdffiller_sf__IsDebugModeEnable__c}" id="isdebugmodeenable"/>
+                        <label class="dadadocs-settings__feature-label" for="AdminMain:adminForm:isdebugmodeenable">{!$ObjectType.pdffiller_sf__DaDaDocs_Feature_Options__c.fields.pdffiller_sf__IsDebugModeEnable__c.Label}</label>
+                    </div>
+                    <div class="dadadocs-settings__feature-inner-wrapper">
+                        <apex:inputCheckbox styleClass="dadadocs-settings__feature-input" value="{!dadadocsOptions.pdffiller_sf__IsCustomOAuthUsed__c}" id="iscustomoauthused"/>
+                        <label class="dadadocs-settings__feature-label" for="AdminMain:adminForm:iscustomoauthused">{!$ObjectType.pdffiller_sf__DaDaDocs_Feature_Options__c.fields.pdffiller_sf__IsCustomOAuthUsed__c.Label}</label>
+                    </div>
+                    <div class="dadadocs-settings__feature-inner-wrapper">
+                        <apex:inputCheckbox styleClass="dadadocs-settings__feature-input" value="{!dadadocsOptions.pdffiller_sf__DevApi__c}" id="enabledevapi"/>
+                        <label class="dadadocs-settings__feature-label" for="AdminMain:adminForm:enabledevapi">{!$Label.pdffiller_sf__dev_api}</label>
+                    </div>
+                    <div class="dadadocs-settings__feature-inner-wrapper" style="display : {!IF(chatterEnabled == true,"","none")}">
+                        <apex:inputCheckbox styleClass="dadadocs-settings__feature-input" value="{!dadadocsOptions.pdffiller_sf__AttachmentsForUploadButton__c}" id="uploadbutton"/>
+                        <label class="dadadocs-settings__feature-label" for="AdminMain:adminForm:uploadbutton">{!$Label.pdffiller_sf__attachments_for_upload_button_feature}</label>
+                    </div>
+                    <div class="dadadocs-settings__feature-inner-wrapper">
+                        <apex:inputCheckbox styleClass="dadadocs-settings__feature-input" value="{!dadadocsOptions.pdffiller_sf__IsStoreFilesToExternalStorage__c}" id="saveFilesToExternalStorage"/>
+                        <label class="dadadocs-settings__feature-label" for="AdminMain:adminForm:saveFilesToExternalStorage">{!$ObjectType.pdffiller_sf__DaDaDocs_Feature_Options__c.fields.pdffiller_sf__IsStoreFilesToExternalStorage__c.Label}</label>
+                    </div>
+                    <div class="dadadocs-settings__feature-inner-wrapper">
+                        <apex:inputCheckbox styleClass="dadadocs-settings__feature-input"
+                                            value="{!dadadocsOptions.pdffiller_sf__DeleteFilesFromExternalStorage__c}"
+                                            id="deleteFilesFromExternalStorages"/>
+                        <label class="dadadocs-settings__feature-label"
+                               for="AdminMain:adminForm:deleteFilesFromExternalStorages">{!$Label.delete_from_external_storage}</label>
+                    </div>
+                </div>
+                <div class="dadadocs-settings__footer">
+                    <button type="button" class="dadadocs_button c-btn c-btn--primary" onclick="document.getElementById('AdminMain:adminForm:updateOrgWideOptionsBtn').click();">
+                            {!$Label.orgwide_options_update_button}
+                    </button>
+                </div>
+                <div class="cloud-storage-integration">
+                    <header class="dadadocs-header">
+                        <h1 class="dadadocs-header__title">
+                                {!$Label.cloud_storage_integration}
+                        </h1>
+                    </header>
+                    <main class="dadadocs-settings dadadocs-settings__cloud-storage-integration">
+                        <div class="cloud-storage-integration__row cloud-storage-integ-list">
+                            <p class="cloud-storage-integration__title">{!$Label.select_your_cloud_storage_provider}</p>
+                            <p class="cloud-storage-integration__input-wrap">
+                                <label class="cloud-storage-integration__label c-label">{!$Label.select_cloud_storage_provider}</label>
+                                <select class="cloud-storage-integration__input c-select" id="cloudStorageProviderSelect">
+                                    <option value="" disabled="" selected="" hidden="">{!$Label.select_cloud_storage_provider}</option>
+                                    <option value="s3">Amazon S3</option>
+                                </select>
+                            </p>
+                        </div>
+                        <div class="cloud-storage-integ-content"></div>
+                        <c:Loader />
+                    </main>
+                    <script>
+                        try {
+                            new SF.CloudStorageSettingsController().init();
+                            new SF.FeatureSpecificSettings();
+                        } catch (error) {
+                            console.log(error);
+                        }
+                    </script>
+                </div>
+            </apex:outputPanel>
+            <apex:outputPanel layout="block" rendered="{!isAdmin}">
+                <header class="dadadocs-header">
+                    <h1 class="dadadocs-header__title">
+                        Advanced Options
+                    </h1>
+                </header>
+                <main class="dadadocs-settings">
+
+                    <section class="dadadocs-settings__item">
+                        <div class="dadadocs-settings__item-info">
+                            <h3 class="dadadocs-settings__item-name">
+                                    {!$Label.run_uninstall}
+                            </h3>
+                            <p class="dadadocs-settings__item-description">
+                                    {!$Label.uninstall_descr}
+                            </p>
+                        </div>
+                        <button type="button"
+                                class="dadadocs_button c-btn c-btn--primary"
+                                onclick="new SF.Confirm('{!$Label.confirm_uninstall}', prepareUninstall)">
+                                {!$Label.uninstall}
+                        </button>
+
+                        <apex:actionFunction action="{!prepareToUninstall}"
+                                            name="prepareUninstall"
+                                            status="status"
+                                            onComplete="prepareUninstall()"
+                        />
+                    </section>
+
+                    <apex:outputPanel layout="block" rendered="{!AND(isMultitokenUserAdmin,isAdmin,!$Setup.Options__c.user_integration_installed__c,metadataReady)}">
+                        <section class="dadadocs-settings__item">
+                            <div class="dadadocs-settings__item-info">
+                                <h3 class="dadadocs-settings__item-name">
+                                        {!$Label.install_user_integration}
+                                </h3>
+                                <p class="dadadocs-settings__item-description">
+                                        {!$Label.install_user_integration_detail}
+                                </p>
+                            </div>
+                            <button type="button"
+                                    class="dadadocs_button c-btn c-btn--primary"
+                                    onclick="new SF.Confirm('{!$Label.confirm_install_org_wide_user_access_feature}', function(){document.getElementById('AdminMain:adminForm:tryInstallUserIntegration').click()})">
+
+                                    {!$Label.run}
+                            </button>
+                            <apex:commandButton action="{!installUserIntegration}"
+                                                id="tryInstallUserIntegration"
+                                                style="display:none !important;"
+                                                status="status"
+                            />
+                        </section>
+                    </apex:outputPanel>
+
+
+                    <apex:outputPanel layout="block" rendered="{!AND(isMultitokenUserAdmin,isAdmin,$Setup.Options__c.user_integration_installed__c,metadataReady)}">
+                        <section class="dadadocs-settings__item">
+                            <div class="dadadocs-settings__item-info">
+                                <h3 class="dadadocs-settings__item-name">
+                                        {!$Label.uninstall_user_integration}
+                                </h3>
+                                <p class="dadadocs-settings__item-description">
+                                        {!$Label.uninstall_user_integration_detail}
+                                </p>
+                            </div>
+                            <button type="button"
+                                    class="dadadocs_button c-btn c-btn--primary"
+                                    onclick="new SF.Confirm('{!$Label.confirm_uninstall_org_wide_user_access_feature}', function(){document.getElementById('AdminMain:adminForm:tryUninstallUserIntegration').click()})">
+                                    {!$Label.run}
+                            </button>
+                            <apex:commandButton action="{!uninstallUserIntegration}"
+                                                id="tryUninstallUserIntegration"
+                                                style="display:none !important;"
+                                                status="status"
+                            />
+                        </section>
+                    </apex:outputPanel>
+
+                    <apex:outputPanel layout="block" rendered="{!AND(isAdmin,$Setup.Options__c.need_install_all_templates__c)}">
+                        <section class="dadadocs-settings__item">
+                            <div class="dadadocs-settings__item-info">
+                                <h3 class="dadadocs-settings__item-name">
+                                        {!$Label.install_all_templates}
+                                </h3>
+                                <p class="dadadocs-settings__item-description">
+                                        {!$Label.install_all_templates_detail}
+                                </p>
+                            </div>
+                            <button type="button"
+                                    class="dadadocs_button c-btn c-btn--primary"
+                                    onclick="new SF.Confirm('{!$Label.confirm_install_all_templates}', function() {
+                                            document.getElementById('AdminMain:adminForm:tryInstallAllTemplatesTab').click()})">
+                                    {!$Label.run}
+                            </button>
+                            <apex:commandButton action="{!addAllTemplatesTabAfterUpgrade}"
+                                                id="tryInstallAllTemplatesTab"
+                                                style="display:none !important;"
+                                                status="status"
+                            />
+                        </section>
+                    </apex:outputPanel>
+
+
+
+                    <apex:outputPanel layout="block" rendered="{!AND(isAdmin,NOT($Setup.Options__c.PostInstall_script_successful__c))}">
+                        <section class="dadadocs-settings__item">
+                            <div class="dadadocs-settings__item-info">
+                                <h3 class="dadadocs-settings__item-name">
+                                        {!$Label.execute_postinstall_script}
+                                </h3>
+                                <p class="dadadocs-settings__item-description">
+                                        {!$Label.execute_postinstall_script_detail}
+                                </p>
+                            </div>
+                            <button type="button"
+                                    class="dadadocs_button c-btn c-btn--primary"
+                                    onclick="new SF.Confirm('{!$Label.confirm_execute_postinstall_script}', function() {
+                                            document.getElementById('AdminMain:adminForm:tryPostinstall').click()})">
+                                    {!$Label.run}
+                            </button>
+                            <apex:commandButton action="{!runPostinstall}"
+                                                id="tryPostinstall"
+                                                style="display:none !important;"
+                                                status="status"
+                            />
+                        </section>
+                    </apex:outputPanel>
+                </main>
+            </apex:outputPanel>
+        </apex:outputPanel>
+        <apex:outputPanel styleClass="dadadocs__accordion" layout="block">
+        <header class="dadadocs-header">
+            <h1 class="dadadocs-header__title dadadocs__accordion-trigger">
+                    {!$Label.pdffiller_sf__basic_auth_header}
+            </h1>
+        </header>
+        <main class="dadadocs-settings dadadocs__accordion-content">
+            <apex:outputPanel rendered="{!isAdmin}">
+                <section class="dadadocs-settings__item" style="display: none;">
+                    <div class="dadadocs-settings__item-info">
+                        <h3 class="dadadocs-settings__item-name">
+                                {!$Label.basic_auth_grant_access_header}
+                        </h3>
+                        <p class="dadadocs-settings__item-description">
+                                {!$Label.basic_auth_grant_access_descr}
+                        </p>
+                    </div>
+                    <button class="dadadocs_button c-btn c-btn--primary"
+                            formaction="{!PDFFillerReauthUrl}">
+                            {!$Label.basic_auth_grant_access_button}
+                    </button>
+                </section>
+            </apex:outputPanel>
+            <apex:outputPanel rendered="{!AND(dadadocsOptions.pdffiller_sf__IsCustomOAuthUsed__c,NOT(isUserCustomAuthed))}">
+                <section class="dadadocs-settings__item">
+                    <div class="dadadocs-settings__item-info">
+                        <h3 class="dadadocs-settings__item-name">
+                                {!$Label.custom_auth_grant_access_header}
+                        </h3>
+                        <p class="dadadocs-settings__item-description">
+                                {!$Label.custom_auth_grant_access_descr}
+                        </p>
+                    </div>
+                    <a href="{!authorizationLink}" class="dadadocs_button c-btn c-btn--primary">{!$Label.custom_auth_grant_access_button}</a>
+                </section>
+            </apex:outputPanel>
+            <apex:outputPanel rendered="{!AND(dadadocsOptions.pdffiller_sf__IsCustomOAuthUsed__c,isUserCustomAuthed)}">
+                <section class="dadadocs-settings__item">
+                    <div class="dadadocs-settings__item-info">
+                        <h3 class="dadadocs-settings__item-name">
+                                {!$Label.custom_auth_logout_header}
+                        </h3>
+                        <p class="dadadocs-settings__item-description">
+                                {!$Label.custom_auth_logout_descr}
+                        </p>
+                    </div>
+                    <button type="button"
+                            class="dadadocs_button c-btn c-btn--primary"
+                            onclick="new SF.Confirm('{!$Label.confirm_custom_auth_logout}', function() {
+                                    document.getElementById('AdminMain:adminForm:oAuthLogout').click()})">
+                            {!$Label.custom_auth_logout_btn}
+                    </button>
+                    <apex:commandButton action="{!oAuthLogout}"
+                                        id="oAuthLogout"
+                                        style="display:none !important;"
+                    />
+                </section>
+            </apex:outputPanel>
+        </main>
+        </apex:outputPanel>
+        <c:Alert />
+    </apex:form>
+    <c:AbstractPopup />
+
+    <apex:includeScript loadOnReady="true" value="{!$Resource.pdffiller_sf__DaDaDocsClassicScrollJs}" />
+
+    <script type="text/javascript">
+        j$ = jQuery.noConflict();
+        var uriVisualforce = '{!host}';
+        var storageCloudLabels = {
+            fill_auth_info : '{!$Label.pdffiller_sf__fill_auth_info}',
+            secret_key: '{!$Label.pdffiller_sf__secret_key}',
+            enter_amazon_s3_secret_key: '{!$Label.pdffiller_sf__enter_amazon_s3_secret_key}',
+            access_key_id: '{!$Label.pdffiller_sf__access_key_id}',
+            enter_amazon_s3_access_key_id: '{!$Label.pdffiller_sf__enter_amazon_s3_access_key_id}',
+            select_region: '{!$Label.pdffiller_sf__select_region}',
+            next: '{!$Label.pdffiller_sf__next}',
+            select_bucket_and_fill_bucket_path: '{!$Label.pdffiller_sf__select_bucket_and_fill_bucket_path}',
+            select_bucket: '{!$Label.pdffiller_sf__select_bucket}',
+            select_amazon_s3_bucket: '{!$Label.pdffiller_sf__select_amazon_s3_bucket}',
+            bucket_path: '{!$Label.pdffiller_sf__bucket_path}',
+            enter_bucket_name_here: '{!$Label.pdffiller_sf__enter_bucket_name_here}',
+            enter_bucket_path_here: '{!$Label.pdffiller_sf__enter_bucket_path_here}',
+            save_connection: '{!$Label.pdffiller_sf__save_connection}'
+        };
+        var uriSF;
+        callService(
+                "GET",
+                "/layouts/rssUrl",
+                {},
+                function(result){
+                    uriSF = result;
+                },
+                function(error){
+                    showSFMessage(error,"ERROR");
+                }
+        );
+        if (META_READY) {
+            initLayoutsComponent();
+        }
+    </script>
+
+    <apex:panelGroup rendered="{!isGoogleAnalytics}">
+        <apex:includeScript loadOnReady="true" value="{!$Resource.pdffiller_sf__GoogleAnalytics}" />
+    </apex:panelGroup>
+    <apex:includeScript loadOnReady="false" value="{!$Resource.pdffiller_sf__AdminMain}"  />
+    <apex:includeScript loadOnReady="true" value="{!$Resource.pdffiller_sf__adminMainJs}"  />
+</apex:page>

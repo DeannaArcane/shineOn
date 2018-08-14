@@ -1,0 +1,5 @@
+<apex:page controller="tdc_tsw.IncomingAlert" applyBodyTag="false" standardStylesheets="false">
+     <c:DoNotDisplayPage />
+     <c:DoNotDisplayFeatureComp test="Incoming Sidebar"/>
+    <c:Incoming_Alert_Slds_Component />
+</apex:page>

@@ -1,0 +1,265 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Content-Type" name="viewport" content="text/html;width=device-width, initial-scale=1" charset="utf-8">
+    <title>Email seasonal</title>
+    <style>
+@media (min-width: 700px) {
+  p {
+    font-size: 14px !important;
+  }
+}
+
+
+@media (max-width: 700px) {
+  .align-block {
+    width: 100% !important;
+  }
+}
+
+
+@media (min-width: 700px) {
+  .padding-main {
+    width: 36px !important;
+  }
+}
+
+
+@media (min-width: 700px) {
+  .padding-custom-main {
+    width: 34px !important;
+  }
+}
+
+
+@media (max-width: 700px) {
+  .main-content {
+    width: 100% !important;
+  }
+}
+
+
+@media (min-width: 700px) {
+  .main-content {
+    border-right: 1px solid #dddddd !important;
+    border-left: 1px solid #dddddd !important;
+  }
+}
+
+
+
+@media (min-width: 700px) {
+  .head-links {
+    padding-right: 30px !important;
+    width: auto !important;
+  }
+}
+
+
+@media (min-width: 700px) {
+  .head-link {
+    font-size: 13px !important;
+  }
+}
+
+
+@media (min-width: 700px) {
+  .sep-wrap {
+    padding-left: 15px !important;
+    padding-right: 15px !important;
+  }
+}
+
+
+@media (min-width: 700px) {
+  .sep {
+    font-size: 8px !important;
+    height: auto !important;
+    width: auto !important;
+    background: none !important;
+    min-height: 0 !important;
+  }
+}
+
+
+@media (min-width: 700px) {
+  .head-link-2 {
+    font-size: 13px !important;
+  }
+}
+
+
+@media (min-width: 700px) {
+  .item-2 {
+    width: auto !important;
+  }
+}
+
+
+@media (max-width: 700px) {
+  .footer-spacer {
+    height: 0 !important;
+    display: none !important;
+  }
+}
+
+
+@media (min-width: 700px) {
+  .help-links {
+    width: 380px !important;
+  }
+}
+
+
+@media (min-width: 700px) {
+  .footer-item {
+    width: auto !important;
+  }
+}
+
+
+@media (min-width: 700px) {
+  .foot-link {
+    font-size: 12px !important;
+  }
+}
+
+
+@media (min-width: 700px) {
+  .main-image {
+    margin: 24px auto 0 !important;
+  }
+}
+
+
+@media (min-width: 700px) {
+  .main-title {
+    margin-top: 36px !important;
+    margin-bottom: 24px !important;
+    font-size: 24px !important;
+  }
+}
+
+
+@media (min-width: 700px) {
+  .greeting {
+    font-size: 16px !important;
+    line-height: 1.5 !important;
+  }
+}
+
+
+@media (min-width: 700px) {
+  .main-text {
+    font-size: 14px !important;
+    line-height: 1.57 !important;
+  }
+}
+
+
+@media (min-width: 700px) {
+  .end-of-letter {
+    padding-top: 50px !important;
+    padding-bottom: 36px !important;
+    font-size: 14px !important;
+    line-height: 1.57 !important;
+  }
+}
+</style>
+</head>
+<body style="background-color: #F2F2F2 !important; font-family: Arial, sans-serif; margin: 0; padding: 0;" class="body">
+<table class="align-block" style="border-collapse: collapse; border-spacing: 0; margin: 0 auto; width: 700px;">
+    <tr>
+        <td style="border-collapse: collapse; border-spacing: 0; height: 15px; padding: 0;">&nbsp;</td>
+    </tr>
+    <tr>
+        <td style="border-collapse: collapse; border-spacing: 0; padding: 0;">
+            <table class="main-content" style="border-bottom: 1px solid #dddddd; border-collapse: collapse; border-spacing: 0; border-top: 1px solid #dddddd; width: 600px;">
+                <tr>
+                    <td style="border-collapse: collapse; border-spacing: 0; padding: 0;">
+                        <table class="header" style="background-color: #f9f9f9; border-bottom: 1px solid #DDDDDD; border-collapse: collapse; border-spacing: 0; height: 54px; min-width: 100%; width: 100%;">
+                            <tr>
+                                <td class="logo-block-desk" style="border-collapse: collapse; border-spacing: 0; max-height: 0; padding: 0; padding-left: 24px;"><a href="https://www.pdffiller.com/" target="_blank" style="color: #444;"><img src="https://static.pdffiller.com/mail-templates/img/common/dadadocs/dadadocs-logo-desktop.png" alt="Dadadocs logo" width="123" height="36" style="color: #444; display: block;"></a></td>
+                                <td class="head-links" style="border-collapse: collapse; border-spacing: 0; padding: 0; padding-right: 10px; width: 175px;">
+                                    <table class="head-links-table" style="border-collapse: collapse; border-spacing: 0; float: right;">
+                                        <tr>
+                                            <td class="head-links__item item-2" style="border-collapse: collapse; border-spacing: 0; padding: 0; text-align: center; width: 120px;"><a href="mailto:dadadocs-support@pdffiller.com" target="_blank" class="head-link-2" style="color: #E95E50; display: block; font-size: 12px; font-weight: bold; line-height: 110%; text-decoration: none;">Contact Support</a></td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="border-collapse: collapse; border-spacing: 0; padding: 0;">
+                        <table style="background-color: #fff; border-collapse: collapse; border-spacing: 0; width: 100%;">
+                            <tr>
+                                <td class="content" style="background-color: #fff; border-collapse: collapse; border-spacing: 0; padding: 0;">
+                                    <table style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                        <tr>
+                                            <td class="padding-main" style="background-color: #FFFFFF; border-collapse: collapse; border-spacing: 0; padding: 0; width: 15px;">&nbsp;</td>
+                                            <td style="border-collapse: collapse; border-spacing: 0; padding: 0;">
+                                                <div class="img-wrap" style="text-align: center;"><img src="https://static.pdffiller.com/mail-templates/img/product/notification.png" width="200" height="158" alt="" class="main-image" style="color: #444; display: block; margin: 15px auto 0;"></div>
+                                                <div class="main-title" style="font-size: 20px; line-height: 1.3; margin-bottom: 20px; margin-top: 25px; text-align: center;">I’ve shared the document(s) with you via DaDaDocs.</div>
+                                                <p class="main-text" style="color: #444; font-size: 13px; line-height: 1.38; margin: 0; padding: 0;">
+                                                    <span class="greeting" style="color: #343434; font-size: 14px; font-weight: 700; line-height: 1.14;">
+                                                        Hi,
+                                                    </span>
+                                                    <br><br>
+                                                    A document {Document.Name} has been sent to you via DaDaDocs by {Sender.Name} ({Sender.Email}).
+
+                                                    <br><br>
+                                                    To access the document, click <a href={Document.Link} target="_blank" style="color: #E74C3C; text-decoration: none;">here</a>.
+                                                </p>
+                                                <p class="end-of-letter" style="color: #444; font-size: 13px; line-height: 1.38; margin: 0; padding: 0; padding-bottom: 25px; padding-top: 35px;">Thank you,<br>DaDaDocs Team<br>Phone: 617-680-7973<br>Email: dadadocs-support@pdffiller.com</p>
+                                            </td>
+                                            <td class="padding-main" style="background-color: #FFFFFF; border-collapse: collapse; border-spacing: 0; padding: 0; width: 15px;">&nbsp;</td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="border-collapse: collapse; border-spacing: 0; padding: 0;">
+                        <table class="footer" style="background-color: #f7f7f7; border-collapse: collapse; border-spacing: 0; border-top: 1px solid #dddddd; width: 100%;">
+                            <tr>
+                                <td style="border-collapse: collapse; border-spacing: 0; padding: 0; padding-bottom: 16px; padding-top: 22px;">
+                                    <table style="border-collapse: collapse; border-spacing: 0; margin: 0 auto; width: auto !important;">
+                                        <tr>
+                                            <td class="soc-con" style="border-collapse: collapse; border-spacing: 0; height: 20px; padding: 0; text-align: center; vertical-align: middle; width: 45px;"><a href="https://www.facebook.com/pdffiller" target="_blank" style="color: #444;"><img src="https://static.pdffiller.com/img/marketing/mails2016/common/socials/grayscale/icon-fb.png" width="10" height="19" style="color: #444;"></a></td>
+                                            <td class="soc-con" style="border-collapse: collapse; border-spacing: 0; height: 20px; padding: 0; text-align: center; vertical-align: middle; width: 45px;"><a href="https://twitter.com/pdf_filler" target="_blank" style="color: #444;"><img src="https://static.pdffiller.com/img/marketing/mails2016/common/socials/grayscale/icon-twitter.png" width="21" height="17" style="color: #444;"></a></td>
+                                            <td class="soc-con" style="border-collapse: collapse; border-spacing: 0; height: 20px; padding: 0; text-align: center; vertical-align: middle; width: 45px;"><a href="https://plus.google.com/u/0/+Pdffillerofficial" target="_blank" style="color: #444;"><img src="https://static.pdffiller.com/img/marketing/mails2016/common/socials/grayscale/icon-gplus.png" width="21" height="19" style="color: #444;"></a></td>
+                                            <td class="soc-con" style="border-collapse: collapse; border-spacing: 0; height: 20px; padding: 0; text-align: center; vertical-align: middle; width: 45px;"><a href="http://pdffiller.tumblr.com/" target="_blank" style="color: #444;"><img src="https://static.pdffiller.com/img/marketing/mails2016/common/socials/grayscale/icon-telegram.png" width="11" height="19" style="color: #444;"></a></td>
+                                            <td class="soc-con" style="border-collapse: collapse; border-spacing: 0; height: 20px; padding: 0; text-align: center; vertical-align: middle; width: 45px;"><a href="https://www.youtube.com/channel/UCmxlNXAYU1SIfm8u1y5l2mQ" target="_blank" style="color: #444;"><img src="https://static.pdffiller.com/img/marketing/mails2016/common/socials/grayscale/icon-youtube.png" width="17" height="20" style="color: #444;"></a></td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="border-collapse: collapse; border-spacing: 0; padding: 0; padding-bottom: 25px;" class="footer-content-responsive">
+                                    <table style="border-collapse: collapse; border-spacing: 0; margin: 0 auto;">
+                                        <tr>
+                                            <td style="border-collapse: collapse; border-spacing: 0; color: #777; font-size: 12px; font-weight: 700; padding: 0; text-align: center;">
+                                                <p style="color: #777777; font-size: 12px !important; line-height: 1.5; margin: 0; padding: 0;">1371 Beacon st, suite 301, Brookline, MA&nbsp;02446</p>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <td style="border-collapse: collapse; border-spacing: 0; height: 15px; padding: 0;">&nbsp;</td>
+    </tr>
+</table>
+</body>
+</html>

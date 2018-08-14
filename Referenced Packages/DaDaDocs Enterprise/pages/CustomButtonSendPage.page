@@ -1,0 +1,118 @@
+<apex:page id="CustomButtonSendPage"
+           controller="pdffiller_sf.DocXSendToSignEditFlow"
+           tabStyle="{!IF(parentObjectName <> null, parentObjectName, "Account")}"
+           extensions="PageParameters">
+    <apex:outputPanel rendered="{!!isLocalFrontEnv}">
+        <apex:stylesheet value="{!URLFOR($Resource.pdffiller_sf__v2) + '/salesforce.css'}"/>
+    </apex:outputPanel>
+    <apex:outputPanel rendered="{!isLocalFrontEnv}">
+        <apex:stylesheet value="https://localhost:8080/salesforce.css"/>
+    </apex:outputPanel>
+
+    <apex:form >
+        <c:ApplicationUtils tokenRequiredOnload="true"/>
+        <apex:actionFunction name="useFileTemplate" action="{!renderTemplate}" onComplete="afterRenderTemplate();"
+                             reRender="sendMailTitle">
+        </apex:actionFunction>
+        <apex:actionFunction name="afterRenderTemplate" action="{!prepareToFlow}" onComplete="renderPreview();">
+        </apex:actionFunction>
+        <apex:actionFunction name="renderPreview" action="{!preparePreview}" reRender="docPreview"
+                             onComplete="documentWasGenerated(); ">
+        </apex:actionFunction>
+        <apex:actionFunction name="executeSendToSign" action="{!executeSendToSign}" onComplete="onSended();">
+            <apex:param name="{!JSON_SENDEMAIL}" value=""/>
+        </apex:actionFunction>
+        <apex:actionFunction name="toParent" action="{!toParent}">
+        </apex:actionFunction>
+        <apex:actionFunction name="cancelSendEmail" action="{!cancelSendEmail}">
+        </apex:actionFunction>
+    </apex:form>
+
+    <div class="l-main-wrapper l-main-wrapper--default custom-buttons-send-email">
+        <div class="c-h2">{!$Label.pdffiller_sf__send_document_via_email}</div>
+        <div class="custom-buttons-send-email__inner">
+            <div class="w-50 custom-button__send-from">
+                <c:SendEmail id="sendMailComponent" title="{!renderedProjectName}"/>
+                <c:Loader uniqueCSSClass="g-wrap-loading_recipients" content="loading..."/>
+            </div>
+
+            <apex:outputPanel id="docPreview" layout="block" styleClass="w-50 custom-buttons-send-email__preview">
+                <apex:outputPanel rendered="{!renderedProjectName != null}">
+                    <iframe src="{!previwerUrl}" allowfullscreen="true" msallowfullscreen="true"></iframe>
+                </apex:outputPanel>
+            </apex:outputPanel>
+        </div>
+
+        <c:AbstractPopup />
+        <c:Loader uniqueCSSClass="g-wrap-loading_main" content="{!$Label.pdffiller_sf__generating_document}"/>
+        <c:Alert />
+    </div>
+
+    <script type="text/javascript">
+        var j$ = jQuery.noConflict();
+        var documentId = 1; // workaround for frontend js
+        var parentId = "{!parentId}";
+        var parentObject = "{!parentObjectName}";
+        var loader = document.querySelector('.g-wrap-loading_main');
+        loader.classList.add('g-wrap-loading_active');
+
+        function documentWasGenerated() {
+            loader.classList.remove('g-wrap-loading_active')
+        }
+
+        function addRecipientsLoader() {
+            let recipientsLoader = document.querySelector('.g-wrap-loading_recipients');
+            recipientsLoader.classList.add('g-wrap-loading_active');
+        }
+        function removeRecipientsLoader() {
+            let recipientsLoader = document.querySelector('.g-wrap-loading_recipients');
+            recipientsLoader.classList.remove('g-wrap-loading_active');
+        }
+
+        function onSended() {
+            removeRecipientsLoader();
+            new SF.AddAlert('success', '{!$Label.pdffiller_sf__success}', '{!$Label.pdffiller_sf__email_send_success}');
+            setTimeout(toParent(), 5000);
+        }
+
+        window.addEventListener("message",
+            function (event) {
+                if (event.data != 'close') {
+                    return;
+                }
+
+                var fullscreenElement =
+                    document.fullscreenElement ||
+                    document.mozFullscreenElement ||
+                    document.webkitFullscreenElement;
+                if(fullscreenElement) {
+                    if (document.cancelFullScreen) {
+                        document.cancelFullScreen();
+                    } else if (document.mozCancelFullScreen) {
+                        document.mozCancelFullScreen();
+                    } else if (document.webkitCancelFullScreen) {
+                        document.webkitCancelFullScreen();
+                    } else if (document.msExitFullscreen) {
+                        document.msExitFullscreen();
+                    }
+                } else {
+                    cancelSendEmail();
+                }
+
+            }
+        );
+
+    </script>
+
+    <apex:includeScript loadOnReady="false" value="{!$Resource.pdffiller_sf__jquery_3_2_1_min}"/>
+    <apex:includeScript loadOnReady="true" value="{!$Resource.pdffiller_sf__DaDaDocsClassicScrollJs}"/>
+
+    <apex:outputPanel rendered="{!!isLocalFrontEnv}">
+        <apex:includeScript loadOnReady="true" value="{!URLFOR($Resource.pdffiller_sf__v2) + '/salesforce.js'}"/>
+    </apex:outputPanel>
+    <apex:outputPanel rendered="{!isLocalFrontEnv}">
+        <apex:includeScript loadOnReady="true" value="https://localhost:8080/salesforce.js"/>
+    </apex:outputPanel>
+
+    <apex:includeScript loadOnReady="true" value="{!$Resource.pdffiller_sf__CustomButtonSendPageJs}"/>
+</apex:page>

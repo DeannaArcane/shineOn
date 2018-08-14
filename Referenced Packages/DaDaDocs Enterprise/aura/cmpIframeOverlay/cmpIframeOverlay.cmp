@@ -1,0 +1,20 @@
+<aura:component description="cmpIframeOverlay">
+    <aura:attribute name="iframeSrc" type="String" required="true"/>
+    <aura:attribute name="title" type="String" required="true"/>
+    <aura:attribute name="windowStyle" type="String" required="true"/>
+    <aura:attribute name="iframeStyle" type="String" required="true"/>
+
+    <aura:registerEvent name="evtCloseIframeOverlay" type="pdffiller_sf:evtCloseIframeOverlay"/>
+
+    <div class="iframe-container" onclick="{!c.onCloseClick}">
+        <div class="iframe-container__window" style="{!v.windowStyle}">
+            <div class="iframe-container__header">
+                <h2>{!v.title}</h2>
+                <div class="iframe-container__close"></div>
+            </div>
+            <div class="iframe-container__body">
+                <iframe aura:id="cmpIframe" class="cmpIframe" src="{!v.iframeSrc}" style="{!v.iframeStyle}"></iframe>
+            </div>
+        </div>
+    </div>
+</aura:component>

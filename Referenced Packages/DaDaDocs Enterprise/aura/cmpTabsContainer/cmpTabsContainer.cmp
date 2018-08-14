@@ -1,0 +1,57 @@
+<aura:component description="cmpTabsContainer">
+    <aura:attribute name="daDaDocsOptions" type="List" required="true"/>
+
+    <aura:attribute name="isAuthAndPermissionsChecked" type="Boolean" required="true"/>
+    <aura:attribute name="isTemplatesPermitted" type="Boolean" required="true"/>
+    <aura:attribute name="isTemplatesPermittedAndLoggedIn" type="Boolean" required="true"/>
+
+    <aura:attribute name="documentActionOptions" type="List" required="true"/>
+
+    <aura:attribute name="activeTab" type="String" required="true"/>
+    <aura:attribute name="isLoading" type="Boolean" required="true"/>
+
+    <!-- Edit Document tab -->
+    <aura:attribute name="documents" type="List" required="true"/>
+    <aura:attribute name="edDocumentValue" type="String" required="true"/>
+    <aura:attribute name="edDocumentActionValue" type="String" required="true"/>
+
+    <!-- Use Template tab -->
+    <aura:attribute name="templates" type="List" required="true"/>
+    <aura:attribute name="utTemplateValue" type="String" required="true"/>
+    <aura:attribute name="utDeliveryOptionValue" type="String" required="true"/>
+    <aura:attribute name="utDocumentActionValue" type="String" required="true"/>
+
+    <div>
+        <ul class="tab-container">
+            <pdffiller_sf:cmpTabItem currentTab="edit-document" displayTitle="Edit Document" activeTab="{!v.activeTab}"/>
+            <pdffiller_sf:cmpTabItem currentTab="use-template" displayTitle="Use Template" activeTab="{!v.activeTab}"/>
+        </ul>
+
+        <pdffiller_sf:cmpTabContent
+                daDaDocsOptions="{!v.daDaDocsOptions}"
+                isAuthAndPermissionsChecked="{!v.isAuthAndPermissionsChecked}"
+                isTemplatesPermitted="{!v.isTemplatesPermitted}"
+                isTemplatesPermittedAndLoggedIn="{!v.isTemplatesPermittedAndLoggedIn}"
+                documentActionOptions="{!v.documentActionOptions}"
+                activeTab="{!v.activeTab}"
+                currentTab="edit-document"
+                documents="{!v.documents}"
+                edDocumentValue="{!v.edDocumentValue}"
+                edDocumentActionValue="{!v.edDocumentActionValue}"
+        />
+        <pdffiller_sf:cmpTabContent
+                daDaDocsOptions="{!v.daDaDocsOptions}"
+                isAuthAndPermissionsChecked="{!v.isAuthAndPermissionsChecked}"
+                isTemplatesPermitted="{!v.isTemplatesPermitted}"
+                isTemplatesPermittedAndLoggedIn="{!v.isTemplatesPermittedAndLoggedIn}"
+                documentActionOptions="{!v.documentActionOptions}"
+                activeTab="{!v.activeTab}"
+                currentTab="use-template"
+                templates="{!v.templates}"
+                utTemplateValue="{!v.utTemplateValue}"
+                utDeliveryOptionValue="{!v.utDeliveryOptionValue}"
+                utDocumentActionValue="{!v.utDocumentActionValue}"
+        />
+        <pdffiller_sf:cmpLoadingOverlay isLoading="{!v.isLoading}"/>
+    </div>
+</aura:component>

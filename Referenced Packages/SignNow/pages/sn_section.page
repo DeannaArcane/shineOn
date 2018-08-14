@@ -1,0 +1,61 @@
+<apex:page controller="cuda_signnow.SignNowController">
+    <style type="text/css">
+        #btnResetTemplates {cursor:pointer;}
+        #wait {display:none;}
+    </style>
+    <div id="contStatus">
+        Status: <span id="status"></span><br/><br/>
+    </div>
+   <apex:form id="frm">
+        <apex:commandButton id="cmbLink" value="link with my signnow account" action="{!redirectToAuthPage}" rendered="{!!authorized}"/>
+        <apex:commandButton id="cmbDisconnect" value="disconnect my signnow account" action="{!disconnectSignNow}" rendered="{!authorized}"/><br/>
+    </apex:form>
+
+   
+    <div id="wait">Reloading templates....Please wait.</div>
+    
+    
+    <script type="text/javascript">
+        var handleOauthCodeAttempt = 1;
+        var maxAttempts = 2;
+        var showStatus = function(status){
+            var el = document.getElementById("status");
+            el.innerHTML = status;
+        };
+
+        var hide = function(id){
+            var el = document.getElementById(id);
+            el.style.display = "none";
+        };
+
+        var show = function(id){
+            var el = document.getElementById(id);
+            el.style.display = "block";
+        };
+    
+    
+        var callback = function(a, b){
+            if(b.statusCode == 200){
+                showStatus("Connected");
+                alert("Thank you.  Your Salesforce account is now linked with SignNow.");
+                
+            }else if(handleOauthCodeAttempt <= maxAttempts){
+                handleOauthCode();
+            }else{
+                alert("An error has occurred ("+b.message+").");
+            }
+        };
+
+    	var handleOauthCode = function(){
+            
+        };
+
+        var init = function(){
+            var status = ({!authorized}) ? "Connected" : "Not connected";
+            showStatus(status);
+
+
+        };
+        init();
+    </script>
+</apex:page>

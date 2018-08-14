@@ -1,0 +1,6 @@
+<!--<apex:page standardController="Quote">
+    <apex:include pageName="sn_mobile_tp_global"/> 
+</apex:page>-->
+
+<apex:page standardController="Contact">
+</apex:page>

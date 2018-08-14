@@ -1,0 +1,3 @@
+<apex:page controller="cuda_signnow.SignNowTemplatesController"> 
+     <apex:canvasApp developerName="sntemplates" id="c" border="0px" height="1000px" scrolling="auto" width="100%" parameters="{page : 'disconnect', sntoken: '{!sntoken}', sessionId: '{!$Api.Session_ID}', sf_id: '{!sf_id}', token_rec_id: '{!token_rec_id}'}" />
+</apex:page>

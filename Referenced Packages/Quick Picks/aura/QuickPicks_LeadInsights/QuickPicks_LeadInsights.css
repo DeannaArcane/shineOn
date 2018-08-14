@@ -1,0 +1,22 @@
+.THIS {
+    position: relative;
+    overflow: hidden;
+}
+.THIS .redText{
+    color: red;
+}
+.THIS .orangeText{
+    color: orange;
+}
+.THIS .greenText{
+    color: green;
+}
+.THIS h2{
+	font-weight: inherit;
+}
+.THIS .leadInsightsDetails{
+	font-weight: bold;    
+}
+.THIS .itemTitle{
+	border-bottom: 1px solid #E6EAF0;
+}

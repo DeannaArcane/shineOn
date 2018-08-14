@@ -1,0 +1,70 @@
+.THIS.button-wrap {
+    padding: 20px;
+}
+
+.THIS button {
+    display: block;
+    width: 100%;
+    height: 40px;
+    line-height: 36px;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    border-radius: 3px;
+    text-transform: capitalize;
+    cursor: pointer;
+    border: 1px solid #ff8615;
+    outline: none;
+    background: #ff9000;
+    background-image: linear-gradient(#ffa300 0%, #ff7700 100%);
+    position: relative;
+}
+.THIS button:before {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: #ff9000;
+    opacity: 0;
+    transition: opacity .15s ease-out;
+}
+
+.THIS button:after {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    transition: opacity .15s ease-out;
+    background: #ff9000;
+    background-image: linear-gradient(#ff7700 0%, #ffa300 100%);
+    opacity: 0;
+}
+
+.THIS button.disabledBtn {
+    opacity: .6;
+    background: #ff9000;
+    cursor: default;
+}
+.THIS button.disabledBtn:before,
+.THIS button.disabledBtn:after {
+    display: none;
+}
+
+.THIS button:hover:before {
+    opacity: 1;
+}
+
+.THIS button:active:after {
+    opacity: 1;
+}
+
+.THIS button span {
+    position: relative;
+    z-index: 1;
+}

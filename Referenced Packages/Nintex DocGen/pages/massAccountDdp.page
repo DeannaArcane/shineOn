@@ -1,0 +1,14 @@
+<apex:page id="massAccountDdp" standardController="Account" extensions="Loop.MassRedirectExt" recordSetVar="records">
+    <apex:form >
+        <apex:actionFunction name="redirect" action="{!redirect}"/>
+    </apex:form>
+    <script type="text/javascript">
+        (function() {
+            if ({! !hasValidRecords}) {
+                alert('Please select at least one record.');
+            }
+
+            redirect();
+        }());
+    </script>
+</apex:page>

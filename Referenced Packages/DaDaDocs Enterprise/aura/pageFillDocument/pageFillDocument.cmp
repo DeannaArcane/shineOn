@@ -1,0 +1,34 @@
+<aura:component controller="pdffiller_sf.LightningFillDocumentController">
+    <aura:attribute name="parentId" type="String" required="true" />
+    <aura:attribute name="objectId" type="String" required="true" />
+    <aura:attribute name="pdfAction" type="String" required="true" />
+    <aura:attribute name="objectName" type="String" required="true" />
+    <aura:attribute name="objectType" type="String" default="" />
+
+    <aura:attribute access="private" name="showLoader" type="Boolean" default="false" />
+
+    <aura:attribute
+        access="private"
+        name="labelDefaultErrorMessage"
+        type="String"
+        default="{!$Label.pdffiller_sf.default_error_message}"
+    />
+    <aura:attribute
+        access="private"
+        name="labelIncompleteMessage"
+        type="String"
+        default="{!$Label.pdffiller_sf.incomplete_message}"
+    />
+
+    <aura:registerEvent name="evtCanvas" type="pdffiller_sf:evtCanvas"/>
+
+    <aura:handler event="pdffiller_sf:evtCanvas" action="{!c.handleCanvasEvent}" />
+
+    <aura:renderIf isTrue="{!v.showLoader}">
+        <lightning:spinner
+            aura:id="loader"
+            variant="brand"
+            size="medium"
+        />
+    </aura:renderIf>
+</aura:component>

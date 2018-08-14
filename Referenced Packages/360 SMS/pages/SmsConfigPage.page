@@ -1,0 +1,814 @@
+<apex:page controller="tdc_tsw.SmsConfigController" sidebar="false" standardStylesheets="false">
+<style>
+    
+    
+   
+    #SMSAPP .btn-small{
+         margin: 6px;
+    }
+    #SMSAPP .btn-small {
+        padding: 4px 10px !important;
+    }
+    
+    .buttons_save_reset a.btn{
+         padding: 7px 20px !important;
+    }
+    
+        .btn_center{
+            text-align:center;
+        }
+        .buttons_save_reset a.btn{
+             padding: 5px 20px !important;
+        }
+        
+    }
+    .table-responsive {
+        overflow-x: auto;
+    }
+    #ShpwPhoneApi{
+        margin-bottom: 0px;
+    }
+    @media (min-width: 767px) and (max-width: 991px){
+        #SMSAPP .btn-small {
+            padding: 2px 5px !important;
+        }
+        #SMSAPP .btn-small {
+            margin: 2px;
+        }
+        #SMSAPP table.CustomObjectsTable1 thead tr th:nth-last-child(1) div {
+            padding: 0px 30px;
+        }
+        .btn_center {
+            text-align: right;
+        }
+    }
+    @media (min-width: 992px) {
+         .table-responsive{
+             overflow: visible;
+         }
+         #SMSAPP .btn-small {
+            padding: 2px 5px !important;
+        }
+        #SMSAPP .btn-small {
+            margin: 2px;
+        }
+        #SMSAPP table.CustomObjectsTable1 thead tr th:nth-last-child(1) div {
+            padding: 0px 30px;
+        }
+        .btn_center {
+            text-align: right;
+        }
+    }
+    </style>
+    <script>
+      objectName = '';
+    </script>
+     <apex:outputPanel rendered="{!!isExpired}">
+     <apex:outputPanel id="ParentForm">
+    
+    <apex:outputPanel id="mainForm">
+    <apex:outputpanel rendered="{!!isChecked}" >
+        <apex:form id="mainForm_1">
+            
+            <input type="hidden" />
+            <div class="btn-row">
+                <div class="row">
+                <div class="col-sm-7 text-right btn_center buttons_save_reset">
+                 <apex:outputPanel rendered="{!isHide}">
+                    <apex:commandlink value="Save" styleClass="btn btn1 btn-primary" action="{!save}" status="actStatusId" rerender="ParentForm" style="margin-right: 10px"/>
+                    <apex:commandlink onclick="javascript:refreshApiList();return false;"  value="Reset" styleClass="btn btn1 btn-primary"/>
+                    <apex:actionFunction name="showHideNameApi" action="{!manageShowHideNameApi}" reRender="ParentForm" status="actStatusId">
+                    <apex:param name="allowMultipleParam" value="" assignTo="{!isChecked}"/>
+                    </apex:actionFunction>
+                  </apex:outputPanel>      
+                </div>
+                <div class="col-sm-5">
+                    <apex:outputPanel rendered="{!isHide}">
+                        <label class="Multiname_mapping" style="font-size:14px">
+                            <apex:inputCheckbox value="{!isChecked}" onclick="allowNameMapping('{!$Component.CheckboxId}')" id="CheckboxId" />
+                            Allow Multiple Name Mapping
+                        </label>
+                    </apex:outputPanel>        
+                </div>
+                <!--<apex:commandLink value="Add Row" styleClass="btn btn1 btn-primary" action="{!addMoreRows}" status="actStatusId" rerender="mainForm"/>-->
+               </div>
+            </div>
+            <div class="table-responsive">
+                <apex:dataTable value="{!lstSmsCongfig}" styleClass="table table-striped list CustomObjectsTable" var="obj">
+                    <apex:variable value="{!0}" var="count" />
+                    <colgroup span="3"></colgroup>
+                    <tbody>
+                        <tr>
+                            <apex:column headerValue="Name" >
+                                <div class = "requiredInput">
+                                    <div class = "requiredBlock"></div>
+                                     <!-- <apex:SelectList value="{!obj.Name}"  size="1" styleClass="form-control"  id="objName" rendered="{!$ObjectType.SmsConfig__c.fields.Name.Updateable}" onchange="refreshApiList()" style="z-index:999999999">
+                                         
+                                          <apex:selectOptions value="{!Name}"  ></apex:selectOptions>
+                                        
+                                     </apex:SelectList> -->
+                                    <select id="select_id" name="sobjectname" class="js-example-basic-single js-states form-control search-picklist">
+                                                            
+                                    </select>
+                                     <script type="text/javascript">
+                                           var objectNameId = 'select_id';
+                                            objectName = '{!obj.Name}';
+                                           
+                                     </script>
+                                     
+                                </div>
+                            </apex:column>
+                          <!-- <td colspan="1">
+                                <apex:column headerValue=" Name API" id="NameApiArea" styleClass="form-inline">
+                                    <select id="SelectNameApi" onchange="setNameApi()" class="form-control">
+                                        <option value="none">None</option>
+                                        <apex:repeat value="{!mapApiNameToLabel}" var="key">
+                                            <option value="{!key}">{!mapApiNameToLabel[key]}</option>
+                                        </apex:repeat>
+                                    </select>
+                                    <apex:inputHidden id="NameFieldApiName"  value="{!obj.tdc_tsw__NameFieldApiName__c}" />
+                                    <script>
+                                        var nameFieldApiNameId = '{!$Component.NameFieldApiName}';
+                                    </script>
+                                    <div id="">
+                                        <ol id="ShpwNameApi">
+                                        </ol>
+                                    </div>
+                                </apex:column>
+                            </td>-->
+
+                            <td colspan="1">
+                                <apex:column headerValue="Phone  API " id="PhoneApiArea" styleClass="form-inline">
+                                          <apex:inputHidden id="NameFieldApiName"  value="{!obj.tdc_tsw__NameFieldApiName__c}" />
+                                           <script>
+                                                var nameFieldApiNameId = '{!$Component.NameFieldApiName}';
+                                                if(objectName == 'Case')
+                                                document.getElementById(nameFieldApiNameId).value = 'CaseNumber';
+                                                else if(objectName == 'WorkOrder')
+                                                document.getElementById(nameFieldApiNameId).value = 'WorkOrderNumber';
+                                                else
+                                                document.getElementById(nameFieldApiNameId).value = 'Name';
+                                          </script>
+                                         <select id="SelectPhoneApi" onchange="setPhoneApi()" class="form-control">
+                                           <option value="none">--None--</option>
+                                               <apex:repeat value="{!mapPhoneApiToLabel}" var="key" >
+                                                    <option value="{!key}">{!mapPhoneApiToLabel[key]}</option>
+                                               </apex:repeat>
+                                         </select>
+                                         <apex:inputHidden id="PhoneFieldApiName"  value="{!obj.tdc_tsw__PhoneFieldApiName__c}" />
+                                          <script type="text/javascript">
+                                                var phoneFieldApiNameId = '{!$Component.PhoneFieldApiName}';
+                                           </script>
+                                     <div id="">
+                                         <ol id="ShpwPhoneApi"></ol>
+                                     </div>
+                                </apex:column>
+                            </td>
+                            <td colspan="1">
+                              <apex:column headerValue="Default Phone  API " styleClass="form-inline">
+                                   <select id="DefaultPhoneApiId" onchange="setDefaultPhoneApi()" class="form-control">
+                                           <option value="none">--None--</option>
+                                               
+                                   </select>
+                                     <apex:inputHidden id="DefaultPhoneApi_id"  value="{!strdefaultphoneApi}" />
+                                     <script>
+                                        var DefaultPhone_id = '{!$Component.DefaultPhoneApi_id}';
+                                        function setDefaultPhoneApi(){
+                                            var defaultPhone = document.getElementById('DefaultPhoneApiId').value;
+                                            //alert(defaultPhone);
+                                                document.getElementById(DefaultPhone_id).value = defaultPhone;
+                                            var defaultPhone21 = document.getElementById(DefaultPhone_id).value;
+                                                //alert(defaultPhone21);
+                                                }
+                                     </script> 
+                                </apex:column> 
+                            </td>
+                           <td colspan="1">
+                                <apex:column headerValue="Enable Scheduler" styleClass="form-inline">
+                                    <apex:inputCheckbox value="{!obj.tdc_tsw__Enable_Scheduler__c}"  />
+                                </apex:column> 
+                            </td> 
+                           
+                             <td colspan="1">
+                                <apex:column headerValue="Action" id="div3" rendered="{!rowError}">
+                                    
+                                    <apex:commandButton value="Delete Row" action="{!actionDeleteRow}" status="actStatusId" reRender="mainForm_1" styleClass="btn btn-small" rendered="{!rowError}">
+                                      <apex:variable value="{!count+1}" var="count" />
+                                      <apex:param value="{!count}" name="Param1" assignTo="{!rowId}" />
+                                    </apex:commandButton>
+                                </apex:column>
+                            </td>
+                        </tr>
+                    </tbody>
+                    
+                </apex:dataTable>
+            </div>
+            <script type="text/javascript">  
+                    
+                   var data = {!objJsonString};
+                   console.log(data);
+                   var options = '';
+                   $.each(data, function(index, ele) {
+                       options += '<option value="'+ele['objName']+'" >'+ele["objLabel"]+'</option>';
+                   });
+                   
+                   //alert(options);
+                   var id = '{!ObjectType}';
+                   $(".search-picklist").select2(); 
+                   $(".search-picklist").html(options);
+                    
+                   $(".search-picklist").val(id);
+                   
+                   
+                   $(".search-picklist").change(function(){
+                  		refreshApiList();
+                   })
+                                    
+                   //$(".search-picklist").select2();
+                  
+                  
+                  
+               </script>
+        </apex:form>
+    </apex:outputpanel>   
+ </apex:outputpanel>
+    
+ <apex:outputPanel id="mainForm2">
+    <apex:outputpanel rendered="{!isChecked}"  >
+        <apex:form id="mainForm_2">
+
+            <input type="hidden" />
+            <div class="btn-row">
+                 <apex:outputPanel rendered="{!isHide}">
+                    <apex:commandlink value="Save" styleClass="btn btn1 btn-primary" action="{!save}" status="actStatusId" rerender="ParentForm" />
+                    <apex:commandlink onclick="javascript:refreshApiList1();return false;"  value="Reset" styleClass="btn btn1 btn-primary"/>
+                    <apex:actionFunction name="showHideNameApi" action="{!manageShowHideNameApi}" reRender="ParentForm" status="actStatusId">
+                    <apex:param name="allowMultipleParam" value="" assignTo="{!isChecked}"/>
+                    </apex:actionFunction>
+                    <label class="Multiname_mapping" style="font-size:14px">
+                        <apex:inputCheckbox value="{!isChecked}" onclick="allowNameMapping('{!$Component.CheckboxId1}')" id="CheckboxId1" />
+                        Allow Multiple Name Mapping 
+                    </label>
+                  </apex:outputPanel>  
+               <!-- <apex:commandLink value="Add Row" styleClass="btn btn1 btn-primary" action="{!addMoreRows}" status="actStatusId" rerender="mainForm2"/>-->
+           
+            </div>
+            <div class="table-responsive">
+                <apex:dataTable value="{!lstSmsCongfig}" styleClass="table list CustomObjectsTable" var="obj">
+                    <apex:variable value="{!0}" var="count" />
+                    <colgroup span="3"></colgroup>
+                    <tbody>
+                        <tr>
+                            <apex:column headerValue="Name" >
+                                <div class = "requiredInput">
+                                    <div class = "requiredBlock"></div>
+                                     <!-- <apex:SelectList value="{!obj.Name}"  size="1" styleClass="form-control"  id="objName1" rendered="{!$ObjectType.SmsConfig__c.fields.Name.Updateable}" onchange="refreshApiList1()" style="z-index:999999999">
+                                         
+                                          <apex:selectOptions value="{!Name}"  ></apex:selectOptions>
+                                        
+                                     </apex:SelectList> -->
+                                    <select id="select_id1" name="sobjectname" class="js-example-basic-single js-states form-control search-picklist1">
+                                                            
+                                    </select>
+                                    
+                                     <script type="text/javascript">
+                                           var objectNameId1 = 'select_id1';//'{!$Component.objName1}';
+                                     </script>
+                                </div>
+                            </apex:column>
+                           <td colspan="1">
+                                <apex:column headerValue=" Name API" id="NameApiArea" styleClass="form-inline">
+                                    <select id="SelectNameApi1" onchange="setNameApi1()" class="form-control">
+                                        <option value="none">--None--</option>
+                                        <apex:repeat value="{!mapApiNameToLabel}" var="key">
+                                            <option value="{!key}">{!mapApiNameToLabel[key]}</option>
+                                        </apex:repeat>
+                                    </select>
+                                    <apex:inputHidden id="NameFieldApiName1"  value="{!obj.tdc_tsw__NameFieldApiName__c}" />
+                                    <script>
+                                        var nameFieldApiNameId1 = '{!$Component.NameFieldApiName1}';
+                                    </script>
+                                    <div id="">
+                                        <ol id="ShowNameApi">
+                                        </ol>
+                                    </div>
+                                </apex:column>
+                            </td>
+                         
+                            <td colspan="1">
+                                <apex:column headerValue="Phone  API " id="PhoneApiArea" styleClass="form-inline">
+                                         <select id="SelectPhoneApi1" onchange="setPhoneApi1()" disabled="disabled" class="form-control">
+                                           <option value="none">--None--</option>
+                                               <apex:repeat value="{!mapPhoneApiToLabel}" var="key" >
+                                                    <option value="{!key}">{!mapPhoneApiToLabel[key]}</option>
+                                               </apex:repeat>
+                                         </select>
+                                         <apex:inputHidden id="PhoneFieldApiName1"  value="{!obj.tdc_tsw__PhoneFieldApiName__c}" />
+                                          <script type="text/javascript">
+                                                var phoneFieldApiNameId1 = '{!$Component.PhoneFieldApiName1}';
+                                           </script>
+                                     <div id="">
+                                         <ol id="ShowPhoneApi"></ol>
+                                     </div>
+                                </apex:column>
+                             </td>
+                             <td colspan="1">
+                                <apex:column headerValue="Default Phone  API " styleClass="form-inline">
+                                   <select id="DefaultPhoneApiId1" onchange="setDefaultPhoneApi1()" class="form-control">
+                                           <option value="none">--None--</option>
+                                               
+                                   </select>
+                                     <apex:inputHidden id="DefaultPhoneApi_id1"  value="{!strdefaultphoneApi}" />
+                                     <script>
+                                        var DefaultPhone_id1 = '{!$Component.DefaultPhoneApi_id1}';
+                                        function setDefaultPhoneApi1(){
+                                                var defaultPhone1 = document.getElementById('DefaultPhoneApiId1').value;
+                                                //alert(defaultPhone1);
+                                                    document.getElementById(DefaultPhone_id1).value = defaultPhone1;
+                                                var defaultPhone2 = document.getElementById(DefaultPhone_id1).value;
+                                                //  alert(defaultPhone2);
+                                            }
+                                        
+                                     </script>
+                                       
+                                   
+                                </apex:column>
+                            </td>         
+                          <td colspan="1">
+                                 <apex:column headerValue="Enable Scheduler" styleClass="form-inline">
+                                    <apex:inputCheckbox value="{!obj.tdc_tsw__Enable_Scheduler__c}"/>
+                                  </apex:column>    
+                            </td> 
+                             <td colspan="1">
+                                <apex:column headerValue="Action" id="div3" rendered="{!rowError}">
+                                    
+                                    <apex:commandButton value="Delete Row" action="{!actionDeleteRow}" status="actStatusId" reRender="mainForm_2" styleClass="btn btn-small" rendered="{!rowError}">
+                                      <apex:variable value="{!count+1}" var="count" />
+                                      <apex:param value="{!count}" name="Param1" assignTo="{!rowId}" />
+                                    </apex:commandButton>
+                                </apex:column>
+                            </td>
+                        </tr>
+                    </tbody>
+                    
+                </apex:dataTable>
+            </div>
+            <script type="text/javascript">  
+                    
+                   var data = {!objJsonString};
+                   console.log(data);
+                   var options = '';
+                   $.each(data, function(index, ele) {
+                       options += '<option value="'+ele['objName']+'" >'+ele["objLabel"]+'</option>';
+                   });
+                   
+                   //alert(options);
+                   var id = '{!ObjectType}';
+                   $(".search-picklist1").select2(); 
+                   $(".search-picklist1").html(options);
+                    
+                   $(".search-picklist1").val(id);
+                   
+                   
+                   $(".search-picklist1").change(function(){
+                  		refreshApiList1();
+                   })
+                                    
+                   //$(".search-picklist").select2();
+                  
+                  
+                  
+               </script>
+        </apex:form>
+ 
+    </apex:outputpanel>   
+ </apex:outputpanel>
+    
+    <apex:form id="mainForm1" >
+        
+            <div class="table-responsive">
+                <apex:variable value="false" var="bool"/>
+                <apex:datatable value="{!lstWrapper}"  styleClass="table list CustomObjectsTable CustomObjectsTable1"  var="wrap" id="table2">
+                
+                    <tr>
+                        <td>
+                            <apex:column headervalue="Name">
+                                <apex:OutputText value="{!wrap.objSet.tdc_tsw__Object_Label__c}" />
+                                <div class = "requiredInput">
+                                    <div class = "requiredBlock"></div>
+                                   <!-- <apex:inputField value="{!wrap.objSet.Name}" rendered="{!wrap.isEdit}" required="true"/>-->
+                                </div>
+                            </apex:column>
+                        </td>
+                        <td>
+                              <apex:column headervalue="Name API">
+                                <!-- 
+                                <apex:OutputText value="{!wrap.objSet.NameFieldApiName__c}" rendered="{!!wrap.isEdit}"/>
+                                 -->
+                                 <apex:outputPanel >
+                                    <ol>
+                                        <apex:repeat var="nameApi" value="{!wrap.lstNameApi}">
+                                           <li>
+                                              <apex:outputText value="{!nameApi}"/>
+                                           </li>
+                                        </apex:repeat>
+                                    </ol>
+                                 </apex:outputPanel>
+                               
+                                <!--apex:inputText value="{!wrap.objSet.NameFieldApiName__c}" rendered="{!wrap.isEdit}" styleClass="form-control" /> -->
+                            </apex:column>
+                        </td>
+                         <td>
+                              <apex:column headervalue="Phone API">
+                                 <!-- 
+                                <apex:OutputText value="{!wrap.objSet.PhoneFieldApiName__c}" rendered="{!!wrap.isEdit}"/>
+                                 -->
+                                <apex:outputPanel >
+                                    <ol>
+                                        <apex:repeat var="phoneApi" value="{!wrap.lstPhoneApi}">
+                                           <li>
+                                              <apex:outputText value="{!phoneApi}"/>
+                                           </li>
+                                        </apex:repeat>
+                                    </ol>
+                                 </apex:outputPanel>
+                                <!-- apex:inputText value="{!wrap.objSet.PhoneFieldApiName__c}" rendered="{!wrap.isEdit}" styleClass="form-control"/> -->
+                            </apex:column>
+                        </td>
+                        <td>
+                            <apex:column headervalue="Default Phone API">
+                                <apex:OutputText value="{!wrap.objSet.tdc_tsw__Default_Phone_Api__c}" />        
+                            </apex:column>
+                        </td>
+                        <td >
+                            <apex:column headerValue="Enable Scheduler" styleClass="form-inline">
+                                <apex:inputCheckbox value="{!wrap.objSet.tdc_tsw__Enable_Scheduler__c}" disabled="{!!wrap.isEdit}"/>
+                            </apex:column> 
+                        </td >  
+                        <td>
+                            <apex:column headervalue="Action" id="o" StyleClass="align-center">
+                             
+                                <apex:outputPanel rendered="{!isHide}">
+                                    <apex:commandLink value="Update" action="{!updateRecord}"  rendered="{!wrap.isEdit}" styleClass="btn btn-small" rerender="ParentForm" status="actStatusId">
+                                        <apex:param value="{!wrap.rowIndex}" name="Param1" assignTo="{!currentIndexId}" />
+                                    </apex:commandLink>
+                                </apex:outputPanel>
+                                <apex:outputPanel rendered="{!isHide}">
+                                    <apex:commandLink value="Edit" action="{!edit}" rendered="{!!wrap.isEdit}" styleClass="btn btn-small" rerender="ParentForm" status="actStatusId">
+                                      <apex:param value="{!wrap.rowIndex}" name="Param1" assignTo="{!currentIndexId}" />
+                                    </apex:commandlink>
+                                 </apex:outputPanel>   
+                                <apex:outputPanel rendered="{!isHide}">
+                                    <apex:commandlink value="Delete" action="{!deleteRecord}" rerender="ParentForm"  rendered="{!!wrap.isEdit}" styleClass="btn btn-small" status="actStatusId">
+                                        <apex:param value="{!wrap.rowIndex}" name="Param1" assignTo="{!currentIndexId}" />
+                                    </apex:commandlink>
+                                </apex:outputPanel>    
+                            </apex:column>
+                        </td>
+                    </tr>
+                </apex:datatable>
+            </div>
+                <apex:actionFunction name="getApiList" action="{!findApi}" reRender="mainForm,mainForm_1,mainForm_2" status="actStatusId">        
+                    <apex:param name="ObjectType" assignTo="{!ObjectType}" value="" />
+                </apex:actionFunction>
+                
+                
+                <apex:outputpanel rendered="{!showErrorBlock}" style="position:relative;left:75px;">
+  
+                    <div class="modal fade user_con" id="myModal" role="dialog">
+                      <div class="modal-dialog">
+                      
+                        <!-- Modal content-->
+                          <div class="modal-content">
+                            <div class="modal-body">
+                            <apex:pageMessages />
+                                <apex:outputpanel rendered="{!showInfo}">
+                                     <div class="errorblock info" style="">
+                                          <div class="text-left" style="padding: 20px;">
+                                             <apex:image url="{!URLFOR($Resource.tdc_tsw__resource_sms_file,'/img/info-icon.png')}" />
+                                              <div class="msgText">
+                                                   <span>INFO:</span>
+                                                   <p> {!pageErrorMessage }</p>
+                                              </div>
+                                              <a href="#" data-dismiss="modal">X</a>
+                                              <div style="clear:both"></div>  
+                                          </div> 
+                                      </div> 
+                                </apex:outputpanel>
+                                <apex:outputpanel rendered="{!showSuccess}">
+                                    <div class="errorblock success">
+                                        <div class="text-left" style="padding: 20px;">
+                                            <apex:image url="{!URLFOR($Resource.tdc_tsw__resource_sms_file,'/img/success.png')}" />
+                                            <div class="msgText">
+                                                   <span>SUCCESS:</span>
+                                                   <p> {!pageErrorMessage }</p>
+                                            </div> 
+                                            <a href="#" data-dismiss="modal">X</a>
+                                            <div style="clear:both"></div>  
+                                        </div> 
+                                    </div>
+                                </apex:outputpanel>
+                                <apex:outputpanel rendered="{!showError}">
+                                    <div class="errorblock error">
+                                        <div class="text-left" style="padding: 20px;">
+                                            <apex:image url="{!URLFOR($Resource.tdc_tsw__resource_sms_file,'/img/cancel.png')}" />
+                                            <div class="msgText">
+                                                   <span>ERROR:</span>
+                                                   <p> {!pageErrorMessage }</p>
+                                            </div> 
+                                            <a href="#" data-dismiss="modal">X</a>
+                                            <div style="clear:both"></div>  
+                                        </div> 
+                                    </div>
+                                    <script>
+                                      clearHiddenFieldValue();
+                                    </script>
+                                </apex:outputpanel>
+                                 <!--<apex:pageMessage severity="Info"    strength="1"    summary="" rendered="{!recordShowError}"/>-->
+                                
+                            </div>
+                            <div>
+                              <!--<button type="button" class="btn btn-default close_modal" data-dismiss="modal"  style="margin:15px 0">Close</button>-->
+                            </div>
+                          </div>
+                          
+                        </div>
+                      </div>
+                      
+                    <script>
+                        $('#myModal').modal('show');
+                    </script>
+            </apex:outputpanel>
+            
+        </apex:form>
+                        
+       
+        <!--#page-content-wrapper -->
+        <apex:actionStatus id="actStatusId" >
+            <apex:facet name="start">
+                <div>
+                    <div  class="popupBackground">
+                        <img class="PopupPanel" src="{!$Resource.Loading_Icon}" alt="Loading..."  />
+                    </div>
+                </div>
+            </apex:facet>
+        </apex:actionStatus>
+   </apex:outputpanel>
+ </apex:outputPanel>
+    <script>
+        var commaSeperatedNameApis = '';
+        var commaSeperatedPhoneApis = '';
+        var nameApi = '';
+        var phoneApi = '';
+        var nameIndex = '';
+        var phoneIndex = '';
+        
+       /* function setNameApi(){
+          nameObj = document.getElementById('SelectNameApi');
+          phoneObj = document.getElementById('SelectPhoneApi');
+          if(nameObj != null)
+          {
+            nameApi = nameObj.value;
+            $('#ShpwNameApi').append('<li>'+nameApi+'</li>');
+            nameIndex = nameObj.selectedIndex;
+            if(nameIndex != '')
+            {
+                nameObj.remove(nameIndex);
+                nameIndex = '';
+            }
+            
+            nameObj.disabled = true;
+            phoneObj.disabled = false;
+            nameObj.selectedIndex = 0;
+          }
+        }*/
+        
+            
+        
+        function setPhoneApi(selectedElement){
+          //nameObj = document.getElementById('SelectNameApi');
+          phoneObj = document.getElementById('SelectPhoneApi');
+          if(phoneObj  != null)
+          {
+            phoneApi = phoneObj.value;
+            $('#ShpwPhoneApi').append('<li>'+phoneApi+'</li>');
+            $('#DefaultPhoneApiId').append('<option value="'+phoneApi+'" >'+phoneApi+'</option>');
+            
+           /* var options = '';
+             options += '<option value="'+phoneApi+'" >'+phoneApi+'</option>';
+             var id = document.getElementById("{!$Component.DefaultPhoneApi_id}").value;
+                
+                   $(".selectList").select2(); 
+                   $(".selectList").html(options);
+                    
+                   $(".selectList").val(id);
+                   
+                   
+                   $(".DefaultPhoneApiId").change(function(){
+                        document.getElementById("{!$Component.DefaultPhoneApi_id}").value = $(".selectList").val();
+                        //setUserAF($(".search-picklist").val());
+                   })*/
+            
+            phoneIndex = phoneObj.selectedIndex;
+            if(phoneIndex != '')
+            {
+                phoneObj.remove(phoneIndex);
+                phoneIndex = '';
+            }
+            
+            //nameObj.disabled = false;
+            //phoneObj.disabled = true;
+            phoneObj.selectedIndex = 0;
+            
+            if(commaSeperatedNameApis == '' && nameApi != '')
+            {
+                commaSeperatedNameApis = nameApi;
+            }
+            else if(commaSeperatedNameApis != '' && nameApi != '')
+            {
+                commaSeperatedNameApis = commaSeperatedNameApis + ',' + nameApi ;
+            }
+            
+            if(commaSeperatedPhoneApis == '' && phoneApi != '')
+            {
+                commaSeperatedPhoneApis = phoneApi;
+            }
+            else if(commaSeperatedPhoneApis != '' && phoneApi != '')
+            {
+                commaSeperatedPhoneApis = commaSeperatedPhoneApis + ',' + phoneApi ;
+            }
+            nameApi = '';
+            phoneApi = '';
+            reSetHiddenFieldValue();
+          }
+        }
+        
+        function refreshApiList(){
+        
+            commaSeperatedNameApis = '';
+            commaSeperatedPhoneApis = '';
+            nameApi = '';
+            phoneApi = '';
+            nameIndex = '';
+            phoneIndex = '';
+            $('#ShpwPhoneApi').text(phoneApi);
+            $('#ShpwNameApi').text(nameApi);
+            
+            reSetHiddenFieldValue();
+            
+            if(objectNameId != null &&
+                         document.getElementById(objectNameId) != null)
+            {    
+                 getApiList(document.getElementById(objectNameId).value);
+            }
+        }
+        
+        function reSetHiddenFieldValue(){
+               if( phoneFieldApiNameId != null &&
+                             document.getElementById(phoneFieldApiNameId) != null)//nameFieldApiNameId != null && document.getElementById(nameFieldApiNameId) != null
+                {
+                   // document.getElementById(nameFieldApiNameId).value = commaSeperatedNameApis;
+                    document.getElementById(phoneFieldApiNameId).value = commaSeperatedPhoneApis;
+                    
+                }
+        }
+       
+        
+        function setNameApi1(){
+       
+          nameObj = document.getElementById('SelectNameApi1');
+          phoneObj = document.getElementById('SelectPhoneApi1');
+         
+          if(nameObj != null)
+          {
+            nameApi = nameObj.value;
+            $('#ShowNameApi').append('<li>'+nameApi+'</li>');
+            nameIndex = nameObj.selectedIndex;
+           
+            if(nameIndex != '')
+            {
+                nameObj.remove(nameIndex);
+                nameIndex = '';
+            }
+            nameObj.disabled = true;
+            phoneObj.disabled = false;
+            nameObj.selectedIndex = 0;
+             
+          }
+        }
+        
+        
+        function setPhoneApi1(selectedElement){
+          nameObj = document.getElementById('SelectNameApi1');
+          phoneObj = document.getElementById('SelectPhoneApi1')
+          if(phoneObj  != null)
+          {
+            phoneApi = phoneObj.value;
+            $('#ShowPhoneApi').append('<li>'+phoneApi+'</li>');
+            $('#DefaultPhoneApiId1').append('<option value="'+phoneApi+'" >'+phoneApi+'</option>');
+            /*var options = '';
+             options += '<option value="'+phoneApi+'" >'+phoneApi+'</option>';
+             var id = document.getElementById("{!$Component.DefaultPhoneApi_id}").value;
+                
+                   $(".selectList").select2(); 
+                   $(".selectList").html(options);
+                    
+                   $(".selectList").val(id);
+                   
+                   
+                   $(".DefaultPhoneApiId").change(function(){
+                        document.getElementById("{!$Component.DefaultPhoneApi_id}").value = $(".selectList").val();
+                        //setUserAF($(".search-picklist").val());
+                   })*/
+            
+            phoneIndex = phoneObj.selectedIndex;
+            if(phoneIndex != '')
+            {
+                phoneObj.remove(phoneIndex);
+                phoneIndex = '';
+            }
+            
+            nameObj.disabled = false;
+            phoneObj.disabled = true;
+            phoneObj.selectedIndex = 0;
+            
+            if(commaSeperatedNameApis == '' && nameApi != '')
+            {
+                commaSeperatedNameApis = nameApi;
+            }
+            else if(commaSeperatedNameApis != '' && nameApi != '')
+            {
+                commaSeperatedNameApis = commaSeperatedNameApis + ',' + nameApi ;
+            }
+            
+            if(commaSeperatedPhoneApis == '' && phoneApi != '')
+            {
+                commaSeperatedPhoneApis = phoneApi;
+            }
+            else if(commaSeperatedPhoneApis != '' && phoneApi != '')
+            {
+                commaSeperatedPhoneApis = commaSeperatedPhoneApis + ',' + phoneApi ;
+            }
+            nameApi = '';
+            phoneApi = '';
+            reSetHiddenFieldValue1();
+          }
+        }
+        
+        function refreshApiList1(){
+        
+            commaSeperatedNameApis = '';
+            commaSeperatedPhoneApis = '';
+            nameApi = '';
+            phoneApi = '';
+            nameIndex = '';
+            phoneIndex = '';
+            $('#ShowPhoneApi').text(phoneApi);
+            $('#ShowNameApi').text(nameApi);
+            
+            reSetHiddenFieldValue1();
+            
+            if(objectNameId1 != null &&
+                         document.getElementById(objectNameId1) != null)
+            {    
+                 getApiList(document.getElementById(objectNameId1).value);
+            }
+        }
+        
+        function reSetHiddenFieldValue1(){
+               if( phoneFieldApiNameId1 != null && nameFieldApiNameId1 != null &&
+                     document.getElementById(nameFieldApiNameId1) != null && document.getElementById(phoneFieldApiNameId1) != null)//nameFieldApiNameId != null && document.getElementById(nameFieldApiNameId) != null
+                {
+                   document.getElementById(nameFieldApiNameId1).value = commaSeperatedNameApis;
+                    document.getElementById(phoneFieldApiNameId1).value = commaSeperatedPhoneApis;
+                    
+                }
+        }
+        
+        
+         function allowNameMapping(checkBoxId)
+        {
+              
+            if(document.getElementById(checkBoxId).checked)
+            {
+           
+              showHideNameApi(true);  
+            } 
+            else
+            {    
+               showHideNameApi(false);  
+            }
+        }
+        
+        function clearHiddenFieldValue()
+        {
+            commaSeperatedNameApis = '';
+            commaSeperatedPhoneApis = '';
+        }
+    </script>
+    
+  
+    <!--</apex:outputpanel>  -->
+    
+    
+</apex:page>

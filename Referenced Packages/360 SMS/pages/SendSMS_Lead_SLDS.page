@@ -1,0 +1,655 @@
+<apex:page extensions="tdc_tsw.SendSMSController" standardController="Lead" docType="html-5.0" standardStylesheets="false" showQuickActionVfHeader="false" sidebar="false" showHeader="false">
+<html xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <head>
+        <link href = "https://rawgit.com/mervick/emojionearea/master/dist/emojionearea.min.css" rel = "stylesheet"/>
+        <script src = "https://rawgit.com/mervick/emojionearea/master/dist/emojionearea.js"></script>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>SMS APP</title>  
+        <!-- styles -->
+
+        <apex:stylesheet value="{!URLFOR($Resource.tdc_tsw__SLDS214, 'assets/styles/salesforce-lightning-design-system.min.css')}"/>
+        <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet"/>
+        <!--
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.4/jquery.datetimepicker.css" />
+        -->
+        <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+          <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+          <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+        <!-- Scripts -->
+        
+        <apex:includeScript value="{!URLFOR($Resource.tdc_tsw__SMSAppRS, '/js/jquery-2.2.1.min.js')}"/>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+        <!--
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.4/build/jquery.datetimepicker.full.min.js"></script>
+        -->
+        <apex:stylesheet value="{!URLFOR($Resource.tdc_tsw__SMSAppRS, '/css/jquery-ui.css')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.tdc_tsw__SMSAppRS, '/js/jquery-2.2.1.min.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.tdc_tsw__SMSAppRS, '/js/jquery-ui.js')}"/>
+        <apex:stylesheet value="{!URLFOR($Resource.tdc_tsw__datetimepicker, '/flatpickr.min.css')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.tdc_tsw__datetimepicker, '/flatpickr.min.js')}"/>
+        
+        
+        <style type="text/css">
+            .slds-spinner_container {position: fixed;}
+            .slds-card {
+                max-width: 800px;
+                margin: auto;
+                border: none;
+            }
+
+            .slds-card__body {
+                background: #fff;
+                padding: 1.5rem;
+                padding-bottom: 4rem;
+            }
+
+            .slds-form-element {
+                margin-bottom: 1rem;
+            }
+
+            .slds-form-element__help {
+                margin-top: 0
+            }
+            .slds-form-element .slds-radio {
+                display: block;
+                clear: both;
+                max-width: 150px;
+            }
+            .Date_time .datepicker_css{
+                max-width: 220px;
+                background-color: #fff;
+                color: #16325c;
+                border: 1px solid #d8dde6;
+                border-radius: .25rem;
+                width: 100%;
+                transition: border .1s linear,background-color .1s linear;
+                display: inline-block;
+                padding: 0 1rem 0 .75rem;
+                line-height: 1.875rem;
+                min-height: calc(1.875rem + (1px * 2));
+                margin-right: 10px;
+            }
+            .Date_time select{
+                max-width: 115px;
+                background-color: #fff;
+                color: #16325c;
+                border: 1px solid #d8dde6;
+                border-radius: .25rem;
+                width: 100%;
+                transition: border .1s linear,background-color .1s linear;
+                display: inline-block;
+                padding: 0 1rem 0 .75rem;
+                line-height: 1.875rem;
+                min-height: calc(1.875rem + (1px * 2));
+            }
+            
+            .message {
+                background: none;
+                border:none;
+                margin:0;
+                padding:0;
+                margin-bottom: 15px;
+            }
+            .infoM3 .msgIcon, .infoMedium { display: none;}
+            .message .messageText {margin:0; color:red;font-size:.8rem}
+            html body.sfdcBody {padding:0}
+            .slds-input.datepicker2, .slds-input.datepicker3{
+                max-width: 300px;
+            }
+            @media(min-width: 250px) and (max-width: 412px){
+                .xdsoft_datetimepicker .xdsoft_datepicker {
+                    width: 170px !important;
+                    float: left;
+                    margin-left: 0px !important;
+                }
+                .xdsoft_datetimepicker .xdsoft_month {
+                    width: 80px !important;
+                }
+                .xdsoft_datetimepicker .xdsoft_timepicker {
+                    width: 40px !important;
+                }
+                .xdsoft_today_button{
+                    display: none !important;
+                }
+                .xdsoft_datetimepicker .xdsoft_label{
+                    padding: 5px 1px !important;
+                }
+                .xdsoft_datetimepicker .xdsoft_year {
+                    width: 46px !important;
+                    margin-left: 0px;
+                }
+                
+          }
+        </style>
+
+    </head>
+    
+    <body>
+    <apex:form id="mainForm">
+     <c:DoNotDisplayPage />
+     
+       <div id="loader1" class="slds-spinner_container " style="z-index:1;display:none;">
+          <div  class="slds-spinner slds-spinner--medium " role="alert">
+            <span class="PopupPanel slds-assistive-text">Loading</span>
+            <div class="slds-spinner__dot-a"></div>
+            <div class="slds-spinner__dot-b"></div>
+          </div>
+      </div>
+      
+    <script>  
+       /* $(document).ready(function() {
+                emojiMethod();
+        });
+        
+        function emojiMethod(){
+            $(".abc").emojioneArea({
+                pickerPosition: "left",
+                tonesStyle: "bullet"
+           }); 
+        }*/
+    
+        function CloseAndRefresh(){
+        
+            var isMobile = false;
+            if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+                isMobile = true;
+            }
+        
+            isError = '{!isError}';
+            if(isError == 'false'){
+            if(isMobile == true)
+            {
+                sforce.one.navigateToSObject('{!$CurrentPage.parameters.id}', 'detail');
+            }
+            else
+            {
+                window.top.location.href="/{!$CurrentPage.parameters.id}";
+                window.opener.location.reload(true);
+            }  
+               
+            }
+            else{
+                window.scrollBy(0, -400);
+            }
+        }
+    </script>
+        <article class="slds-card">
+            <div class="slds-card__header slds-grid">
+                <header class="slds-media slds-media--center slds-has-flexi-truncate">
+                    <!-- <div class="slds-media__figure">
+                        <svg aria-hidden="true" class="slds-icon slds-icon-standard-contact slds-icon--small">
+                            <use xlink:href="/resource/SLDS214/assets/icons/standard-sprite/svg/symbols.svg#contact"></use>
+                        </svg>
+                    </div> -->
+                    <div class="slds-media__body slds-truncate slds-text-align--center">
+                        <h2>
+                            <a href="javascript:void(0);" class="slds-text-link--reset">
+                                <span class="slds-text-heading--small">Create Message</span>
+                            </a>
+                        </h2>
+                    </div>
+                </header>
+            </div>
+            
+            <div class="slds-card__body">
+                <apex:outputPanel id="ErrorMessage" style="color:red;">
+                    <apex:pageMessages escape="false" />
+                </apex:outputPanel>
+                
+                <div class="form">
+                    <div class="slds-form--stacked">
+                        <apex:outputPanel rendered="{!isMultipleSender}" >
+                            <div class="slds-form-element">
+                                <label class="slds-form-element__label">Sender Phone</label>
+                                <div class="slds-form-element__control">
+                                    <div class="slds-select_container">
+                                        <apex:selectList size="1" value="{!senderPhoneKey}" styleClass="slds-select">
+                                             <apex:selectOptions value="{!lstSender}"/>
+                                        </apex:selectList>
+                                    </div>
+                                </div>
+                            </div>
+                        </apex:outputPanel>
+                        
+
+                        <!-- render send to option -->
+                        <apex:outputPanel rendered="{!isMultiplePhoneApi}" >
+                            <div class="slds-form-element">
+                                <label class="slds-form-element__label" for="textareaSample2">Send To</label>
+                                <div class="slds-form-element__control">
+                                    <div class="slds-select_container">
+                                        <apex:selectList size="1" value="{!selectedPhoneApi}" styleClass="slds-select">
+                                            <apex:selectOptions value="{!lstSendTo}"/>
+                                            <apex:actionSupport event="onchange" action="{!findPhoneNumber}" rerender="PhoneSection, ErrorMessage, ReceiverNameSection" />
+                                        </apex:selectList>
+                                    </div>
+                                </div>
+                            </div>
+                        </apex:outputPanel>
+
+
+                        <apex:outputPanel id="ReceiverNameSection">
+                            <apex:outputPanel rendered="{!if(messageData.ReceiverName != null, true, false)}">                         
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label" style="display: inline-block;">Name : </label>
+                                    <div class="slds-form-element__control" style="display: inline-block;">
+                                        <apex:outputText value="{!messageData.ReceiverName}" />
+                                    </div>
+                                </div>
+                            </apex:outputPanel>
+                        </apex:outputPanel>
+
+                        <apex:outputPanel id="PhoneSection">
+                            <apex:outputPanel rendered="{!isShowMobileNumber}" >
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label" for="textareaSample2">Mobile/Phone Number</label>
+                                    <div class="slds-form-element__control">
+                                        <apex:inputText value="{!messageData.Phoneno}" styleClass="slds-input" />
+                                    </div>
+                                </div>
+                            </apex:outputPanel>
+                        </apex:outputPanel>
+
+                       <apex:outputPanel rendered="{!IF(AND(isShowSurvey,isEnabelSurvey),true,false)}" styleclass="slds-form-element" style="display:inline-block">
+                            <div class="slds-form-element__control">
+                                <label class="slds-checkbox">
+                                    <apex:inputCheckbox value="{!isSurvey}" onclick="allowSurvey('{!$Component.SurveyCheckboxId}')" id="SurveyCheckboxId" />
+                                    <span class="slds-checkbox--faux"></span>
+                                    <span class="slds-form-element__label">Survey</span>
+                                </label>
+                            </div>
+                        </apex:outputPanel>
+                        
+                         <apex:outputPanel rendered="{!isShowFolder}" styleclass="slds-form-element" style="display:inline-block">
+                             <div class="slds-form-element__control">
+                                 <label class="slds-checkbox">
+                                     <apex:inputCheckbox value="{!isFolder}" onclick="allowFolder('{!$Component.folderCheckboxId}')" id="folderCheckboxId" />
+                                     <span class="slds-checkbox--faux"></span>
+                                     <span class="slds-form-element__label">Folder</span>
+                                 </label>
+                             </div>
+                        </apex:outputPanel>
+                        
+                        <div>
+                           <apex:outputPanel rendered="{!isFolder}" styleclass="slds-form-element">
+                            <label class="slds-form-element__label" for="textareaSample3">Choose Folder</label>
+                            <div class="slds-form-element__control">
+                                <div class="slds-select_container">
+                                    <apex:selectList value="{!folderName}" size="1" styleClass="slds-select" onChange="jsFunFolder(this);" id="selectFolderId">
+                                        <apex:selectOptions value="{!Folder}"/>
+                                    </apex:selectList>
+                                </div>
+                            </div>
+                           </apex:outputPanel>      
+                        </div>
+                        
+                        
+                          <div>
+                           <apex:outputPanel rendered="{!isSurvey}" styleclass="slds-form-element">
+                            <label class="slds-form-element__label" for="textareaSample3">Choose Survey</label>
+                            <div class="slds-form-element__control">
+                                <div class="slds-select_container">
+                                    <apex:selectList value="{!selectedSurvey}" size="1" styleClass="slds-select" onChange="jsFunSurvey();" id="selectSurveyList">
+                                        <apex:selectOptions value="{!SMSSurvey}"/>
+                                    </apex:selectList>
+                                </div>
+                            </div>
+                           </apex:outputPanel>      
+                        </div>
+
+                        <div class="slds-form-element">
+                         <apex:outputPanel rendered="{!isDefault}">
+                            <label class="slds-form-element__label" for="textareaSample2">Choose Template</label>
+                            <div class="slds-form-element__control">
+                                <div class="slds-select_container">
+                                    <apex:selectList value="{!selectedTemplate}" size="1" styleClass="slds-select" onChange="jsFun2();" id="selectTemplateSelectList">
+                                        <apex:selectOptions value="{!SMSTemplate}"/>
+                                    </apex:selectList>
+                                </div>
+                            </div>
+                          </apex:outputPanel>       
+                        </div>
+                        
+                        <div class="slds-form-element">
+                         <apex:outputPanel rendered="{!isFolder}">
+                            <label class="slds-form-element__label" for="textareaSample2">Choose SMS Template</label>
+                            <div class="slds-form-element__control">
+                                <div class="slds-select_container">
+                                    <apex:selectList value="{!selectedTemplate}" size="1" styleClass="slds-select" onChange="jsFun2();" id="selectFolderTemplateSelectList">
+                                        <apex:selectOptions value="{!options}"/>
+                                    </apex:selectList>
+                                </div>
+                            </div>
+                          </apex:outputPanel>       
+                        </div>
+
+
+                        <!-- 
+                        <div class="form-group">
+                            <label for="">Alternate Mobile Number</label>
+                            <a href="#!"><i class="fa fa-toggle-off" style="font-size:1.3em;vertical-align:middle" id="toggaloff" onclick="displayMobileNoTextBox(this,true,'{!$Component.mobilenotextboxid}','toggalon');" ></i><i class="fa fa-toggle-on" style="font-size:1.3em;color: gray;display:none;vertical-align:middle" id="toggalon" onclick="displayMobileNoTextBox(this,false,'{!$Component.mobilenotextboxid}','toggaloff');"></i></a>
+                            <apex:inputText id="mobilenotextboxid" value="{!mobileNumberTextboxValue}" styleClass="form-control" style="visibility:hidden" />
+                        </div>
+                         -->
+
+                        <apex:outputPanel id="pgId">
+                            <div class="slds-form-element">
+                                <label class="slds-form-element__label" for="textareaSample2">Message</label>
+                                <div class="slds-form-element__control">
+                                    <apex:inputTextarea value="{!messageText}" id="templateTex"  onkeyup="jsfun1(this);" html-maxlength="1000" styleClass="slds-textarea abc" disabled="{!OR(!isTempTextEditable,!isTextAreaEditable)}"/>
+                                    <div class="slds-form-element__help">
+                                        <apex:outputText value="You Can Enter Up To 1000 Characters" id="optextId" rendered="true"></apex:outputText>
+                                    </div>
+                                </div>
+                            </div>
+                        </apex:outputPanel>
+
+                        <apex:outputPanel rendered="{!IF(AND(isSchedulable,isSchedulingMessage),true,false)}">
+                            <div class="slds-form-element">
+                                <div class="slds-form-element__control">
+                                    <label class="slds-checkbox">
+                                        <apex:inputCheckbox value="{!isChecked}" onclick="allowScheduling('{!$Component.CheckboxId}')" id="CheckboxId" />
+                                        <span class="slds-checkbox--faux"></span>
+                                        <span class="slds-form-element__label">Schedule</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </apex:outputPanel>
+                       
+                        <apex:outputPanel rendered="{!isChecked}" styleClass="Date_time">
+                            <fieldset class="slds-form-element">
+                              <legend class="slds-form-element__legend slds-form-element__label">Schedule Type</legend>
+                              <div class="slds-form-element__control">
+                                <label class="slds-radio" >
+                                  <input type="radio" name="schedule" value="daily" id="lead" onchange="radioFun(this.value)" checked="checked" />
+                                  <span class="slds-radio--faux"></span>
+                                  <span class="slds-form-element__label">Schedule Once</span>
+                                </label>
+                                <label class="slds-radio" >
+                                  <input type="radio" name="schedule" value="everyday" id="education" onchange="radioFun(this.value)" />
+                                  <span class="slds-radio--faux"></span>
+                                  <span class="slds-form-element__label">Schedule Daily</span>
+                                </label>
+                                <label class="slds-radio" >
+                                  <input type="radio" name="schedule" value="everymonth" id="education" onchange="radioFun(this.value)" />
+                                  <span class="slds-radio--faux"></span>
+                                  <span class="slds-form-element__label">Schedule Monthly</span>
+                                </label>
+                              </div>
+                            </fieldset>
+                        </apex:outputPanel>
+                            <!--
+                            <apex:selectRadio value="{!radioSelectedValue}" onchange="radioFun(this)">
+                                <apex:selectOptions value="{!items}"/>
+                            </apex:selectRadio><p/> 
+                            -->
+                        <!-- 
+                        <apex:outputPanel id="scheduleDateSec" rendered="{!isChecked}" styleClass="Date_time">
+                            <p>
+                                <apex:inputText value="{!scheduledDate}" styleClass="datepicker datepicker_css" html-placeholder="Start Date"  />            
+                                <apex:SelectList value="{!scheduledTime}" size="1"  >
+                                     <apex:selectOptions value="{!FirstReminder}"/>    
+                                </apex:SelectList>
+                            </p>
+                            <apex:outputPanel rendered="{!IF(OR(isEveryDay == true,isEveryMonth == true),true,false)}">                   
+                                 <apex:inputText value="{!endDate}" styleClass="datepicker datepicker_css slds-m-top--medium" html-placeholder="End Date" /> 
+                            </apex:outputPanel> 
+                           <script>
+                                setTimeout(function(){
+                                     $(".datepicker").datepicker({ dateFormat: "yy-mm-dd" }).val();
+                                     $('#loader').hide();
+                                },300)                       
+                            </script> 
+                        </apex:outputPanel>
+                         -->
+                         <apex:outputPanel id="scheduleDateSec" rendered="{!isChecked}" styleClass="Date_time">
+                            <div class="slds-grid slds-wrap">
+                                <div class="slds-col slds-size--1-of-1">
+                                <p class="">
+                                  <apex:inputText value="{!scheduledDateTime}" styleClass="datepicker2 slds-input" html-placeholder="Start Date" html-data-input="" />
+                                  <a class="input-button" onclick="$('.datepicker2').val('')"><i class="fa fa-close"></i></a>
+                                </p>
+                                </div>
+                                <div class="slds-col slds-size--1-of-4 slds-col--padded">
+                                    <!-- <div class="slds-form-element">
+                                        <div class="slds-form-element__control">
+                                            <div class="slds-select_container">
+                                                <apex:SelectList value="{!scheduledTime}" size="1"  styleClass="slds-select">
+                                                     <apex:selectOptions value="{!FirstReminder}"/>    
+                                                </apex:SelectList>
+                                            </div>
+                                        </div>
+                                    </div>-->
+                                </div>
+                                <div class="slds-col slds-size--1-of-4 slds-col--padded">
+                                </div>
+                            </div>
+                            
+                            <p>
+                            <apex:outputPanel rendered="{!IF(OR(isEveryDay == true,isEveryMonth == true),true,false)}">                   
+                                 <apex:inputText value="{!endDate}" styleClass="datepicker3 slds-input slds-m-top--medium" html-placeholder="End Date" />
+                                  <a class="input-button" onclick="$('.datepicker3').val('')"><i class="fa fa-close"></i></a> 
+                            </apex:outputPanel>
+                            
+                            </p> 
+                           
+                           <script>
+                                setTimeout(function(){
+                                  // $(".datepicker").datepicker({ dateFormat: "yy-mm-dd" }).val();
+                                  flatpickr(".datepicker", {
+                                    enableTime: true,
+                                    minuteIncrement : 1
+                                  });
+                                  flatpickr(".datepicker2", {
+                                    enableTime: true
+                                  });
+                                  flatpickr(".datepicker3", {
+                                    enableTime: false
+                                  });
+                                  $('#loader1').hide();
+                                },300) 
+                                                      
+                          </script>    
+                        <!--
+                        <script>
+                            $(function () {
+                                jQuery('.datetimepicker1').datetimepicker({
+                                   format:'Y-m-d H:i'
+                                }); 
+                                jQuery('.datetimepicker2').datetimepicker({
+                                    timepicker:false,
+                                    format:'Y-m-d'
+                                });
+                              
+                            });
+                        </script>
+                        -->
+                        </apex:outputPanel>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="slds-docked-form-footer">
+                <apex:outputPanel rendered="{!isChecked}">
+                    <apex:commandButton action="{!Schedule}" value="Schedule" styleClass="slds-button slds-button--brand slds-m-right--medium" rerender="mainForm" onComplete="CloseAndRefresh();" onclick="disableButton(this)"/> 
+                 </apex:outputPanel>
+                <apex:outputPanel rendered="{!!isChecked}">
+                    <apex:commandButton action="{!sendMessage}" styleClass="slds-button slds-button--brand slds-m-right--medium" onComplete="CloseAndRefresh();" rerender="mainForm" onclick="disableButton(this)" value="Send"/>
+                </apex:outputPanel>
+                <apex:commandButton action="{!cancel}" styleClass="slds-button slds-button--neutral" onComplete="CloseAndRefresh();" rerender="mainForm" value="Cancel"/>
+            </div>    
+        </article>
+        
+        <div class="slds-spinner_container" id="loader" style="display:none">
+          <div class="slds-spinner--brand slds-spinner slds-spinner--medium" role="alert">
+            <span class="slds-assistive-text">Loading</span>
+            <div class="slds-spinner__dot-a"></div>
+            <div class="slds-spinner__dot-b"></div>
+          </div>
+        </div>
+
+        <script>
+            function disableButton(buttonObj) {
+                buttonObj.disabled=true;
+            }
+            
+            function jsFun2() {
+                actionFun1();
+            }
+            
+            function displayMobileNoTextBox(checkeds,currelem,mobileNoInputBox,toggalon) {
+                if(currelem) {
+                    document.getElementById(mobileNoInputBox).style.visibility='visible';
+                }
+                
+                if(!currelem) {
+                    document.getElementById(mobileNoInputBox).style.visibility='hidden'; 
+                } 
+                document.getElementById(toggalon).style.display='inline';
+                checkeds.style.display='none';  
+            }
+
+            function jsfun1(currelm)
+             {
+                    var isTrue = isGSMAlphabet(currelm.value);
+                    //alert('====isTrue:'+ isTrue);
+                    var segment = 1;
+                    var nonGsmLength = currelm.value.length;
+                    var strLength = currelm.value.length + count(currelm.value,'{') + count(currelm.value,'}') + count(currelm.value,'[') + count(currelm.value,']');
+                    if(isTrue)
+                    {
+                         if(strLength <= 160){
+                           segment = 1;
+                         }
+                         else{
+                              if(strLength % 153 == 0)
+                                  segment = (strLength/153);
+                              else
+                                 segment = (strLength/153)+1;
+                          }
+                    }
+                    else
+                    {
+                       if(nonGsmLength <= 70){
+                           segment = 1;
+                         }
+                         else{
+                            if(nonGsmLength%67 == 0)
+                                segment = (nonGsmLength/67);
+                            else
+                                segment = (nonGsmLength/67)+1;
+                            }       
+                    }       
+                        
+                    document.getElementById('{!$Component.optextId}').style.color="black";
+                    document.getElementById('{!$Component.optextId}').innerHTML='You Have Entered '+currelm.value.length+' Characters.     '+'Segment :'+parseInt(segment,10)+'';
+                }
+                
+              function isGSMAlphabet(text) {
+                //alert(text);
+                var regexp = new RegExp("^[A-Za-z0-9 @!\"#$%&'`()*+,_\\-./:;<=>?^{}\\\\\\[~\\]|\\r\\n]*$");
+                //alert(regexp.test(text)) ;
+                return regexp.test(text);
+                
+                }
+                
+                function count(text , c) { 
+                  var result = 0, i = 0;
+                  for(i;i<text.length;i++)
+                  {
+                      if(text[i]==c)
+                        result++;
+                  }     
+                  //alert('=====result:'+result);
+                  return result;
+                  
+                }
+              
+             function allowScheduling(checkBoxId) {
+                $('#loader1').show();
+                if(document.getElementById(checkBoxId).checked) {
+                    showSchedule(true);
+                } else {    
+                   showSchedule(false)
+                }
+             }  
+             
+              function allowSurvey(checkBoxId)
+			  {
+		        $('#loader1').show();
+		        if(document.getElementById(checkBoxId).checked)
+		        {
+		          showSurvey(true);  
+		        } 
+		        else
+		        {    
+		           showSurvey(false);  
+		        }
+			  } 
+			  
+			  function allowFolder(checkBoxId)
+			  {
+		         $('#loader1').show();
+		        //alert(document.getElementById(checkBoxId).checked); 
+		        if(document.getElementById(checkBoxId).checked)
+		        {
+		          showFolder(true);  
+		        } 
+		        else
+		        {    
+		           showFolder(false);  
+		        }
+			  }   
+			  
+			  function jsFunFolder(e)
+			    {
+			    	//alert(e.value);
+			    	folderValue(e.value);	
+			    } 
+			    
+		       function jsFunSurvey()
+			    {
+			        actionFunSurvey();
+			    }
+		            
+		            
+             function radioFun(e) {
+                 //$('#loader').show();
+                 radioButtonValue(e);
+             }
+            
+                
+        </script>
+        
+        <apex:actionFunction name="actionFun1" action="{!getTemplate}" reRender="pgId" oncomplete="jsfun1(document.getElementById('{!$Component.templateTex}'));"/>
+        <apex:actionFunction name="actionFunSurvey" action="{!getSurvey}" reRender="pgId" oncomplete="jsfun1(document.getElementById('{!$Component.templateTex}'));"/>
+     
+        <apex:actionFunction name="showSchedule"  reRender="mainForm" ><!-- action="{!manageshowSchedule}" -->
+            <apex:param name="allowSchedule" value="" assignTo="{!isChecked}"/>
+        </apex:actionFunction>
+        <apex:actionFunction name="radioButtonValue" action="{!scheduleType}"  reRender="scheduleDateSec" ><!-- action="{!scheduleType}" -->
+            <apex:param name="radioButton" value="" assignTo="{!radiSelectedValue}"/>
+        </apex:actionFunction>
+        
+            <apex:actionFunction name="showSurvey"  reRender="mainForm" action="{!manageSurvey}">
+		    <apex:param name="allowSurvey" value="" assignTo="{!isSurvey}"/>
+		</apex:actionFunction>
+
+        <apex:actionFunction name="folderValue" action="{!getFolderName}"  reRender="mainForm" >
+		    <apex:param name="folder" value="" assignTo="{!folderName}"/>
+		</apex:actionFunction>
+        
+		<apex:actionFunction name="showFolder"  reRender="mainForm"  action="{!manageFolder}">
+		    <apex:param name="varallow" value="" assignTo="{!isFolder}"/>
+		</apex:actionFunction>
+	
+		
+    </apex:form>
+    </body>
+</html>
+</apex:page>

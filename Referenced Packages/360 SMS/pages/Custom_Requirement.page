@@ -1,0 +1,4 @@
+<apex:page Controller="tdc_tsw.Custom_Requirement_Controller" showHeader="true" sidebar="true">
+     <c:DoNotDisplayPage />
+    <c:Custom_Requirement_Component />
+</apex:page>

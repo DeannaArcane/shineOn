@@ -1,0 +1,56 @@
+<apex:page controller="pdffiller_sf.LightningFillDocumentController" extensions="pdffiller_sf.PageParameters">
+
+    <div id="content">
+    </div>
+
+    <apex:stylesheet value="{!$Resource[namespaceUnderscored+'styles']}" />
+    <apex:includeLightning />
+
+    <apex:includeScript value="{!$Resource[namespaceUnderscored+'iframeLightningJs']}" />
+    <script>
+        var iframeUri = '{!JSENCODE(iframeUri)}';
+
+        window.onresize = function() {
+            resizeIframe();
+        }
+
+        // Create component using appLightning.app.
+        $Lightning.use('{!namespaceComponent + ':appLightning'}', function () {
+            $Lightning.createComponent(
+                '{!namespaceComponent + ':pageFillDocument'}',
+                {
+                    parentId: '{!JSENCODE(parentId)}',
+                    objectId: '{!JSENCODE(objectId)}',
+                    objectName: '{!JSENCODE(objectName)}',
+                    pdfAction: '{!JSENCODE(pdfAction)}',
+                    objectType: '{!JSENCODE(objectType)}'
+                },
+                'content',
+                function () {
+                    openIframe();
+                    if (window.addEventListener) {
+                        window.addEventListener("message", listener);
+                    } else {
+                        // IE8
+                        window.attachEvent("onmessage", listener);
+                    }
+                }
+            );
+        });
+
+        /**
+         * Canvas event dispatcher.
+         * @param {Object} detail Canvas app event detail.
+         */
+        function dispatchCanvasEvent (detail) {
+            var event = $A.get('{!'e.' + namespaceComponent + ':evtCanvas'}');
+            event && event.fire({
+              detail: JSON.stringify(detail)
+            });
+        }
+
+    </script>
+    <apex:panelGroup rendered="{!isGoogleAnalytics}">
+        <apex:includeScript loadOnReady="true" value="{!$Resource.pdffiller_sf__GoogleAnalytics}" />
+    </apex:panelGroup>
+</apex:page>

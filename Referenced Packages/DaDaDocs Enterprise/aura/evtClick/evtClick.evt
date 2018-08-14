@@ -1,0 +1,4 @@
+<aura:event type="COMPONENT">
+    <aura:attribute name="documentId" type="String" default="" />
+    <aura:attribute name="deliveryName" type="String" default="" />
+</aura:event>

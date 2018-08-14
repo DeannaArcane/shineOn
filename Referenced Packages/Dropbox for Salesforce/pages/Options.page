@@ -1,0 +1,247 @@
+<apex:page controller="Dropbox_for_SF.OptionsController" tabstyle="Dropbox__tab" showHeader="true" action="{!runOAuth}">
+    <style type="text/css">
+        .button {
+          background: #d93434;
+          background-image: -webkit-linear-gradient(top, #d93434, #b82b2b);
+          background-image: -moz-linear-gradient(top, #d93434, #b82b2b);
+          background-image: -ms-linear-gradient(top, #d93434, #b82b2b);
+          background-image: -o-linear-gradient(top, #d93434, #b82b2b);
+          background-image: linear-gradient(to bottom, #d93434, #b82b2b);
+          -webkit-border-radius: 7;
+          -moz-border-radius: 7;
+          border-radius: 7px;
+          font-family: Arial;
+          color: #ffffff !important;
+          font-size: 15px;
+          padding: 10px 20px 10px 20px;
+          text-decoration: none;
+        }
+
+        .button:hover {
+          background: #fc3c3c;
+          text-decoration: none;
+        }
+        .myLinks{
+            color: #015ba7 !important;
+            margin-left: 0px !important;
+            margin-right: 0px !important;
+        }
+    </style>
+
+    <apex:includeScript value="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"/>
+    <apex:includeScript value="{!URLFOR($Resource.Dropbox_for_SF__webassets, 'js/filesize.min.js')}"/>
+    <apex:stylesheet value="{!URLFOR($Resource.Dropbox_for_SF__style, 'css/fi-core.css')}" />
+
+    <script type="text/javascript">
+        document.domain = 'force.com';
+        var j$ = jQuery.noConflict();
+
+        j$(document).ready(function(){
+
+            j$('.data').text(filesize({!uploadBytes}, {base: 2, round: 1}));
+
+            /*
+            j$('.totalSpace').text(filesize({!QuotaTotal}, {base: 2, round: 1}));
+            j$('.normalSpace').text(filesize({!RegularTotal}, {base: 2, round: 1}));
+            j$('.sharedSpace').text(filesize({!SharedTotal}, {base: 2, round: 1}));
+            j$('.freeSpace').text(filesize({!QuotaTotal} - {!RegularTotal} - {!SharedTotal}, {base: 2, round: 1}));
+            */
+
+            j$('.fi-upsell-right').html('{!$Label.dropbox_for_sf__Options_Upsell}');
+
+        });
+    </script>
+
+    <apex:sectionHeader title="{!$Label.dropbox_for_sf__Options_Section_Header}" subtitle="{!$Label.dropbox_for_sf__Option_Section_Subtitle}" help="https://www.dropbox.com/support"/>
+    <apex:form >
+        <apex:outputPanel id="errors" >
+            <apex:pageMessages escape="false" />
+        </apex:outputPanel>
+
+        <apex:actionFunction action="{!dummyCall}" name="completeConnection" reRender="connectionSettings, usage"/>
+
+        <apex:pageBlock title="{!$Label.dropbox_for_sf__Options_Connection_Settings}" id="connectionSettings">
+            <apex:pageBlockButtons location="bottom">
+                <apex:commandButton action="{!DBDisconnect}" reRender="connectionSettings, usage" rendered="{!isConnected && enableDisconnect}" value="{!$Label.dropbox_for_sf__Options_Disconnect_Button}"/>
+            </apex:pageBlockButtons>
+            <apex:pageBlockSection >
+
+                <apex:pageBlockSectionItem rendered="{!NOT(isConnected)}">
+                    <apex:outputPanel styleClass="requiredInput" layout="block">
+                        <apex:outputPanel style="padding:5px;" layout="block" />
+                        <a href="#" onclick="window.open('{!$Page.Connect}', '_blank', 'scrollbars=0,tollbar=0,titlebar=0');" class="button">{!$Label.Options_Connect_to_Dropbox}</a>
+                        <br/><br/>
+                    </apex:outputPanel>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem rendered="{!NOT(isConnected)}">
+                    <apex:outputlabel style="color:grey">
+                        {!$Label.dropbox_for_sf__Options_Connect_Help}
+                    </apex:outputlabel>
+                </apex:pageBlockSectionItem>
+
+                <apex:pageBlockSectionItem rendered="{!isConnected}">
+                    <apex:outputLabel value="{!$Label.dropbox_for_sf__Options_Connected_As}" for="connectedUser"/>
+                    <apex:outputText value="{!DBUserName} ({!DBUserEmail})" id="connectedUser"/>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem rendered="{!isConnected}">
+                    <apex:outputlabel style="color:grey">
+                        {!$Label.dropbox_for_sf__Options_Connected_As_Help}
+                    </apex:outputlabel>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem rendered="{!isConnected && DBTeamName != NULL}">
+                    <apex:outputLabel value="{!$Label.dropbox_for_sf__Options_Team_Name}" for="teamName"/>
+                    <apex:outputText value="{!DBTeamName}" id="teamName"/>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem rendered="{!isConnected && DBTeamName != NULL}">
+                    <apex:outputlabel style="color:grey">
+                        {!$Label.dropbox_for_sf__Options_Team_Name_Help}
+                    </apex:outputlabel>
+                </apex:pageBlockSectionItem>
+
+            </apex:pageBlockSection>
+        </apex:pageBlock>
+
+        <apex:pageBlock title="{!$Label.dropbox_for_sf__Options_Std_Objects}" rendered="{!isAdmin}" id="stdObjectSettings">
+            <apex:pageBlockButtons location="bottom">
+                <apex:commandButton value="{!$Label.dropbox_for_sf__Options_Edit}" action="{!editStdObjectSettings}" rendered="{!NOT(editingStdObjectSettings)}" reRender="stdObjectSettings, errors"/>
+                <apex:commandButton value="{!$Label.dropbox_for_sf__Options_Save}" action="{!saveStdObjectSettings}" rendered="{!editingStdObjectSettings}" reRender="stdObjectSettings, errors"/>
+                <apex:commandButton value="{!$Label.dropbox_for_sf__Options_Cancel}" action="{!cancelStdObjectSettings}" rendered="{!editingStdObjectSettings}" reRender="stdObjectSettings, errors"/>
+            </apex:pageBlockButtons>
+            <apex:pageBlockTable value="{!StdObjHash}" var="obj">
+                <apex:column value="{!ObjLabels[obj]}" headerValue="{!$Label.dropbox_for_sf__Options_Object}"/>
+                <apex:column headerValue="{!$Label.dropbox_for_sf__Options_Rename}">
+                    <apex:inputField value="{!stdObjSettings[obj].Rename__c}" rendered="{!editingStdObjectSettings}"/>
+                    <apex:outputField value="{!stdObjSettings[obj].Rename__c}" rendered="{!NOT(editingStdObjectSettings)}"/>
+                </apex:column>
+                <apex:column headerValue="{!$Label.dropbox_for_sf__Options_Enable_Templates}">
+                    <apex:inputField value="{!stdObjSettings[obj].Template_Enabled__c}" rendered="{!editingStdObjectSettings}"/>
+                    <apex:outputField value="{!stdObjSettings[obj].Template_Enabled__c}" rendered="{!NOT(editingStdObjectSettings)}"/>
+                </apex:column>
+                <apex:column headerValue="{!$Label.dropbox_for_sf__Options_Template_Folder}">
+                    <apex:inputField value="{!stdObjSettings[obj].Template_Directory__c}" rendered="{!editingStdObjectSettings}"/>
+                    <apex:outputField value="{!stdObjSettings[obj].Template_Directory__c}" rendered="{!NOT(editingStdObjectSettings)}"/>
+                </apex:column>
+                <apex:column headerValue="{!$Label.dropbox_for_sf__Options_Follow_Salesforce_Sharing}">
+                    <apex:inputField value="{!stdObjSettings[obj].Private_Folders__c}" rendered="{!editingStdObjectSettings}"/>
+                    <apex:outputField value="{!stdObjSettings[obj].Private_Folders__c}" rendered="{!NOT(editingStdObjectSettings)}"/>
+                </apex:column>
+            </apex:pageBlockTable>
+        </apex:pageBlock>
+
+        <apex:pageBlock title="{!$Label.dropbox_for_sf__Options_Custom_Objects}" rendered="{!isAdmin && CustomObjHash.size > 0}" id="objectSettings">
+            <apex:pageBlockButtons location="bottom">
+                <apex:commandButton value="{!$Label.dropbox_for_sf__Options_Edit}" action="{!editCustomObjectSettings}" rendered="{!NOT(editingCustomObjectSettings) && isUserTeamMember}" reRender="objectSettings, errors"/>
+                <apex:variable rendered="{!NOT(editingCustomObjectSettings) && NOT(isUserTeamMember)}" value="" var="">
+                    <input type="button" onclick="window.open('{!upsellPage}', '__blank');" value="{!$Label.dropbox_for_sf__Options_Edit}" class="btn"/>
+                </apex:variable>
+                <apex:commandButton value="{!$Label.dropbox_for_sf__Options_Save}" action="{!saveCustomObjectSettings}" rendered="{!editingCustomObjectSettings}" reRender="objectSettings, errors"/>
+                <apex:commandButton value="{!$Label.dropbox_for_sf__Options_Cancel}" action="{!cancelCustomObjectSettings}" rendered="{!editingCustomObjectSettings}" reRender="objectSettings, errors"/>
+            </apex:pageBlockButtons>
+            <apex:pageBlockTable value="{!CustomObjHash}" var="obj">
+                <apex:column value="{!ObjLabels[obj]}" headerValue="{!$Label.dropbox_for_sf__Options_Object}"/>
+                <apex:column headerValue="{!$Label.dropbox_for_sf__Options_Rename}">
+                    <apex:inputField value="{!customObjSettings[obj].Rename__c}" rendered="{!editingCustomObjectSettings}"/>
+                    <apex:outputField value="{!customObjSettings[obj].Rename__c}" rendered="{!NOT(editingCustomObjectSettings)}"/>
+                </apex:column>
+                <apex:column headerValue="{!$Label.dropbox_for_sf__Options_Enable_Templates}">
+                    <apex:inputField value="{!customObjSettings[obj].Template_Enabled__c}" rendered="{!editingCustomObjectSettings}"/>
+                    <apex:outputField value="{!customObjSettings[obj].Template_Enabled__c}" rendered="{!NOT(editingCustomObjectSettings)}"/>
+                </apex:column>
+                <apex:column headerValue="{!$Label.dropbox_for_sf__Options_Template_Folder}">
+                    <apex:inputField value="{!customObjSettings[obj].Template_Directory__c}" rendered="{!editingCustomObjectSettings}"/>
+                    <apex:outputField value="{!customObjSettings[obj].Template_Directory__c}" rendered="{!NOT(editingCustomObjectSettings)}"/>
+                </apex:column>
+                <apex:column headerValue="{!$Label.dropbox_for_sf__Options_Follow_Salesforce_Sharing}">
+                    <apex:inputField value="{!customObjSettings[obj].Private_Folders__c}" rendered="{!editingCustomObjectSettings}"/>
+                    <apex:outputField value="{!customObjSettings[obj].Private_Folders__c}" rendered="{!NOT(editingCustomObjectSettings)}"/>
+                </apex:column>
+            </apex:pageBlockTable>
+        </apex:pageBlock>
+
+        <apex:pageBlock title="{!$Label.dropbox_for_sf__Options_DfB}" id="usage">
+            <apex:pageBlockSection title="{!$Label.dropbox_for_sf__Options_Dropbox_Usage}" collapsible="true" >
+                
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel value="{!$Label.dropbox_for_sf__Option_Users_Connected}" for="connectedUsers"/>
+                    <apex:outputText value="{!totalConnectedUsers}" id="connectedUsers"/>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel style="color:grey">{!$Label.dropbox_for_sf__Options_User_Connected_Help}</apex:outputLabel>
+                </apex:pageBlockSectionItem>
+
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel value="{!$Label.dropbox_for_sf__Options_Total_Space}" for="data"/>
+                    <apex:outputText value="" id="data" styleClass="data"/>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel style="color:grey">{!$Label.dropbox_for_sf__Options_Total_Space_Help}</apex:outputLabel>
+                </apex:pageBlockSectionItem>
+
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel value="{!$Label.dropbox_for_sf__Options_Salesforce_Records}" for="files"/>
+                    <apex:outputText value="{!filesUploaded}" id="files"/>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel style="color:grey">{!$Label.dropbox_for_sf__Options_Salesforce_Records_Help}</apex:outputLabel>
+                </apex:pageBlockSectionItem>
+
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel value="{!$Label.dropbox_for_sf__Options_Chatter_files}" for="shares"/>
+                    <apex:outputText value="{!chatterShares}" id="shares"/>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel style="color:grey">{!$Label.dropbox_for_sf__Options_Chatter_Files_Help}</apex:outputLabel>
+                </apex:pageBlockSectionItem>
+
+            </apex:pageBlockSection>
+
+
+
+            <apex:pageBlockSection title="{!$Label.dropbox_for_sf__Options_DfB}" collapsible="true" columns="1" rendered="{!NOT($Setup.DI_Auth__c.Is_DfB_Account__c)}">
+                <apex:pageBlockSectionItem >
+                    <div class="fi-upsell">
+                        <div class="fi-upsell-left">
+                            <img src="{!URLFOR($Resource.style, 'img/fi-upsell.png')}" />
+                            <a href="#" onclick="window.open('{!upsellPage}', '__blank');" class="fi-btn fi-btn-blue">{!$Label.Options_Try}</a>
+                        </div>
+                        <div class="fi-upsell-right">
+                        </div> 
+                    </div>
+                </apex:pageBlockSectionItem>
+            </apex:pageBlockSection>
+
+            <apex:pageBlockSection title="{!$Label.dropbox_for_sf__Options_DfB_Options}" collapsible="true" rendered="{!isAdmin && $Setup.DI_Auth__c.Is_DfB_Account__c}">
+                <apex:pageBlockSectionItem rendered="{!NOT($Setup.DI_Auth__c.Is_DfB_Account__c)}" >
+                    <a href="#" onclick="window.open('{!upsellPage}', '__blank');">{!$Label.dropbox_for_sf__Options_Upsell_Link}</a>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem rendered="{!$Setup.DI_Auth__c.Is_DfB_Account__c}">
+                    <apex:outputLink value="{!$Page.Dropbox_for_SF__DropboxAccess}">{!$Label.dropbox_for_sf__Options_Restrict}</apex:outputLink>
+                </apex:pageBlockSectionItem>
+
+
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel style="color:grey">&nbsp;</apex:outputLabel>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    <apex:commandLink action="{!reset}" value="{!$Label.dropbox_for_sf__Options_Reset}" onclick="if(!confirm('{!$Label.dropbox_for_sf__Options_Reset_Confirm}')){return false};"/>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel style="color:grey">&nbsp;</apex:outputLabel>
+                </apex:pageBlockSectionItem>
+
+            </apex:pageBlockSection>
+            <apex:pageBlockSection title="{!$Label.dropbox_for_sf__Option_DfS_Options}" collapsible="true" rendered="{!isAdmin && !$Setup.DI_Auth__c.Is_DfB_Account__c}">
+                <apex:pageBlockSectionItem >
+                    <apex:commandLink action="{!reset}" value="{!$Label.dropbox_for_sf__Options_Reset}" onclick="if(!confirm('{!$Label.dropbox_for_sf__Options_Reset_Confirm}')){return false};"/>
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel style="color:grey">&nbsp;</apex:outputLabel>
+                </apex:pageBlockSectionItem>
+
+            </apex:pageBlockSection>
+
+        </apex:pageBlock>
+
+    </apex:form>
+
+</apex:page>

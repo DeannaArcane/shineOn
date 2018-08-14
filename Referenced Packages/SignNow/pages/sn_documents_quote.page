@@ -1,0 +1,7 @@
+<!--<apex:page standardController="Quote">
+    <apex:include pageName="sn_global_documents"/> 
+</apex:page>-->
+
+<apex:page standardController="Contact">
+
+</apex:page>

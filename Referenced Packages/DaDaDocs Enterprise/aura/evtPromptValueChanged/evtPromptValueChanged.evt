@@ -1,0 +1,3 @@
+<aura:event type="APPLICATION" description="evtPromptValueChanged">
+    <aura:attribute name="firedFrom" type="String" required="true" />
+</aura:event>

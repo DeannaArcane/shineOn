@@ -1,0 +1,29 @@
+<apex:page controller="cuda_signnow.SignNowTemplatesController">
+<style>
+    iframe {border-style:none;}
+</style>
+<script>
+window.onload = function() {
+    if(document.getElementById("status").value != ''){
+        alert(""+document.getElementById("status").value);
+        
+    }
+};
+</script>
+
+<a href="/{!id}">Back to SalesForce Record</a> 
+         <apex:pageBlock title="Step 1) Send Attachment to SignNow">
+        <apex:form >
+            
+
+                    
+            <apex:selectList value="{!selectedAttachment}" style="width:90%;">
+                <apex:selectOptions value="{!AttachmentItem}"/>
+            </apex:selectList>
+            <br/><br/>
+            <apex:commandButton value="Send to SignNow" action="{!sendAttachment}"/><br /><br /> {!status}
+            <input type="hidden" value="{!status}" id="status" />
+            
+        </apex:form>
+    </apex:pageBlock>
+</apex:page>

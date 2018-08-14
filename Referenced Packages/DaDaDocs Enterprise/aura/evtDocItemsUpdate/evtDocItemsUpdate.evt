@@ -1,0 +1,3 @@
+<aura:event type="APPLICATION" description="evtDocItemsUpdate">
+    <aura:attribute name="dropdownName" type="String" required="true" />
+</aura:event>

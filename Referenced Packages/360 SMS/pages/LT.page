@@ -1,0 +1,34 @@
+<apex:page docType="html-5.0" sidebar="false" showHeader="false" applyHtmlTag="false" applyBodyTag="false" controller="tdc_tsw.LinkTrackingController" tabStyle="Account" standardStylesheets="false" cache="false" >
+<html lang="en">
+  <head>
+  <script>
+    var t = '{!$CurrentPage.parameters.t}';
+    var urls;
+    window.onload = function() {
+	  //method();
+	 
+	 Visualforce.remoting.Manager.invokeAction(
+            '{!$RemoteAction.LinkTrackingController.linkTracking}',t,
+    	function(result,event){
+    		//alert(event.status);
+    		//alert(result);
+    		if(event.status) {
+    		       urls = result;
+    		       //alert(urls);
+					if(urls != null && urls != ''){
+					    window.location.href = urls;
+					 }    			
+    		} else {
+    			alert('there is some error!');
+    		}
+    	}, 
+        {escape: true}
+    );    
+}
+  </script>
+  </head>
+ </html> 
+ <apex:form >
+ 	<!--  <apex:actionFunction name="method" action="{!linkTracking}" onComplete="showUrl()" reRender="" />-->
+ </apex:form>
+</apex:page>

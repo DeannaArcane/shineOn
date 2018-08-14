@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <encodingKey>UTF-8</encodingKey>
+    <name>DaDaDocs Instructions Case 1</name>
+    <style>none</style>
+    <subject>Installation Instructions - DaDaDocs</subject>
+    <textOnly>Hi {!User.FirstName},
+
+Thank you for successfully installing the DaDaDocs Enterprise Package in your Salesforce Organization.
+
+In order to configure the application, please follow our instructions guide (https://www.pdffiller.com/en/salesforce/install). Please feel free to contact us with any configuration, product functionality or pricing questions.
+
+We would be happy to offer you a quick demo of the product.
+
+Thank you,
+DaDaDocs Team
+Phone: 617-680-7973
+Email: dadadocs-support@pdffiller.com
+
+1371 Beacon st, suite 301, Brookline, MA 02446</textOnly>
+    <type>custom</type>
+</EmailTemplate>

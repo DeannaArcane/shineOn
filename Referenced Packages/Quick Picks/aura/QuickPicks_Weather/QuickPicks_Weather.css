@@ -1,0 +1,45 @@
+.THIS {
+    position: relative;
+    overflow: hidden;
+}
+.THIS h2{
+	font-weight: inherit;
+}
+.THIS .temperature{
+	font-size: 22px;
+	font-weight: bold;
+}
+.THIS .condition, .THIS .location{
+	font-size: 18px;
+}
+.THIS .flexipageAppHomeTemplateTwoColumnsStacked .grouping1{
+	width: 100% !important;
+}
+.THIS .itemTitle{
+	border-bottom: 1px solid #E6EAF0;
+}	
+.THIS.mainContainer{
+	background-color: white;
+}
+@media (max-width: 767px){
+	.THIS .weatherDetails{
+		padding-top: 30px;
+	}	
+	.THIS .weatherImage{
+		height: 120px;	
+	}
+	.THIS .weatherImage img{
+		position: relative;
+		left: 45px;
+	}
+}
+@media (min-width: 768px){
+	.THIS .weatherDetails{
+		text-align: start !important;
+	}
+	.THIS .weatherImage img{
+		position: relative;
+    	top: 10px;
+	}	
+
+}

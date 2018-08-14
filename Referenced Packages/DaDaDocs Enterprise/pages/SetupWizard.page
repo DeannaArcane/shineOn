@@ -1,0 +1,60 @@
+<apex:page id="SetupWizard" controller="pdffiller_sf.SetupWizardController" docType="html-5.0">
+
+    <apex:outputpanel >
+    <apex:actionstatus id="status">
+        <apex:facet name="start">
+            <div class="waitingSearchDiv" id="el_loading" style="background-color: #fbfbfb;
+                       height: 100%;opacity:0.65;width:100%;">
+                <div class="waitingHolder" style="top: 74.2px; width: 91px;">
+                    <img class="waitingImage" src="/img/loading.gif" title="Processing..."/>
+                    <span class="waitingDescription">Processing...</span>
+                </div>
+            </div>
+        </apex:facet>
+    </apex:actionstatus>
+    </apex:outputPanel>
+
+    <script type="application/javascript">
+        var loader = document.getElementById('SetupWizard:status.start');
+        function startLoader() {
+            loader.style.display = "block";
+        }
+        function removeLoader() {
+            loader.style.display = "none";
+        }
+    </script>
+
+    <apex:outputPanel rendered="{!!isLocalFrontEnv}">
+        <apex:stylesheet value="{!URLFOR($Resource.pdffiller_sf__v2) + '/salesforce.css'}"/>
+    </apex:outputPanel>
+    <apex:outputPanel rendered="{!isLocalFrontEnv}">
+        <apex:stylesheet value="https://localhost:8080/salesforce.css"/>
+    </apex:outputPanel>
+
+    <header class="dadadocs-header">
+        <h1 class="dadadocs-header__title">
+                {!$Label.pdffiller_sf__dadadocs_settings}
+        </h1>
+    </header>
+
+    <apex:form id="SetupWizardComponentSelector">
+        <c:ApplicationUtils tokenRequiredOnload="false"/>
+
+        <apex:selectRadio value="{!currentStep}" onChange="changeStep()">
+            <apex:selectOptions value="{!stepsSelector}"/>
+        </apex:selectRadio>
+        <apex:actionFunction name="changeStep"
+                             action="{!changeStep}"
+                             reRender="stepContainer"
+                             status="status"
+        />
+    </apex:form>
+
+    <apex:outputpanel id="stepContainer">
+        <c:UsersPermissions step="1" rendered="{!IF(currentStep==1, true, false)}" />
+        <c:LayoutsManagement step="2" id="LayoutsManagement" rendered="{!IF(currentStep==2, true, false)}" />
+        <c:AdvancedOptions step="3" rendered="{!IF(currentStep==3, true, false)}" />
+        <c:AdditionalSetup step="4" rendered="{!IF(currentStep==4, true, false)}" />
+    </apex:outputpanel>
+
+</apex:page>

@@ -1,0 +1,44 @@
+<apex:page showHeader="{!$CurrentPage.parameters.header}" sidebar="false">
+
+<style>
+    .errMessage {
+        color: #4B5E72;
+        position: fixed;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        text-align: center;
+        vertical-align: middle;
+        display: block;
+        padding: 15% 15px;
+        font-size: 14px;
+        /* background: rgba(255, 148, 148, 0.58); */
+        border-radius: 6px;
+        font-family: sans-serif;
+        background: #e9f3f7;
+        border-radius: 8px;
+    }
+    .bolck_icon img{
+        width: 48px;
+        margin-bottom: 0.9rem;
+    }
+</style>
+<apex:outputPanel rendered="{!$CurrentPage.parameters.header}">
+    <style>
+        .errMessage {
+            position: relative;
+        }
+    </style>
+</apex:outputPanel>
+<!-- Begin Default Content REMOVE THIS -->
+
+ <div class="errMessage">
+     <div class="bolck_icon">
+        <apex:image url="{!URLFOR($Resource.tdc_tsw__resource_sms_file, '/img/warning-icon.png')}"/>
+     </div>
+    
+    <I>{!$CurrentPage.parameters.status}</I>
+ </div>
+<!-- End Default Content REMOVE THIS -->
+</apex:page>

@@ -1,0 +1,12 @@
+.THIS {
+  padding: 50px;
+  text-align: center;
+}
+
+.THIS .slds-page-header__title {
+  margin-bottom: 15px;
+}
+
+.THIS .slds-form-element {
+  vertical-align: top !important;
+}

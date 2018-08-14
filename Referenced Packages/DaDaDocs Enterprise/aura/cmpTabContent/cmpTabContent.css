@@ -1,0 +1,12 @@
+.THIS.tab-content {
+    display: none;
+}
+
+.THIS .tab-content-wrap {
+    position: relative;
+    min-height: 100px;
+}
+
+.THIS.tab-content.tab-content--active {
+    display: block;
+}

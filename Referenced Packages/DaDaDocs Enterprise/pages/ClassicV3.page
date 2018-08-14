@@ -1,0 +1,33 @@
+<apex:page id="ClassicV3" controller="pdffiller_sf.LightningSelectAttachmentController" cache="true">
+    <div
+        id="root"
+        data-pm-org-url="{!orgUrl}"
+        data-org-url="{!URLFOR('/services/apexrest')}"
+        data-sessionId="{!$Api.Session_ID}"
+        data-namespace="{!orgNamespace}"
+        data-fullVersionUrl="{!URLFOR($Page.ClassicSelectAttachment)}"
+    ></div>
+    <script>
+        localStorage.sessionId = '{!$Api.Session_ID}';
+    </script>
+    <apex:outputPanel rendered="{!!isLocalFrontEnv}">
+        <apex:includeScript loadOnReady="false" value="{!URLFOR($Resource.pdffiller_sf__v3) + '/classic/vendor.js'}"/>
+        <apex:includeScript loadOnReady="false" value="{!URLFOR($Resource.pdffiller_sf__v3) + '/classic/runtime.js'}"/>
+        <apex:includeScript loadOnReady="false" value="{!URLFOR($Resource.pdffiller_sf__v3) + '/classic/app.js'}"/>
+        <script>
+            function getChunkUrl() { return '{!URLFOR($Resource.pdffiller_sf__v3) + '/classic/'}' }
+        </script>
+    </apex:outputPanel>
+    <apex:outputPanel rendered="{!isLocalFrontEnv}">
+        <!-- sf internal scripts needed for upload documents and other stuff -->
+        <apex:includeScript loadOnReady="false" value="/soap/ajax/41.0/connection.js"/>
+        <apex:includeScript loadOnReady="false" value="/soap/ajax/41.0/apex.js"/>
+
+        <apex:includeScript loadOnReady="false" value="https://localhost:8080/vendor.js"/>
+        <apex:includeScript loadOnReady="false" value="https://localhost:8080/runtime.js"/>
+        <apex:includeScript loadOnReady="false" value="https://localhost:8080/app.js"/>
+        <script>
+            function getChunkUrl() { return 'https://localhost:8080/' }
+        </script>
+    </apex:outputPanel>
+</apex:page>

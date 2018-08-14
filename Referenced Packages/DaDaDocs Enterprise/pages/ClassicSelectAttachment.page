@@ -1,0 +1,1458 @@
+<apex:page controller="pdffiller_sf.ClassicSelectAttachmentController"
+           tabStyle="{!IF(parentObjectName <> null, parentObjectName, "Account")}"
+           extensions="PageParameters">
+    <apex:outputPanel rendered="{!!isLocalFrontEnv}">
+        <apex:stylesheet value="{!URLFOR($Resource.pdffiller_sf__v2) + '/salesforce.css'}"/>
+    </apex:outputPanel>
+    <apex:outputPanel rendered="{!isLocalFrontEnv}">
+        <apex:stylesheet value="https://localhost:8080/salesforce.css"/>
+    </apex:outputPanel>
+
+    <apex:form >
+        <c:ApplicationUtils tokenRequiredOnload="true"/>
+        <apex:actionFunction name="setAuthorizedFunction" action="{!resetAuthorization}"
+                             reRender="no">
+            <apex:param name="authorizedField" value=""/>
+        </apex:actionFunction>
+        <apex:actionFunction name="callProcessAction" action="{!processAction}" rerender="no">
+            <apex:param name="itemId" value=""/>
+            <apex:param name="itemType" value=""/>
+            <apex:param name="itemName" value=""/>
+            <apex:param name="actionName" value=""/>
+            <apex:param name="option" value=""/>
+            <apex:param name="afterAction" value=""/>
+            <apex:param name="newName" value=""/>
+            <apex:param name="dataCollectionType" value=""/>
+            <apex:param name="dataCollectionDeliveryType" value=""/>
+            <apex:param name="dataCollectionRecipients" value=""/>
+            <apex:param name="{!PROJECT_ID_UNDERSCORE}" value=""/>
+            <apex:param name="currentTab" value=""/>
+        </apex:actionFunction>
+        <apex:actionFunction name="useFileTemplate"  action="{!useFileTemplate}" onComplete="afterRenderTemplate();" reRender="">
+            <apex:param name="{!FILE_TEMPLATE_ID}" value="" />
+            <apex:param name="option" value="" />
+            <apex:param name="afterAction" value="" />
+            <apex:param name="storageType" value=""/>
+            <apex:param name="storageId" value=""/>
+        </apex:actionFunction>
+        <!--onComplete="addAlert('success', 'Success', 'Sent');"-->
+        <apex:actionFunction name="sendL2FEmail"  action="{!sendL2FEmail}" reRender="" >
+            <apex:param name="{!JSON_SENDEMAIL}" value="" />
+            <apex:param name="option" value="" />
+            <apex:param name="afterAction" value="" />
+        </apex:actionFunction>
+        <apex:actionFunction name="afterRenderTemplate"  action="{!afterRenderTemplate}" onComplete="toggleLoader();" reRender="" />
+        <apex:actionFunction name="openAuditTrail"  action="{!openAuditTrailAction}" reRender="" />
+    </apex:form>
+
+
+    <script type="text/html" data-template="document">
+        <div class="dadadocs_document__row dadadocs_document__row_{doc-icon}" data-id="{doc-id}" data-name="{doc-name}"
+             data-type="{doc-type}" data-timestamp="{doc-lastModifiedTimestamp}">
+            <div class="dadadocs_document__selected-counter"></div>
+            <input class="dadadocs_document__checkbox" type="checkbox" />
+            <p class="dadadocs_document__name cut-text">{doc-name}</p>
+            <p class="dadadocs_document__subject cut-text">{doc-subject}</p>
+            <time class="dadadocs_document__date">{doc-lastModifiedDate}</time>
+        </div>
+    </script>
+    <script type="text/html" data-template="template">
+        <div class="dadadocs_document__row dadadocs_document__row_default" data-objectType="{doc-objectType}" data-id="{doc-id}" data-name="{doc-name}" data-orgwide="{doc-orgWide}" data-owner="{doc-owner}" data-projectId="{doc-project_id}" data-timestamp="{doc-updated}">
+            <p class="dadadocs_document__name cut-text dadadocs_document__name_template">{doc-name}</p>
+            <time class="dadadocs_document__date">{doc-updatedDate}</time>
+        </div>
+    </script>
+
+    <script type="text/html" data-template="universalTemplates">
+        <div class="dadadocs_document__row dadadocs_document__row--{doc-templateType} dadadocs_document__row--{doc-actionType}" data-templateType="{doc-templateType}" data-id="{doc-id}" data-name="{doc-name}" data-orgwide="{doc-orgWide}" data-owner="{doc-owner}" data-actiontype="{doc-actionType}" data-projectId="{doc-project_id}" title="{doc-description}" data-templateId="{doc-templateId}" data-timestamp="{doc-updated}">
+            <div class="dadadocs_document__selected-counter"></div>
+            <input class="dadadocs_document__checkbox" type="checkbox" />
+            <p class="dadadocs_document__name cut-text dadadocs_document__name_template w-80">{doc-name}</p>
+            <time class="dadadocs_document__date w-20">{doc-updatedDate}</time>
+        </div>
+    </script>
+
+    <script type="text/html" data-template="PDFfillerFile">
+        <div class="dadadocs_document__row dadadocs_document__row_{doc-icon}" data-id="{doc-id}" data-name="{doc-name}" data-type="{doc-type}" data-timestamp="{doc-lastModifiedTimestamp}">
+            <p class="dadadocs_document__name cut-text">{doc-name}</p>
+            <p class="dadadocs_document__subject cut-text">{doc-subject}</p>
+            <time class="dadadocs_document__date">{doc-lastModifiedDate}</time>
+        </div>
+    </script>
+    <script type="text/html" data-template="dcform">
+        <div class="dadadocs_document__row dadadocs_document__row_default" data-id="{doc-id}" data-name="{doc-name}" data-link="{doc-shortUrl}" data-orgwide="{doc-orgWide}" data-owner="{doc-owner}" data-active="{doc-active}" data-actionType="{doc-actionType}" data-projectId="{doc-project_id}">
+            <p class="dadadocs_document__name cut-text dadadocs_document__name_template">{doc-name}</p>
+            <p class="dadadocs_document__subject cut-text">{doc-actionName}<!-- {doc-deliveryType}@TODO: DCS2S--></p>
+            <time class="dadadocs_document__date">{doc-updatedDate}</time>
+        </div>
+    </script>
+    <!--file statuses: SendToSign-->
+    <script type="text/html" data-template="sendToSignFiles">
+        <div class="dadadocs_document__row dadadocs_document__status--{doc-subject}" data-id="{doc-id}" data-name="{doc-name}" data-type="{doc-type}" data-timestamp="{doc-lastModifiedTimestamp}">
+            <div class="hint-wrapper hint-wrapper--status"></div>
+            <span aria-label="{doc-status}" class="hint hint--bottom-left"></span>
+            <p class="dadadocs_document__name cut-text w-50" title="{doc-name}">{doc-name}</p>
+            <p class="dadadocs_document__email cut-text w-30" title="{doc-type}">{doc-type}</p>
+            <time class="dadadocs_document__date cut-text w-20">{doc-lastModifiedDate}</time>
+        </div>
+    </script>
+    <script type="text/html" data-template="sendToSignStatusRecipients">
+        <div class="dadadocs_document__row-status dadadocs_document__status--{doc-type}" data-id="{doc-id}" data-name="{doc-name}" data-timestamp="{doc-lastModifiedTimestamp}">
+            <div class="hint-wrapper hint-wrapper--status"></div>
+            <span aria-label="{doc-status}" class="hint hint--bottom-left"></span>
+            <p class="dadadocs_document__name cut-text w-50" title="{doc-name}">{doc-name}</p>
+            <p class="dadadocs_document__email cut-text w-30" title="{doc-email}">{doc-email}</p>
+            <time class="dadadocs_document__date cut-text w-20">{doc-lastModifiedDate}</time>
+        </div>
+    </script>
+    <!--file statuses: LinkToFill-->
+    <script type="text/html" data-template="linkToFillFiles">
+        <div class="dadadocs_document__row dadadocs_document__status--{doc-type}" data-id="{doc-id}" data-name="{doc-name}" data-type="{doc-type}" data-timestamp="{doc-lastModifiedTimestamp}">
+            <div class="hint-wrapper hint-wrapper--status"></div>
+            <span aria-label="{doc-type}" class="hint hint--bottom-left"></span>
+            <p class="dadadocs_document__name cut-text">{doc-name}</p>
+            <div class="dadadocs_document__subject">
+                <div class="dadadocs_document__url">
+                    <button class="dadadocs_button dadadocs_button--clear dadadocs_button--clear-sm  dadadocs_button--l2f-copy-link cut-text" data-link="{doc-subject}" type="button">
+                        Copy Link
+                    </button>
+                    <span aria-label="{!$Label.ui_copied_to_clipboard}" class="hint hint--bottom"></span>
+                </div>
+            </div>
+            <time class="dadadocs_document__date">{doc-lastModifiedDate}</time>
+        </div>
+    </script>
+    <script type="text/html" data-template="LinkToFillForms">
+        <div class="dadadocs_document__row-status" data-id="{doc-id}" data-name="{doc-name}" data-timestamp="{doc-lastModifiedTimestamp}">
+            <p class="dadadocs_document__name cut-text" title="{doc-subject}">{doc-subject}</p>
+            <div class="dadadocs_document__email">
+                <p class="dadadocs_document__url">
+                    <a href="#" class="dadadocs_button dadadocs_button--clear dadadocs_button--clear-sm dadadocs_button--download-l2f">
+                        Download
+                    </a>
+                </p>
+            </div>
+            <time class="dadadocs_document__date cut-text">{doc-lastModifiedDate}</time>
+        </div>
+    </script>
+
+    <main class="dadadocs_template" id="content">
+        <div class="dadadocs_template-header">
+            <ul class="dadadocs_header-tabs">
+                <li class="dadadocs_header-tabs__item dadadocs_header-tabs__item--documents" data-tab-type="edit">
+                    <a href="#tab=edit" class="dadadocs_header-tabs__link dadadocs_header-tabs__link_edit" id="documents">documents</a>
+                </li>
+                <li class="dadadocs_header-tabs__item dadadocs_header-tabs__item--templates" data-tab-type="use" style="display:{!templatesFeature};">
+                    <a href="#tab=use" class="dadadocs_header-tabs__link dadadocs_header-tabs__link_use c-tab-nav--templates" id="templates">templates</a>
+                </li>
+                <li class="dadadocs_header-tabs__item dadadocs_header-tabs__item--pdf-files" data-tab-type="pdffiller" style="display:{!pdffillerFilesFeature};">
+                    <a href="#tab=pdffiller" class="dadadocs_header-tabs__link dadadocs_header-tabs__link_edit">PDFfiller</a>
+                </li>
+                <li class="dadadocs_header-tabs__item dadadocs_header-tabs__item--docx-templates" data-tab-type="fileTemplates" style="display:{!docxTemplatesFeatureDisplay};">
+                    <a href="#tab=fileTemplates" class="dadadocs_header-tabs__link dadadocs_header-tabs__link_use"  id="docx-template">DOCX templates</a>
+                </li>
+                <li class="dadadocs_header-tabs__item dadadocs_header-tabs__item--file-status" data-tab-type="fileStatus" style="display: {!IF(send2signFeature = "none" && link2fillFeature = "none","none", "inline-block")}">
+                    <a href="#tab=fileStatus" class="dadadocs_header-tabs__link">File Status</a>
+                </li>
+            </ul>
+            <div class="dadadocs_header-actions-wrapper">
+                <button class="dadadocs_button dadadocs_header__button dadadocs_header__button_create create-template">
+                        {!$Label.create_template}
+                </button>
+
+                <!--TODO: figure out what is multiple documents-->
+                <button class="dadadocs_button dadadocs_header__button dadadocs_header__button_create-multiple-documents">
+                        {!$Label.create_template}
+                </button>
+                <div class="dadadocs__upload-button-wrapper">
+                    <div id="upload_button">
+                        <input class="uploadChatterFile" id="chatterFile" type="file" data-storage-id="{!defaultStorageId}" />
+                        <div class="uploadChatterFileComponentForIE" style="display:none;"> <!-- Only for IE -->
+                            <chatter:feed entityId="{!parentId}"/>
+                        </div>
+                        <button class="dadadocs_button dadadocs_header__button dadadocs_header__button_upload">
+                                {!$Label.upload_button}
+                        </button>
+                        <button class="dadadocs_button dadadocs_header__button storages-dropdown-trigger"></button>
+                    </div>
+                    <ul class="storages-dropdown" data-upload-place="{!defaultUploadPlace}">
+                        <apex:outputPanel rendered="{!defaultStorageId != null}">
+                            <li>
+                                <a
+                                        href="#"
+                                        class="upload-trigger upload-trigger-external"
+                                        data-storage-name="external"
+                                        data-storage-id="{!defaultStorageId}" >
+                                    To S3 {!IF(defaultUploadPlace == 'external', ' (Default)', null)}
+                                </a>
+                            </li>
+                        </apex:outputPanel>
+                        <li>
+                            <a class="upload-trigger" data-storage-name="attachment" href="#">
+                                To Attachments{!IF(defaultUploadPlace == 'attachment', ' (Default)', null)}
+                            </a>
+                        </li>
+                        <li>
+                            <a class="upload-trigger upload-trigger-file" data-storage-name="file" href="#">
+                                To Files{!IF(defaultUploadPlace == 'file', ' (Default)', null)}
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+        <div class="dadadocs_template-content">
+            <!--Documents Tab-->
+            <div class="dadadocs_tab dadadocs_tab--documents">
+                <div class="dadadocs_tab__documents_wrapper">
+                    <div class="dadadocs_documents-header">
+                        <h3 class="dadadocs_documents-header__title">Choose document</h3>
+                        <div>
+                            <span>File format:</span>
+                            <select name="filterDocuments" id="filterDocuments" class="dadadocs__filter_field">
+                                <option value="all">All</option>
+                            </select>
+                            <input type="text" class="dadadocs__search_field" placeholder="Search by name"/>
+                        </div>
+                    </div>
+                    <div class="dadadocs_tab__documents">
+                        <div class="dadadocs_documents__header">
+                            <button class="dadadocs_documents__reset-merge-button"></button>
+                            <div class="dadadocs_documents__header-name">document name</div>
+                            <div class="dadadocs_documents__header-subject">type</div>
+                            <div class="dadadocs_documents__header-date">Last Modified Date</div>
+                        </div>
+                        <div class="dadadocs_documents__content">
+                            <div class="dadadocs_documents-items"></div>
+                            <div class="dadadocs_documents__no-templates">{!$Label.no_documents}</div>
+                        </div>
+                    </div>
+                </div>
+                <aside class="dadadocs_tab__aside">
+                    <div class="main-buttons">
+                        <button class="dadadocs_button dadadocs_aside__button dadadocs_aside__button_edit">
+                                {!$Label.ui_edit_document}
+                        </button>
+                        <div class="dadadocs_aside__use-options-container">
+                            <button class="dadadocs_button dadadocs_aside__use-option dadadocs_aside__use-option_sign"
+                               style="display:{!send2signFeature};" id="send2signButton">
+                                    {!$Label.send2sign}
+                            </button>
+                            <button class="dadadocs_button dadadocs_aside__use-option dadadocs_button--sign-with-signnow" style="display:{!JSINHTMLENCODE(signNowFeature)};" onclick="useSignNow();">
+                                    {!$Label.signWithSignNow}
+                            </button>
+                            <button class="dadadocs_button dadadocs_aside__use-option dadadocs_aside__use-option_to-fill"
+                               style="display:{!JSINHTMLENCODE(link2fillFeature)};" id="link2fillButton">
+                                    {!$Label.link2fill}
+                            </button>
+                            <button class="dadadocs_button dadadocs_aside__use-option dadadocs_aside__use-option--collection-template" id="createDataCollectionTemplate" style="display: none">
+                                {!$Label.ui_data_collection_form}
+                            </button>
+                        </div>
+                        <button class="dadadocs_button dadadocs_aside__use-option dadadocs_aside__use-option_edit"
+                           id="renameDocumentButton">
+                                {!$Label.ui_rename_action}
+                        </button>
+                        <button class="dadadocs_button dadadocs_aside__use-option dadadocs_button--send-document" id="sendDocumentButton">
+                            {!$Label.send_by_email}
+                        </button>
+                        <button class="dadadocs_button dadadocs_aside__use-option c-btn-print">
+                                {!$Label.print_document}
+                        </button>
+                        <button class="dadadocs_button dadadocs_aside__use-option dadadocs_aside__share-via-link">
+                            {!$Label.share}
+                        </button>
+                        <button class="dadadocs_button dadadocs_aside__use-option dadadocs_aside__use-option_delete"
+                           id="deleteDocumentButton">
+                                {!$Label.ui_delete_action}
+                        </button>
+                        <button class="dadadocs_button dadadocs_aside__use-option dadadocs_button--multiple-documents">{!$label.multiple_documents}</button>
+                    </div>
+
+                    <!--multiple documents-->
+                    <div class="dadadocs-multiple-documents-buttons">
+                        <button class="dadadocs_button dadadocs_button-multiple dadadocs_aside__button dadadocs_button--back-to-documents">
+                            {!$Label.back_to_documents_list}
+                        </button>
+                        <button class="dadadocs_button dadadocs_button-multiple dadadocs_aside__use-option dadadocs_aside__use-option_send2Sign">
+                            {!$Label.send2sign}
+                        </button>
+                        <button class="dadadocs_button dadadocs_button-multiple dadadocs_aside__use-option dadadocs_aside__use-option_link2Fill">
+                            {!$Label.link2fill}
+                        </button>
+                        <button style="display: none;" class="dadadocs_button dadadocs_button-multiple dadadocs_aside__use-option dadadocs_aside__use-option_send-by-email">
+                            {!$Label.send_by_email}
+                        </button>
+                        <button class="dadadocs_button dadadocs_button-multiple dadadocs_aside__use-option dadadocs_button--submit-merge">
+                            {!$label.merge_pdfs}
+                        </button>
+                    </div>
+
+                    <div class="bottom-buttons">
+                        <div class="float-wrap">
+                            <button class="dadadocs_button dadadocs_button--audit-trail" id="auditTrailButton" title="{!$label.audit_trail_tooltip}"></button>
+                            <a href="http://integration.pdffiller.com/salesforce/" target="_blank" class="dadadocs_button dadadocs_button--doc-link" id="documentationLink">&nbsp;</a>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+            <!--Templates Tab-->
+            <div class="dadadocs_tab dadadocs_tab--templates">
+                <div class="dadadocs_tab__documents_wrapper">
+                    <div class="dadadocs_documents-header">
+                        <h3 class="dadadocs_documents-header__title">
+                            choose template
+                        </h3>
+                        <input type="text" class="dadadocs__search_field" placeholder="Search by name"/>
+                    </div>
+                    <div class="dadadocs_tab__documents">
+                        <div class="dadadocs_documents__header">
+                            <button class="dadadocs_documents__reset-merge-button"></button>
+                            <div class="dadadocs_documents__header-name dadadocs_documents__header-name_template w-80">Template name</div>
+                            <div class="dadadocs_documents__header-date w-20">Last Modified Date</div>
+                        </div>
+                        <div class="dadadocs_documents__content">
+                            <div class="dadadocs_documents-items"></div>
+                            <div class="dadadocs_documents__no-templates">{!$Label.no_templates}</div>
+                        </div>
+                    </div>
+                </div>
+                <aside class="dadadocs_tab__aside">
+                    <div class="main-templates-buttons">
+                        <button class="c-btn c-btn--accent c-btn--with-icon c-btn-preview dadadocs_button--preview">
+                                {!$Label.preview_template_button}</button>
+                        <button class="c-btn c-btn--clear c-btn--with-icon c-btn-fill-template"
+                                id="useTemplateFill">{!$Label.fill_template_button}</button>
+                        <button class="c-btn c-btn--clear c-btn--with-icon c-btn-send-to-sign"
+                                id="useTemplateSend2sign">{!$Label.send2sign}</button>
+                        <button class="c-btn c-btn--clear c-btn--with-icon c-btn-send-to-sign-data-collection isHidden">
+                                {!$Label.send2sign}</button>
+                        <button class="c-btn c-btn--clear c-btn--with-icon c-btn-link-to-fill"
+                                id="useTemplateLink2fill">{!$Label.link2fill}</button>
+                        <button class="c-btn c-btn--clear c-btn--with-icon c-btn-link-to-fill-data-collection isHidden">
+                                {!$Label.link2fill}</button>
+                        <button class="c-btn c-btn--clear c-btn--with-icon c-btn-send-by-email">
+                                {!$Label.sendByEmail}</button>
+                        <button class="c-btn c-btn--clear c-btn--with-icon c-btn-print">
+                                {!$Label.print_template_button}</button>
+                        <div class="hr"></div>
+                        <button class="c-btn c-btn--clear c-btn--with-icon c-btn-edit-template" id="editTemplate">
+                                {!$Label.edit_template}</button>
+                        <button class="c-btn c-btn--clear c-btn--with-icon c-btn-edit-no-map-template isHidden" onclick="DaDaDocsAction('editNoMapTemplate')">
+                                {!$Label.edit_template}</button>
+                        <button class="c-btn c-btn--clear c-btn--with-icon c-btn-edit-data-collection-template isHidden" disabled="disabled" onclick="DaDaDocsAction('editReverseTemplate')">
+                                {!$Label.edit_template}</button>
+                        <button class="c-btn c-btn--clear c-btn--with-icon c-btn-delete-template dadadocs_aside__use-option_delete"
+                                id="deletePdfTemplateBtn">{!$Label.delete_template}</button>
+                        <button class="c-btn c-btn--clear c-btn--with-icon c-btn-delete-data-collection isHidden" id="deleteDcFormButton">
+                                {!$Label.delete_template}</button>
+                        <button class="dadadocs_button dadadocs_aside__use-option c-btn-multiple-templates">
+                                {!$label.multiple_templates}</button>
+                    </div>
+
+                    <!--multiple templates-->
+                    <div class="dadadocs-multiple-templates-buttons">
+                        <button class="dadadocs_button dadadocs_button-multiple dadadocs_aside__button dadadocs_button--back-to-templates">
+                                {!$Label.back_to_templates_list}
+                        </button>
+                        <button class="dadadocs_button dadadocs_button-multiple dadadocs_aside__use-option c-btn-send-to-sign">
+                                {!$Label.send2sign}
+                        </button>
+                        <button class="dadadocs_button dadadocs_button-multiple dadadocs_aside__use-option c-btn-link-to-fill">
+                                {!$Label.link2fill}
+                        </button>
+                        <button class="dadadocs_button dadadocs_button-multiple dadadocs_aside__use-option dadadocs_button--submit-merge">
+                                {!$label.merge}
+                        </button>
+                    </div>
+
+
+                    <!--TODO: remove legacy if buttons no needed-->
+                    <div class="dadadocs_tab__aside-template" style="display: none">
+                        <div class="dadadocs_aside__use-options-container">
+                            <button class="dadadocs_button dadadocs_aside__use-option dadadocs_aside__use-option_edit"
+                               onclick="DaDaDocsAction('editTemplate');">
+                                    {!$Label.edit_template}
+                            </button>
+                            <button id="templatesOrgWideBtn" class="dadadocs_button dadadocs_aside__use-option dadadocs_aside__use-option_orgWide" style="display:none;">
+                                    {!$Label.button_share_org_wide}
+                            </button>
+                        </div>
+                    </div>
+                    <div class="bottom-buttons">
+                        <div class="float-wrap">
+                            <button class="dadadocs_button dadadocs_button--audit-trail" id="auditTrailButton" title="{!$label.audit_trail_tooltip}"></button>
+                            <a href="http://integration.pdffiller.com/salesforce/" target="_blank" class="dadadocs_button dadadocs_button--doc-link" id="documentationLink">&nbsp;</a>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+            <!--PDFfillerFiles Tab-->
+            <div class="dadadocs_tab dadadocs_tab--pdf-filler-files">
+                <div class="dadadocs_tab__documents_wrapper">
+                    <div class="dadadocs_documents-header">
+                        <h3 class="dadadocs_documents-header__title">
+                            choose template
+                        </h3>
+                        <input type="text" class="dadadocs__search_field" placeholder="Search by name"/>
+                    </div>
+                    <div class="dadadocs_tab__documents">
+                        <div class="dadadocs_documents__header">
+                            <div class="dadadocs_documents__header-name">document name</div>
+                            <div class="dadadocs_documents__header-subject">type</div>
+                            <div class="dadadocs_documents__header-date">Last Modified Date</div>
+                        </div>
+                        <div class="dadadocs_documents__content">
+                            <div class="dadadocs_documents-items"></div>
+                            <div class="dadadocs_documents__no-templates">{!$Label.no_documents}</div>
+                        </div>
+                    </div>
+                </div>
+                <aside class="dadadocs_tab__aside">
+                    <button class="dadadocs_button dadadocs_aside__button dadadocs_aside__button_edit">
+                            {!$Label.ui_edit_document}
+                    </button>
+                    <button class="dadadocs_button dadadocs_aside__use-option dadadocs_aside__button_clone">
+                            {!$Label.ui_clone_document}
+                    </button>
+                    <div class="dadadocs_aside__use-options-container">
+                        <a href="" class="dadadocs_button dadadocs_aside__use-option dadadocs_aside__use-option_sign" style="display:{!send2signFeature};" id="send2signPDFFiller">
+                                {!$Label.send2sign}
+                        </a>
+                        <a href="" class="dadadocs_button dadadocs_aside__use-option dadadocs_aside__use-option_to-fill" style="display:{!JSINHTMLENCODE(link2fillFeature)};" id="link2fillPDFFiller">
+                                {!$Label.link2fill}
+                        </a>
+                    </div>
+                    <br/>
+                    <button class="dadadocs_button dadadocs_aside__use-option dadadocs_button--preview">Preview</button>
+                    <a href="" class="dadadocs_button dadadocs_aside__use-option dadadocs_aside__use-option_edit" id="renamePDFfillerFileButton">
+                            {!$Label.ui_rename_action}
+                    </a>
+                    <a href="" class="dadadocs_button dadadocs_aside__use-option dadadocs_aside__use-option_delete" id="deletePDFfillerFileButton">
+                            {!$Label.ui_delete_action}
+                    </a>
+                    <div class="bottom-buttons">
+                        <div class="float-wrap">
+                            <button class="dadadocs_button dadadocs_button--audit-trail" id="auditTrailButton" title="{!$label.audit_trail_tooltip}"></button>
+                            <a href="http://integration.pdffiller.com/salesforce/" target="_blank" class="dadadocs_button dadadocs_button--doc-link" id="documentationLink">&nbsp;</a>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+            <!--DOCX Templates Tab-->
+            <div class="dadadocs_tab dadadocs_tab--docx-templates">
+                <div class="dadadocs_tab__documents_wrapper">
+                    <div class="dadadocs_documents-header">
+                        <h3 class="dadadocs_documents-header__title">
+                            Choose template
+                        </h3>
+                        <input type="text" class="dadadocs__search_field" placeholder="Search by name"/>
+                    </div>
+                    <div class="dadadocs_tab__documents">
+                        <div class="dadadocs_documents__header">
+                            <div class="dadadocs_documents__header-name">{!$Label.template_name}</div>
+                            <div class="dadadocs_documents__header-date">File name</div>
+                        </div>
+                        <div class="dadadocs_documents__content">
+                            <apex:outputPanel id="fileTemplateItems"
+                                              rendered="{!hasFileTemplates}"
+                                              styleClass="dadadocs_documents-items">
+                                <apex:repeat value="{!availiableFileTemplates}" var="fileTemplate">
+                                    <div class="dadadocs_document__row dadadocs_document__row_default dadadocs_document__row--docx"
+                                         data-id="{!fileTemplate.id}">
+                                        <p class="dadadocs_document__name cut-text">{!fileTemplate.name}</p>
+                                        <time class="dadadocs_document__filename cut-text">{!fileTemplate.filename}</time>
+                                    </div>
+                                </apex:repeat>
+                            </apex:outputPanel>
+                            <div class="dadadocs_documents__no-templates">{!$Label.no_templates}</div>
+                        </div>
+                    </div>
+                </div>
+                <aside class="dadadocs_tab__aside">
+                    <div class="dadadocs_aside__use-options-container dadadocs_aside__use-options-container--docx">
+                        <button class="dadadocs_button dadadocs_aside__button dadadocs_aside__button_edit" id="editDocTempl">{!$Label.fill}</button>
+                        <button class="dadadocs_button dadadocs_aside__use-option dadadocs_aside__use-option_sign" id="sendToSignDocTempl">{!$Label.send2sign}</button>
+                        <button class="dadadocs_button dadadocs_aside__use-option dadadocs_aside__use-option_to-fill" id="linkToFillDocTempl">{!$Label.link2fill}</button>
+                        <button class="dadadocs_button dadadocs_aside__use-option dadadocs_button--preview">{!$Label.preview_template_button}</button>
+                        <button class="dadadocs_button dadadocs_aside__use-option c-btn-print">{!$Label.print_template_button}</button>
+                    </div>
+                    <div class="dadadocs_aside__delivery">
+                        <h4 class="dadadocs_delivery__header">delivery option</h4>
+                        <div class="dadadocs_delivery-radio_docx">
+                        <label class="dadadocs_delivery-radio__item">
+                                <input type="radio" name="dadadocs_delivery-option_docx" checked="checked"  data-radio-type="to-attachments" class="dadadocs_delivery-radio__item-input"/>
+                                Save to Attachments
+                            </label>
+                            <label class="dadadocs_delivery-radio__item" style="display:{!isChatterEnabled}">
+                                <input type="radio" name="dadadocs_delivery-option_docx"  data-radio-type="to-files" class="dadadocs_delivery-radio__item-input"/>
+                                Save to Files
+                            </label>
+                            <label class="dadadocs_delivery-radio__item"
+                                   style="display: {!If(isDefaultExternalStorageExists ,'','none') }">
+                                <input type="radio" name="dadadocs_delivery-option_docx" data-radio-type="to-external-storage" class="dadadocs_delivery-radio__item-input"/>
+                                Save to External Storage
+                            </label>
+                        </div>
+                    </div>
+                    <div class="bottom-buttons">
+                        <div class="float-wrap">
+                            <button class="dadadocs_button dadadocs_button--audit-trail" id="auditTrailButton" title="{!$label.audit_trail_tooltip}"></button>
+                            <a href="http://integration.pdffiller.com/salesforce/" target="_blank" class="dadadocs_button dadadocs_button--doc-link" id="documentationLink">&nbsp;</a>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+            <!--File Status Tab-->
+            <div class="dadadocs_tab dadadocs_tab--file-status">
+                <div class="dadadocs_tab__documents_wrapper">
+                    <div>
+                        <div class="tabs">
+                            <nav class="tabs__nav dadadocs_documents-header">
+                                <ul class="tabs__nav-list">
+                                    <li class="tabs__nav-list-item" style="display:{!IF(send2signFeature = "block","inline-block", "none")}">
+                                        <a href="#sans-to-sign-files" class="tabs__nav-item tabs__nav-item--s2s-files tabs__nav-item--active">SendToSign</a>
+                                    </li>
+                                    <li class="tabs__nav-list-item" style="display: {!IF(link2fillFeature = "block","inline-block", "none")}">
+                                        <a href="#link-to-fill-files" class="tabs__nav-item tabs__nav-item--l2f-files">LinkToFill</a>
+                                    </li>
+                                </ul>
+                                <input type="text" class="dadadocs__search_field" placeholder="Search by name"/>
+                            </nav>
+
+                            <div class="tabs__content">
+                                <!--send to sign tab-->
+                                <div id="sans-to-sign-files" class="tabs__content-item tabs__content-item--s2s-files tabs__content-item--active">
+                                    <div class="dadadocs_tab__documents">
+                                        <div class="dadadocs_documents__header">
+                                            <div class="dadadocs_documents__header-name w-50">Document name</div>
+                                            <div class="dadadocs_documents__header-email w-30">Email / Envelope name</div>
+                                            <div class="dadadocs_documents__header-date w-20">Date</div>
+                                        </div>
+                                        <div class="dadadocs_documents__content">
+                                            <div class="dadadocs_documents-items"></div>
+                                            <div class="dadadocs_documents-items dadadocs_documents__status-recipients" style="display: none;"></div>
+                                            <div class="dadadocs_documents__no-templates">{!$label.no_documents}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--link to fill tab-->
+                                <div id="link-to-fill-files" class="tabs__content-item tabs__content-item--l2f-files">
+                                    <div class="dadadocs_tab__documents">
+                                        <div class="dadadocs_documents__header">
+                                            <div class="dadadocs_documents__header-name">Document name</div>
+                                            <div class="dadadocs_documents__header-subject">URL</div>
+                                            <div class="dadadocs_documents__header-date">Date</div>
+                                        </div>
+                                        <div class="dadadocs_documents__content">
+                                            <div class="dadadocs_documents-items"></div>
+                                            <div class="dadadocs_documents-items dadadocs_documents__status-recipients" style="display: none;"></div>
+                                            <div class="dadadocs_documents__no-templates">{!$label.no_documents}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <aside class="dadadocs_tab__aside">
+                    <button class="dadadocs_button dadadocs_aside__button dadadocs_button--file-status">Status</button>
+                    <button class="dadadocs_button dadadocs_aside__button dadadocs_button--file-status-back" style="display: none">Back</button>
+                    <button class="dadadocs_button dadadocs_aside__use-option dadadocs_button--download-s2s-doc" data-dowload-id="">Download</button>
+                    <button class="dadadocs_button dadadocs_aside__use-option dadadocs_button--send-by-email" style="display: none">Send by Email</button>
+                    <button class="dadadocs_button dadadocs_aside__use-option dadadocs_button--download-certificate">Download Certificate</button>
+                    <div class="bottom-buttons">
+                        <div class="float-wrap">
+                            <button class="dadadocs_button dadadocs_button--audit-trail" id="auditTrailButton" title="{!$label.audit_trail_tooltip}"></button>
+                            <a href="http://integration.pdffiller.com/salesforce/" target="_blank" class="dadadocs_button dadadocs_button--doc-link" id="documentationLink">&nbsp;</a>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+
+            <!--Loader-->
+            <div class="g-wrap-loading g-wrap-loading_tab">
+                <div class="g-loader">
+                    <div class="g-loader__wrapper">
+                        <div class="g-loader__layer">
+                            <div class="g-loader__circle-clipper g-loader__circle-clipper--left">
+                                <div class="g-loader__circle"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="g-loader__label">Loading...</div>
+                </div>
+            </div>
+        </div>
+        <div class="g-wrap-loading g-wrap-loading_global">
+            <div class="g-loader">
+                <div class="g-loader__wrapper">
+                    <div class="g-loader__layer">
+                        <div class="g-loader__circle-clipper g-loader__circle-clipper--left">
+                            <div class="g-loader__circle"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="g-loader__label">Loading...</div>
+            </div>
+        </div>
+        <div class="dadadocs-modal-wrapper">
+            <div class="dadadocs-modal dadadocs-modal--action">
+                <header class="dadadocs-modal-header">
+                    <h3 class="dadadocs-modal-header__title dadadocs-modal-labels dadadocs-modal-labels-documents">
+                        Edit Document
+                    </h3>
+                    <h3 class="dadadocs-modal-header__title dadadocs-modal-labels dadadocs-modal-labels-clone-pdffiller-file">
+                        Clone Document
+                    </h3>
+                    <h3 class="dadadocs-modal-header__title dadadocs-modal-labels dadadocs-modal-labels-templates">
+                        Create Template
+                    </h3>
+                    <h3 class="dadadocs-modal-header__title dadadocs-modal-labels dadadocs-modal-labels-rename">
+                        Rename Document
+                    </h3>
+                    <h3 class="dadadocs-modal-header__title dadadocs-modal-labels dadadocs-modal-labels-dcforms">
+                        Data Collection Form
+                    </h3>
+                    <!--<h3 class="dadadocs-modal-header__title dadadocs-modal-labels dadadocs-modal-labels-dcforms-s2s">
+                        Create Form
+                    </h3>@TODO: DCS2S-->
+                    <h3 class="dadadocs-modal-header__title dadadocs-modal-labels dadadocs-modal-labels-merge-templates">
+                        Merge Documents
+                    </h3>
+                    <button class="dadadocs-modal-header__close-button"></button>
+                </header>
+                <form action="#" class="dadadocs-modal-content" name="dadadocs-modal-form" id="dadadocs-modal-form">
+                    <label class="dadadocs-modal-content__document">
+                        <div class="dadadocs-modal-labels dadadocs-modal-labels-documents dadadocs-modal-labels-clone-pdffiller-file">Save document as:</div>
+                        <div class="dadadocs-modal-labels dadadocs-modal-labels-templates">Save template as:</div>
+                        <div class="dadadocs-modal-labels dadadocs-modal-labels-rename">New name:</div>
+                        <div class="dadadocs-modal-labels dadadocs-modal-labels-dcforms">New name:</div>
+                        <div class="dadadocs-modal-labels dadadocs-modal-labels-dcforms-s2s">Recipient:</div>
+                        <div class="dadadocs-modal-labels dadadocs-modal-labels-merge-templates">A new document name:</div>
+                        <input type="text" class="dadadocs-modal-content__input" id="dadadocs-modal-form-name" />
+                    </label>
+                    <div class="dadadocs-modal-content__error">{!$Label.invalid_name}</div>
+                    <div class="dadadocs-modal-actions">
+                        <div class="dadadocs_documents-switcher-checkbox-wrapper dadadocs_documents-switcher-checkbox-wrapper_modal dadadocs_documents-switcher-checkbox-wrapper_modal-active"
+                             style="display:none;">
+                            <label class="dadadocs_documents-switcher-checkbox dadadocs_documents-switcher-checkbox_modal">
+                                <input type="checkbox"
+                                       class="dadadocs_documents-switcher-checkbox__checkbox dadadocs_documents-switcher-checkbox__checkbox_modal"/>
+                                <div class="dadadocs_documents-switcher-checkbox__slider dadadocs_documents-switcher-checkbox__slider_modal"></div>
+                                <span>Upload to Salesforce</span>
+                            </label>
+                        </div>
+                        <div class="dadadocs-modal__action-wrapper">
+                            <button class="dadadocs_button dadadocs_button--with-description dadadocs_button--update" type="button">
+                                <span class="dadadocs_button__description-title">{!$Label.data_collection_update_button}</span>
+                                <span class="dadadocs_button__description-content">{!$Label.data_collection_update_button_decr}<span class="dadadocs_button__description-mark">{!$Label.data_collection_update_button_decr_warning}</span></span>
+                            </button>
+                            <button class="dadadocs_button dadadocs_button--with-description dadadocs_button--create" type="button">
+                                <span class="dadadocs_button__description-title">{!$Label.data_collection_create_button}</span>
+                                <span class="dadadocs_button__description-content">{!$Label.data_collection_create_button_decr}</span>
+                            </button>
+                        </div>
+                        <!--<div class="dadadocs_documents-switcher-checkbox-wrapper dadadocs_documents-switcher-checkbox-wrapper_modal dadadocs_documents-switcher-checkbox-wrapper_modal-active"
+                             style="display:none;" id="dataCollectionDeliveryChecker">
+                            <label class="dadadocs_documents-switcher-checkbox dadadocs_documents-switcher-checkbox_modal">
+                                <input type="checkbox"
+                                       class="dadadocs_documents-switcher-checkbox__checkbox dadadocs_documents-switcher-checkbox__checkbox_modal" id="dataCollectionDeliveryCheckbox"/>
+                                <div class="dadadocs_documents-switcher-checkbox__slider dadadocs_documents-switcher-checkbox__slider_modal"></div>
+                                <span>SendToSign</span>
+                            </label>
+                        </div>@TODO: DCS2S-->
+                        <input type="button" class="dadadocs_button dadadocs-modal-actions__button dadadocs-modal-actions__button--ok" value="Ok"/>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="dadadocs_tooltip">
+            <div class="dadadocs_tooltip-wrapper">
+                <h6 class="dadadocs_tooltip__title">
+						{!$Label.create_template_hint_header}
+                </h6>
+                <p class="dadadocs_tooltip__description">
+						{!$Label.create_template_hint_text}
+                </p>
+            </div>
+        </div>
+
+        <c:AbstractPopup />
+
+        <c:Alert />
+    </main>
+
+    <apex:includeScript loadOnReady="false" value="{!$Resource.pdffiller_sf__DaDaDocsClassicScrollJs}" />
+    <apex:includeScript loadOnReady="true" value="{!$Resource.pdffiller_sf__DaDaDocsClassicJs}" />
+    <apex:includeScript loadOnReady="true" value="{!$Resource.pdffiller_sf__daDaDocsMainJs}" />
+
+    <script type="text/javascript">
+        var checkedOptions = null;
+    j$('.g-wrap-loading_global').addClass('g-wrap-loading_active');
+
+    var NAMESPACE = "{!JSENCODE(namespace)}";
+    var CONFIRM_MESSAGE = "{!$Label.pdffiller_sf__confirm_message}";
+    var isChatterUploadPriorToAttachment = '{!attachmentsUBFeature}';
+    window.hasDocxTemplates = {!hasFileTemplates};
+
+    window.onload = function () {
+        checkAuthorization();
+        var popupMessageParam = getUrlParameter('popup_message');
+        var popupSeverityParam = getUrlParameter('popup_severity');
+        if(popupSeverityParam == 'success'){
+            new SF.AddAlert('success', 'Success' , popupMessageParam, 20000);
+        } else if (popupMessageParam !== '') {
+            showMessagePopup(popupMessageParam, popupSeverityParam);
+        }
+        checkAuthorization();
+    }
+
+    var parentId = "{!JSENCODE(parentId)}";
+    var parentObject = "{!JSENCODE(parentObjectName)}";
+    var orgId = "{!JSENCODE(orgId)}"
+    var templatesFeature = "{!JSENCODE(templatesFeature)}";
+    var mergedTemplatesName;
+    var uploadButtonSettings = {
+        messages: {
+            success: "{!$Label.pdffiller_sf__file_upload_success}",
+            successWithUnsupportedExt: "{!$Label.pdffiller_sf__file_upload_success_with_unsupported_extension}",
+            unSuccess: "{!$Label.pdffiller_sf__file_upload_unsuccess}",
+            unSuccess0Bytes: "{!$Label.pdffiller_sf__file_upload_unsuccess_0_bytes}",
+            fileUploadUnsuccessTryAttachment: "{!$Label.pdffiller_sf__file_upload_unsuccess_try_attachment}",
+            gaEventCategoryChatterUploadStd: "{!$Label.pdffiller_sf__ga_event_category_chatter_upload_std}" ,
+            gaEventLabelChatterUploadStd: "{!$Label.pdffiller_sf__ga_event_label_chatter_upload_std}",
+            gaEventCategoryAttachmentUpload: "{!$Label.pdffiller_sf__ga_event_category_attachment_upload}",
+            gaEventLabelAttachmentUpload: "{!$Label.pdffiller_sf__ga_event_label_attachment_upload}",
+            gaEventCategoryChatterUploadIe: "{!$Label.pdffiller_sf__ga_event_category_chatter_upload_ie}",
+            gaEventLabelChatterUploadIe: "{!$Label.pdffiller_sf__ga_event_label_chatter_upload_ie}",
+        },
+        parentId: parentId,
+        orgId: orgId,
+        parentIdArgName: "id", //only for IE
+        currentPageUrl: "{!URLFOR($Page.pdffiller_sf__ClassicSelectAttachment)}",
+        enabledExtensions: "{!JSENCODE(enabledExtensions)}",
+        utilPageUrl: "{!URLFOR($Page.pdffiller_sf__Utils)}",
+        notifyTypes: {
+            info: "{!NOTIFY_TYPE_INFO}",
+            success: "{!NOTIFY_TYPE_SUCCESS}",
+            warning: "{!NOTIFY_TYPE_WARNING}",
+            message: "message" //only for IE
+        }
+    }
+
+    var popupLabels = {
+        confirmMessages: {
+            deleteDocument: '{!$Label.pdffiller_sf__confirm_delete_document}',
+            deleteTemplate: '{!$Label.pdffiller_sf__confirm_delete_template}',
+            deletePdfFillerFile: '{!$Label.pdffiller_sf__confirm_delete_pdffiller_file}',
+            deleteDataCollectionForm: '{!$Label.pdffiller_sf__confirm_delete_data_collection_form}',
+            deleteDocxTemplate: '{!$Label.pdffiller_sf__confirm_delete_docx_template}'
+        }
+    }
+
+    var dataCollectionTypes = {
+        create: "{!DATA_COLLECTION_TYPE_CREATE}",
+        update: "{!DATA_COLLECTION_TYPE_UPDATE}"
+    };
+
+    var dataCollectionS2SDefaultMessage = {
+        subject: "{!$Label.pdffiller_sf__s2s_default_message_subject}",
+        text: "{!$Label.pdffiller_sf__s2s_default_message_text}"
+    }
+
+    var sendByEmailDefaultMessage = {
+        subject: "{!$Label.pdffiller_sf__send_by_email_default_message_subject}",
+        text: "{!$Label.pdffiller_sf__send_by_email_default_message_text}"
+    }
+
+    var dataCollectionDeliveryTypes = {
+        linkToFill: "{!DATA_COLLECTION_DELIVERY_TYPE_L2F}",
+        sendToSign: "{!DATA_COLLECTION_DELIVERY_TYPE_S2S}"
+    };
+
+    if (templatesFeature == 'none') {
+        localStorage.removeItem('dadadocs-tab');
+    }
+
+    var dataCollectionAvailability;
+    function checkDataCollectionAvailability(onSuccess, parentId) {
+        toggleLoader();
+        callService(
+                "GET",
+                "/dcforms/check",
+                {
+                    urlParams: { parentId: parentId }
+                },
+                function (result) {
+                    removeLoader();
+                    onSuccess();
+                    // remove onError/onSuccess methods,
+                    // validate data with dataCollectionAvailability flag in the dadadocsClassicJs
+                    dataCollectionAvailability = result;
+                },
+                function (error) {
+                    removeLoader();
+                    new SF.AddAlert('error', 'Error', '{!$Label.pdffiller_sf__default_error_message_later}');
+                }
+        );
+    }
+
+    function getDocuments() {
+        addTabLoader();
+        documentsRequest = true;
+        var onSuccessAction = function (result) {
+            refreshList(result, DOCUMENTS);
+            disableButtonsForDocumentType();
+            j$(document).trigger('GetDocument:success', [result]);
+        };
+        var onErrorAction = function (error) {
+            handleError(DOCUMENTS);
+            console.log(error);
+        }
+
+        callService(
+                "GET",
+                "/documents/SfDocumentsAndProjects",
+                {
+                    urlParams: {
+                        parentId: parentId.slice(0,15),
+                    }
+                },
+                onSuccessAction,
+                onErrorAction
+        );
+
+        setTimeout(function () {
+            handleError(DOCUMENTS)
+        }, 5000);
+    }
+
+    function getTemplates() {
+        var TEMPLATES = 'templates';
+        if (currentTab == 'use') {
+            addTabLoader();
+        }
+        useTemplatesRequest = true;
+
+        var onSuccessAction = function (result) {
+            var parsedResult = JSON.parse(result);
+            j$(document).trigger('Templates:isReady', [parsedResult])
+
+            refreshList(result, TEMPLATES);
+        }
+        var onErrorAction = function (error) {
+            handleError(TEMPLATES);
+        }
+
+        callService(
+                "GET",
+                // "/documents/template",
+                '/documents/universal_templates',
+                {
+                    urlParams: {
+                        parentId: parentId
+                    }
+                },
+                onSuccessAction,
+                onErrorAction
+        );
+
+        setTimeout(function () {
+            handleError(TEMPLATES);
+        }, 5000);
+    }
+
+    function checkAuthorization() {
+        var onSuccessAction = function (result) {
+            setAuthorizedFunction(true);
+
+        }
+        var onErrorAction = function (result) {
+            setAuthorizedFunction(false);
+        }
+        callService(
+                "GET",
+                "/utility/checkToken",
+                {},
+                onSuccessAction,
+                onErrorAction
+        );
+    }
+
+    function getPDFfillerFiles() {
+        var PDFFILLERFILES = 'PDFfillerFiles';
+
+        addTabLoader();
+        PDFfillerFilesRequest = true;
+
+        var onSuccessAction = function(result) { refreshList(result, PDFFILLERFILES); }
+        var onErrorAction = function(error) { handleError(PDFFILLERFILES); }
+
+        callService(
+                "GET",
+                "/documents/PDFfillerFiles",
+                {},
+                onSuccessAction,
+                onErrorAction
+        );
+
+        setTimeout(function () {
+            handleError(PDFFILLERFILES)
+        }, 5000);
+    }
+
+    function getS2sJSON() {
+        addTabLoader();
+
+        S2SFilesRequest = true;
+
+        var onSuccessAction = function(result) {
+            refreshList(result, S2S_FILES);
+            j$(document).trigger('DaDaDocsClassicJs:senToSignFileStatusSuccess');
+        }
+        var onErrorAction = function(error) {
+            handleError(S2S_FILES);
+            j$(document).trigger('DaDaDocsClassicJs:LinkToFillFileStatusError');
+        }
+
+        callService(
+                "GET",
+                "/documents/s2sstatus",
+                {},
+                onSuccessAction,
+                onErrorAction
+        );
+
+        setTimeout(function () {
+            handleError(S2S_FILES);
+        }, 5000);
+    }
+
+    function getL2fJSON() {
+        addTabLoader();
+
+        L2FFilesRequest = true;
+
+        var onSuccessAction = function(result) {
+            refreshList(result, L2F_FILES);
+            j$(document).trigger('DaDaDocsClassicJs:LinkToFillFileStatusSuccess');
+        }
+        var onErrorAction = function(error) {
+            handleError(L2F_FILES);
+            j$(document).trigger('DaDaDocsClassicJs:LinkToFillFileStatusError');
+        }
+
+        callService(
+                "GET",
+                "/documents/l2fstatus",
+                {},
+                onSuccessAction,
+                onErrorAction
+        );
+
+        setTimeout(function () {
+            handleError(L2F_FILES);
+        }, 5000);
+    }
+
+    function getS2sJSONRecipients(id) {
+        addTabLoader();
+        var onSuccessAction = function(result) {
+            refreshList(result, S2S_STATUS_RESIPIENTS);
+            j$(document).trigger('DaDaDocsClassicJs:SendToSignStatusRecipients');
+        }
+        var onErrorAction = function(error) {
+            handleError(S2S_STATUS_RESIPIENTS);
+            j$(document).trigger('DaDaDocsClassicJs:SendToSignStatusRecipientsError');
+        }
+
+        callService(
+                "GET",
+                "/documents/s2sform",
+                {
+                    urlParams:{ {!S2S_PARAM_NAME} : id}
+                },
+                onSuccessAction,
+                onErrorAction
+        );
+
+        setTimeout(function () {
+            handleError(S2S_STATUS_RESIPIENTS);
+        }, 5000);
+    }
+
+    function getL2fJSONForms(id) {
+        addTabLoader();
+
+        var onSuccessAction = function(result) {
+            refreshList(result, L2F_FORMS);
+            j$(document).trigger('DaDaDocsClassicJs:getL2fJSONFormsSuccess');
+        }
+
+        var onErrorAction = function(error) {
+            handleError(L2F_FORMS);
+            j$(document).trigger('DaDaDocsClassicJs:getL2fJSONFormsError');
+        }
+
+        callService(
+                "GET",
+                "/documents/l2fform",
+                {
+                    urlParams:{ {!L2F_PARAM_NAME} : id}
+                },
+                onSuccessAction,
+                onErrorAction
+        );
+
+        setTimeout(function () {
+            handleError(L2F_FORMS);
+        }, 5000);
+    }
+
+    function getS2SDownload(id) {
+        addTabLoader();
+
+        var onSuccessAction = function(href) {
+            SF.DownloadWithUrl.link(href);
+            removeAllLoaders();
+        }
+
+        var onErrorAction = function(error) {
+            removeAllLoaders();
+            handleError(S2S_STATUS_RESIPIENTS);
+        }
+
+        callService(
+            "GET",
+            "/documents/s2sdownload",
+            {
+                urlParams:{ {!S2S_PARAM_NAME} : id}
+            },
+            onSuccessAction,
+            onErrorAction
+        );
+
+        setTimeout(function () {
+            handleError(S2S_STATUS_RESIPIENTS);
+        }, 5000);
+    }
+
+    function getCertificateDownload(id) {
+        addTabLoader();
+
+        var onSuccessAction = function(href) {
+            SF.DownloadWithUrl.link(href);
+            removeAllLoaders();
+        }
+
+        var onErrorAction = function(error) {
+            removeAllLoaders();
+            handleError(S2S_STATUS_RESIPIENTS);
+        }
+
+        callService(
+            "GET",
+            "/documents/s2scertificatedownload",
+            {
+                urlParams:{ {!S2S_ID} : id}
+            },
+            onSuccessAction,
+            onErrorAction
+        );
+
+        setTimeout(function () {
+            handleError(S2S_STATUS_RESIPIENTS);
+        }, 5000);
+    }
+
+    function getL2FDownload(id, filledId) {
+        addTabLoader();
+
+        var onSuccessAction = function(href) {
+            SF.DownloadWithUrl.link(href);
+            removeAllLoaders();
+        }
+        var onErrorAction = function(error) {
+            removeAllLoaders();
+            handleError(L2F_FORMS);
+        }
+
+        callService(
+            "GET",
+            "/documents/l2fdownload",
+            {
+                urlParams:{ {!L2F_PARAM_NAME} : id,
+                            {!L2F_FORM_PARAM_NAME} : filledId
+                }
+            },
+            onSuccessAction,
+            onErrorAction
+        );
+
+        setTimeout(function () {
+            handleError(L2F_FORMS);
+        }, 5000);
+    }
+
+    function deletePDFfillerFile() {
+
+        addTabLoader();
+
+        var onSuccessAction = function(result) { getPDFfillerFiles(); }
+        var onErrorAction = function(error) { getPDFfillerFiles(); }
+
+        callService(
+                "DELETE",
+                "/documents/PDFfillerFiles",
+                {
+                    urlParams: {
+                        objectId: currentDocumentId,
+                    }
+                },
+                onSuccessAction,
+                onErrorAction
+        );
+    }
+
+    function deleteDataCollectionForm() {
+
+        addTabLoader();
+
+        var onSuccessAction = function(result) { getTemplates() }
+        var onErrorAction = function(error) { getTemplates() }
+
+        callService(
+                "DELETE",
+                "/dcforms/",
+                {
+                    urlParams: {formId:currentDocumentId}
+                },
+                onSuccessAction,
+                onErrorAction
+        );
+    }
+
+    function getSaveAsId(onSuccess, count) {
+        count = count === undefined ? 3 : count;
+
+        callService(
+                "POST",
+                "/documents/newDocumentName",
+                {
+                    postParams: {
+                        parentId: parentId,
+                        objectId: currentDocumentId,
+                        objectName: documentNameFromForm
+                    }
+                },
+                function(result) {
+                    currentDocumentId = result;
+                    onSuccess();
+                },
+                function (error) {
+                    if (count > 0) {
+                        count--;
+                        setTimeout(function () {
+                                    getSaveAsId(onSuccess, count);
+                                },
+                                5000
+                        );
+                        return;
+                    }
+
+                    var message = '{!$Label.pdffiller_sf__default_error_message_later}';
+                    if (JSON.stringify(error).indexOf("{!JSENCODE(ERROR_STORAGE_LIMIT_EXCEEDED)}")) {
+                        message = '{!JSENCODE($Label.pdffiller_sf__storage_limit_exceeded)}';
+                    }
+                    toggleLoader();
+                    new SF.AddAlert('error', 'Error', message);
+                }
+        );
+    }
+
+    function showMessagePopup(message, severity) {
+        removeLoader();
+        //TODO: severity
+        new SF.AddAlert('error', 'Error', message);
+    }
+
+    function useSignNow() {
+        var params = {
+            id: parentId,
+            view: 'attachments',
+            attachment_id: currentDocumentId,
+            type: parentObject,
+            document_type: currentDocumentType,
+            file_name: currentDocumentName
+        };
+        var encodedParams = [];
+        for (var d in params)
+            encodedParams.push(encodeURIComponent(d) + '=' + encodeURIComponent(params[d]));
+
+        window.location.href = '/apex/signnow?' + encodedParams.join('&');
+    }
+
+    function fillTemplateAction(action) {
+        storage = SF.getStorageData();
+        useFileTemplate(currentDocumentId, checkedOptions, action, storage.type, storage.id);
+    }
+
+    // buttonType only needed for Templates s2s,l2f,edit
+    function DaDaDocsAction(action, buttonType) {
+        if (action === 'openAuditTrail') {
+            toggleLoader();
+            openAuditTrail();
+            return;
+        }
+
+        if (currentDocumentId == null) {
+            return;
+        }
+
+        addLoader();
+
+        if(action == 'createTemplate' || action == 'createNoMapTemplate') {
+            callProcessAction(
+                    currentDocumentId,
+                    currentDocumentType,
+                    currentDocumentName,
+                    action,
+                    null,
+                    null,
+                    createTemplateSaveAsName
+            );
+
+            return;
+        }
+
+        if (action == 'sendReverseTemplate') {
+            callProcessAction(
+                    currentDocumentId,
+                    currentDocumentType,
+                    currentDocumentName,
+                    action,
+                    null,
+                    null,
+                    createTemplateSaveAsName,
+                    null,
+                    null,
+                    dataCollectionRecipients
+            );
+
+            return;
+        }
+
+        if(action == 'createReverseTemplate') {
+            callProcessAction(
+                    currentDocumentId,
+                    currentDocumentType,
+                    currentDocumentName,
+                    action,
+                    null,
+                    null,
+                    createTemplateSaveAsName,
+                    dataCollectionActionType,
+                    dataCollectionDeliveryType
+            );
+
+            return;
+        }
+
+        if (action == 'useTemplate') {
+            if (checkedOptions != null) {
+                callProcessAction(
+                        currentDocumentId,
+                        currentDocumentType,
+                        currentDocumentName,
+                        action,
+                        checkedOptions,
+                        buttonType
+                );
+            }
+            return;
+        }
+
+        if (action == 'editReverseTemplate') {
+            callProcessAction(
+                    currentDcFormTemplateId,
+                    currentDocumentType,
+                    currentDocumentName,
+                    action,
+                    null,
+                    null,
+                    null,
+                    dataCollectionActionType
+            );
+            return;
+        }
+
+        var flatTemplateProjectId = null;
+        if (currentDocumentNode.use && currentDocumentNode.use.dataset && currentDocumentNode.use.dataset.projectid) {
+            flatTemplateProjectId = currentDocumentNode.use.dataset.projectid;
+        }
+        callProcessAction(
+            currentDocumentId,
+            currentDocumentType,
+            currentDocumentName,
+            action,
+            null,
+            null,
+            createTemplateSaveAsName,
+            null,
+            null,
+            null,
+            flatTemplateProjectId,
+            localStorage['dadadocs-tab']
+        );
+
+        return;
+    }
+
+
+    function mergeDocuments(documentIds, newDocumentName, silentMerge, onSuccessAction, onErrorAction) {
+
+        var projectIds = [];
+        var isErrors = false;
+
+        var mergeProjects = function(ids){
+            callService(
+                    "POST",
+                    "/documents/merge",
+                    {
+                        postParams: {
+                            parentId: parentId,
+                            documentIds: ids,
+                            newDocumentName: newDocumentName,
+                            silentMerge: silentMerge
+                        }
+                    },
+                    onSuccessAction,
+                    onErrorAction
+            );
+        };
+
+        var onSuccessUploadDoc = [];
+        var onErrorUploadDoc = [];
+        documentIds.forEach(function (docId, i, arr) {
+            if (isErrors) {
+                return;
+            }
+
+            onSuccessUploadDoc[i] = function (result) {
+                projectIds[i]=result;
+                if(projectIds.filter(String).length == documentIds.length){
+                    mergeProjects(projectIds);
+                }
+            };
+
+            onErrorUploadDoc = function (error) {
+                showSFMessage(error, uploadButtonSettings.notifyTypes.error);
+                documentsList.toggleDocumentMergeModeAction();
+                removeAllLoaders();
+            };
+
+            callService(
+                    "GET",
+                    "/documents/upload",
+                    {
+                        urlParams: {
+                            objectId: docId
+                        }
+                    },
+                    onSuccessUploadDoc[i],
+                    onErrorUploadDoc
+            );
+        });
+    };
+
+    function getUrlParameter(name) {
+        name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+        var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+        var results = regex.exec(location.search);
+        return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+    }
+
+    // toggle Send2Sign/Link2Fill tabs from admin
+    function toggleFileStatusSubTabsFromAdminPanel() {
+        var s2sTabState = '{!(send2signFeature)}',
+            l2fTabState = '{!(link2fillFeature)}',
+            parent = document.querySelector('.dadadocs_tab--file-status'),
+            s2sNav = parent.querySelector('.tabs__nav-item--s2s-files'),
+            l2fNav = parent.querySelector('.tabs__nav-item--l2f-files'),
+            s2sContent = parent.querySelector('.tabs__content-item--s2s-files'),
+            l2fContent = parent.querySelector('.tabs__content-item--l2f-files');
+
+        if (s2sTabState === 'block' && l2fTabState === 'none') {
+            s2sContent.style.display = 'inline-block';
+            l2fContent.style.display = 'none';
+        } else if (s2sTabState === 'none' && l2fTabState === 'block') {
+            s2sNav.classList.remove('tabs__nav-item--active');
+            l2fNav.classList.add('tabs__nav-item--active');
+
+            s2sContent.style.display = 'none';
+            s2sContent.classList.remove('tabs__content-item--active');
+            l2fContent.classList.add('tabs__content-item--active');
+            l2fContent.style.display = 'inline-block';
+        }
+    }
+    toggleFileStatusSubTabsFromAdminPanel();
+
+    Array.prototype.forEach.call(
+        document.getElementsByClassName('dadadocs_button--doc-link'),
+        function (item) {
+          item.addEventListener('gaIsSent', function(event) {
+              var win = window.open(event.detail.target.getAttribute('href'), '_blank');
+              win.focus();
+          })
+        }
+    );
+
+    document.getElementById('send2signButton').addEventListener('gaIsSent', function () {
+        DaDaDocsAction('send2sign')
+    });
+
+    document.getElementById('link2fillButton').addEventListener('gaIsSent', function () {
+        DaDaDocsAction('link2fill');
+    });
+
+    document.getElementById('useTemplateFill').addEventListener('gaIsSent', function () {
+        DaDaDocsAction('useTemplate', 'fill');
+    });
+
+    document.getElementById('useTemplateSend2sign').addEventListener('gaIsSent', function () {
+        DaDaDocsAction('useTemplate', 'send2sign');
+    });
+
+    document.getElementById('useTemplateLink2fill').addEventListener('gaIsSent', function () {
+        DaDaDocsAction('useTemplate', 'link2fill');
+    });
+
+    document.getElementById('editTemplate').addEventListener('gaIsSent', function () {
+        DaDaDocsAction('editTemplate');
+    });
+
+    document.getElementById('send2signPDFFiller').addEventListener('gaIsSent', function () {
+        DaDaDocsAction('send2sign');
+    });
+
+    document.getElementById('editDocTempl').addEventListener('gaIsSent', function () {
+        toggleLoader();
+        fillTemplateAction('fill');
+    });
+
+    document.getElementById('linkToFillDocTempl').addEventListener('gaIsSent', function () {
+        toggleLoader();
+        fillTemplateAction('link2fill');
+    });
+
+    document.getElementById('link2fillPDFFiller').addEventListener('gaIsSent', function () {
+        DaDaDocsAction('link2fill');
+    });
+    </script>
+    <apex:panelGroup rendered="{!isGoogleAnalytics}">
+        <apex:includeScript loadOnReady="false" value="{!$Resource.pdffiller_sf__GoogleAnalytics}"/>
+    </apex:panelGroup>
+</apex:page>

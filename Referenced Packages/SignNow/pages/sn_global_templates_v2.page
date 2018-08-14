@@ -1,0 +1,7 @@
+<apex:page controller="cuda_signnow.SignNowTemplatesController">
+<style>
+    iframe {border-style:none;}
+</style>
+<a href="/{!id}">Back to SalesForce Record</a> 
+     <apex:canvasApp developerName="sntemplates" border="0px" height="1000px" scrolling="auto" width="100%" parameters="{sntoken : '{!sntoken}', owner: '', sessionId: '{!$Api.Session_ID}', sf_id: '{!sf_id}', token_rec_id: '{!token_rec_id}'}" />
+</apex:page>

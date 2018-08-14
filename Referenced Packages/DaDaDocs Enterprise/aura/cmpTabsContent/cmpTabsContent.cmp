@@ -1,0 +1,8 @@
+<aura:component >
+    <aura:attribute name="name" type="String" required="true" />
+    <aura:attribute name="selectedTabName" type="String" required="true" />
+
+    <div class="{!'dadadocs_tab' + (v.name == v.selectedTabName ? ' dadadocs_tab_active' : '')}">
+        {!v.body}
+    </div>
+</aura:component>
